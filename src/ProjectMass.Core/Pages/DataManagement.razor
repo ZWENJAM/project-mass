@@ -1,7 +1,7 @@
 @page "/mehr/daten"
-@implements IAsyncDisposable
 @inject IBackupService Backups
-@inject IJSRuntime JS
+@inject IPlatformFiles Files
+@inject IServiceProvider Services
 @inject NavigationManager Navigation
 @inject TimeProvider Clock
 <div class="page-content narrow">
@@ -11,6 +11,7 @@
 @if (message is not null) { <p class="notice" role="status">@message</p> }
 
 <NasSyncPanel />
+@if (Services.GetService<INativeBackups>() is { } native) { <NativeBackupPanel Backup="native" /> }
 
 <section class="protocol-section">
     <h2>Backup herunterladen</h2>
@@ -22,7 +23,14 @@
 <section class="protocol-section">
     <h2>Backup einspielen</h2>
     <p class="muted">Ein Backup dieser App ersetzt alle aktuellen Daten. Ein Backup der alten PROJECT MASS-Web-App wird ergänzt: Trainings, Messungen, Mahlzeiten und Notizen kommen dazu, nichts wird gelöscht.</p>
-    <label class="field">Backup-Datei (.json oder .txt)<InputFile accept=".json,.txt,application/json,text/plain" disabled="@busy" OnChange="ReadFile" /></label>
+    @if (Services.GetService<INativeBackups>() is not null)
+    {
+        <button disabled="@busy" @onclick="ReadNativeFile">Backup-Datei auswählen</button>
+    }
+    else
+    {
+        <label class="field">Backup-Datei (.json oder .txt)<InputFile accept=".json,.txt,application/json,text/plain" disabled="@busy" OnChange="ReadFile" /></label>
+    }
 </section>
 
 <section class="protocol-section">
@@ -47,20 +55,18 @@
     private string? error, message, pendingJson;
     private BackupPreview? preview;
     private bool busy;
-    private IJSObjectReference? module;
 
     private string PreviewMessage => preview is null ? "" : preview.Kind == BackupKind.Current
         ? $"Das Backup{(preview.ExportedAt is { } at ? $" vom {at.ToLocalTime():dd.MM.yyyy}" : "")} enthält {preview.Sessions} Trainings, {preview.Measurements} Messungen, {preview.FoodEntries} Mahlzeiten und {preview.Notes} Notizen. Deine aktuellen Daten werden vollständig ersetzt. Lade vorher ein Backup herunter, wenn du sie behalten willst."
         : $"Aus der alten App werden {preview.Sessions} Trainings, {preview.Measurements} Messungen, {preview.FoodEntries} Mahlzeiten und {preview.Notes} Notizen ergänzt. Mahlzeiten der alten App kennen nur kcal und Protein. Doppeltes Einspielen erzeugt keine Duplikate.";
 
-    private async Task<IJSObjectReference> Module() => module ??= await JS.InvokeAsync<IJSObjectReference>("import", "./js/files.js");
 
     private string Stamp => Clock.GetLocalNow().ToString("yyyy-MM-dd");
 
     private async Task ExportBackup()
     {
-        await Download(Backups.ExportJsonAsync, $"PROJECT_MASS_Backup_{Stamp}.json", "application/json", "Backup heruntergeladen. Bewahre die Datei sicher auf.");
-        if (error is null) await TryMarkBackup();
+        if (await Download(Backups.ExportJsonAsync, $"PROJECT_MASS_Backup_{Stamp}.json", "application/json", "Backup heruntergeladen. Bewahre die Datei sicher auf."))
+            await TryMarkBackup();
     }
 
     // Share sheet with the file attached; without file sharing (most desktops) download it and open a prepared mail.
@@ -72,13 +78,14 @@
         {
             var content = await Backups.ExportJsonAsync();
             var fileName = $"PROJECT_MASS_Backup_{Stamp}.txt";
-            var result = await (await Module()).InvokeAsync<string>("shareTextFile", fileName, content, "PROJECT MASS Backup", $"Mein PROJECT MASS Backup vom {Clock.GetLocalNow():dd.MM.yyyy}.");
+            var result = await Files.ShareAsync(fileName, content, "PROJECT MASS Backup", $"Mein PROJECT MASS Backup vom {Clock.GetLocalNow():dd.MM.yyyy}.");
             if (result == "shared") { message = "Backup geteilt."; await TryMarkBackup(); }
+            else if (result == "opened") { message = "Teilen-Menü geöffnet."; }
             else if (result == "cancelled") { message = "Teilen abgebrochen."; }
             else
             {
-                await (await Module()).InvokeVoidAsync("downloadText", fileName, content, "text/plain");
-                await (await Module()).InvokeVoidAsync("openMail", "PROJECT MASS Backup", $"Backup vom {Clock.GetLocalNow():dd.MM.yyyy} im Anhang. Die Datei {fileName} liegt in deinen Downloads, bitte anhängen.");
+                if (!await Files.SaveAsync(fileName, content, "text/plain")) { message = "Teilen abgebrochen."; return; }
+                await Files.OpenMailAsync("PROJECT MASS Backup", $"Backup vom {Clock.GetLocalNow():dd.MM.yyyy} im Anhang. Die Datei {fileName} liegt in deinen Downloads, bitte anhängen.");
                 message = $"Dieses Gerät kann keine Dateien teilen. Das Backup ({fileName}) wurde heruntergeladen und eine E-Mail vorbereitet. Bitte die Datei dort anhängen.";
                 await TryMarkBackup();
             }
@@ -94,17 +101,18 @@
     private Task ExportMeasurements() => Download(Backups.ExportMeasurementsCsvAsync, $"PROJECT_MASS_Messungen_{Stamp}.csv", "text/csv;charset=utf-8", "Messungen exportiert.");
     private Task ExportTraining() => Download(Backups.ExportTrainingCsvAsync, $"PROJECT_MASS_Training_{Stamp}.csv", "text/csv;charset=utf-8", "Trainingssätze exportiert.");
 
-    private async Task Download(Func<Task<string>> create, string fileName, string mimeType, string success)
+    private async Task<bool> Download(Func<Task<string>> create, string fileName, string mimeType, string success)
     {
-        if (busy) return;
+        if (busy) return false;
         busy = true; error = null; message = null;
         try
         {
             var content = await create();
-            await (await Module()).InvokeVoidAsync("downloadText", fileName, content, mimeType);
-            message = success;
+            var saved = await Files.SaveAsync(fileName, content, mimeType);
+            if (saved) message = success;
+            return saved;
         }
-        catch { error = "Der Export ist fehlgeschlagen. Bitte erneut versuchen."; }
+        catch { error = "Der Export ist fehlgeschlagen. Bitte erneut versuchen."; return false; }
         finally { busy = false; }
     }
 
@@ -117,11 +125,28 @@
             await using var stream = e.File.OpenReadStream(MaxFileBytes);
             using var reader = new StreamReader(stream);
             var json = await reader.ReadToEndAsync();
-            preview = Backups.Preview(json);
-            pendingJson = json;
+            StageBackup(json);
         }
         catch (BackupFormatException ex) { error = ex.Message; }
         catch { error = "Die Datei konnte nicht gelesen werden."; }
+    }
+
+    private async Task ReadNativeFile()
+    {
+        error = null; message = null; preview = null; pendingJson = null; busy = true;
+        try
+        {
+            if (await Files.PickBackupAsync(MaxFileBytes) is { } json) StageBackup(json);
+        }
+        catch (BackupFormatException ex) { error = ex.Message; }
+        catch { error = "Die Datei konnte nicht gelesen werden."; }
+        finally { busy = false; }
+    }
+
+    private void StageBackup(string json)
+    {
+        preview = Backups.Preview(json);
+        pendingJson = json;
     }
 
     private void CancelImport() { preview = null; pendingJson = null; }
@@ -147,9 +172,4 @@
         finally { busy = false; }
     }
 
-    public async ValueTask DisposeAsync()
-    {
-        if (module is null) return;
-        try { await module.DisposeAsync(); } catch (JSDisconnectedException) { }
-    }
 }

@@ -1,5 +1,6 @@
 @implements IDisposable
 @inject NasSyncCoordinator Sync
+@inject ProjectMassOptions PlatformOptions
 
 <section class="protocol-section nas-sync" aria-labelledby="nas-sync-title">
     <div class="section-head">
@@ -61,7 +62,7 @@
                         <option value="@NasTargetKind.WebDav">WebDAV</option>
                     </select>
                 </label>
-                @if (!Sync.FolderSupported)
+                @if (!Sync.FolderSupported && !PlatformOptions.Native)
                 {
                     <p class="mini-label">Die Ordnerauswahl ist in diesem Browser nicht verfügbar. Nutze WebDAV.</p>
                 }

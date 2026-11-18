@@ -3,6 +3,7 @@
 @inject NutritionDataInitializer NutritionData
 @inject NasSyncCoordinator NasSync
 @inject NavigationManager Navigation
+@inject IServiceProvider Services
 @implements IDisposable
 
 <a class="skip-link" href="#main-content" @onclick="FocusMain" @onclick:preventDefault>Zum Inhalt springen</a>
@@ -36,6 +37,13 @@
     <footer>PROJECT MASS <span>Version @AppInfo.Version</span></footer>
 </div>
 <nav class="mobile-nav" aria-label="Mobile Hauptnavigation"><NavMenu /></nav>
+@if (nativeBackups?.RecoveryPreview is { } recovery)
+{
+    <ConfirmationDialog Title="Daten wiederherstellen"
+        Message="@($"Die Sicherung vom {recovery.ExportedAt?.ToLocalTime():dd.MM.yyyy HH:mm} enthält {recovery.Sessions} Trainings, {recovery.Measurements} Messungen, {recovery.FoodEntries} Mahlzeiten und {recovery.Notes} Notizen.")"
+        ConfirmLabel="Daten wiederherstellen" Error="@nativeBackups.Status"
+        OnConfirm="RestoreNativeBackup" OnCancel="DismissNativeRecovery" />
+}
 @if (NasSync.ShowConflict && NasSync.Result?.Conflict is { } conflict &&
     !Navigation.ToBaseRelativePath(Navigation.Uri).StartsWith("training/live/", StringComparison.Ordinal))
 {
@@ -50,11 +58,14 @@
 @code {
     private bool ready;
     private string? error;
+    private INativeBackups? nativeBackups;
     private ElementReference main;
     private async Task FocusMain() => await main.FocusAsync();
     protected override Task OnInitializedAsync()
     {
         NasSync.Changed += SyncChanged;
+        nativeBackups = Services.GetService<INativeBackups>();
+        if (nativeBackups is not null) nativeBackups.Changed += SyncChanged;
         return Initialize();
     }
     private void SyncChanged() => _ = InvokeAsync(StateHasChanged);
@@ -63,12 +74,28 @@
         error = null;
         try
         {
+            if (nativeBackups is not null) await nativeBackups.InitializeAsync(work => InvokeAsync(work));
             await TrainingData.InitializeAsync();
             await NutritionData.InitializeAsync();
             ready = true;
-            _ = NasSync.StartAsync();
+            if (nativeBackups?.RecoveryPreview is null) _ = NasSync.StartAsync();
         }
         catch (Exception) { error = "Bitte prüfe, ob der lokale Browserspeicher verfügbar ist und die App vollständig geladen wurde."; }
     }
-    public void Dispose() => NasSync.Changed -= SyncChanged;
+    private async Task RestoreNativeBackup()
+    {
+        await nativeBackups!.RestoreAsync();
+        if (nativeBackups.RecoveryPreview is null && nativeBackups.Status is null)
+            Navigation.NavigateTo("", forceLoad: true);
+    }
+    private void DismissNativeRecovery()
+    {
+        nativeBackups?.DismissRecovery();
+        _ = NasSync.StartAsync();
+    }
+    public void Dispose()
+    {
+        NasSync.Changed -= SyncChanged;
+        if (nativeBackups is not null) nativeBackups.Changed -= SyncChanged;
+    }
 }

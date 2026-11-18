@@ -1,0 +1,21 @@
+{
+  "hits": [
+    {
+      "code": "4388860049183",
+      "product_name": "Harzer Cheese",
+      "product_name_de": "Harzer Käse",
+      "brands": ["Ja!"],
+      "categories_tags": ["en:dairies", "en:cheeses"],
+      "image_front_small_url": "https://images.openfoodfacts.org/images/products/438/886/004/9183/front_de.4.200.jpg",
+      "nutriments": {
+        "energy-kcal_100g": 125,
+        "proteins_100g": 30,
+        "carbohydrates_100g": 0.1,
+        "fat_100g": 0.5,
+        "salt_100g": 4
+      }
+    },
+    { "code": "0" }
+  ],
+  "count": 20
+}

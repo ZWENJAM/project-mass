@@ -1,0 +1,23 @@
+@implements IDisposable
+
+<section class="protocol-section">
+    <h2>Automatische Android-Sicherungen</h2>
+    <p>Die App sichert deine Daten im App-Speicher. Wähle zusätzlich einen Ordner, damit nach einer Neuinstallation eine Kopie verfügbar bleibt.</p>
+    @if (Backup.FolderName is { } name) { <p class="mini-label">Sicherungsordner: @name</p> }
+    @if (Backup.Status is { } status) { <p class="mini-label" role="status">@status</p> }
+    <button disabled="@busy" @onclick="Choose">Sicherungsordner wählen</button>
+</section>
+
+@code {
+    [Parameter, EditorRequired] public INativeBackups Backup { get; set; } = default!;
+    private bool busy;
+    protected override void OnInitialized() => Backup.Changed += Update;
+    private void Update() => _ = InvokeAsync(StateHasChanged);
+    private async Task Choose()
+    {
+        busy = true;
+        try { await Backup.ChooseFolderAsync(); }
+        finally { busy = false; }
+    }
+    public void Dispose() => Backup.Changed -= Update;
+}

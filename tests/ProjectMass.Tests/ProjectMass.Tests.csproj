@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\ProjectMass\ProjectMass.csproj" />
+    <ProjectReference Include="..\..\src\ProjectMass.Core\ProjectMass.Core.csproj" />
     <None Include="..\..\src\ProjectMass\wwwroot\data\*.json" Link="data\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <None Update="Fixtures\*.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>

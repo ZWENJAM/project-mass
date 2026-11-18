@@ -3,7 +3,7 @@ using ProjectMass.Models;
 
 namespace ProjectMass.Services;
 
-public sealed class OpenFoodFactsProvider(HttpClient http, SearchRequestPolicy policy) : IFoodSearchProvider
+public sealed class OpenFoodFactsProvider(HttpClient http, SearchRequestPolicy policy, bool fullText = false) : IFoodSearchProvider
 {
     public const string ClientName = "OpenFoodFacts";
     public const string Fields = "code,product_name,product_name_de,brands,nutriments,serving_quantity,serving_size,image_front_small_url,image_small_url,categories_tags";
@@ -14,6 +14,20 @@ public sealed class OpenFoodFactsProvider(HttpClient http, SearchRequestPolicy p
     public async Task<List<FoodItem>> SearchAsync(string query, CancellationToken cancellationToken = default)
     {
         if (!SearchRequestPolicy.CanSearch(query)) return [];
+        if (fullText)
+        {
+            try
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                policy.ReserveOffSearch();
+                using var result = await FoodJson.ReadAsync(http,
+                    $"https://search.openfoodfacts.org/search?q={Uri.EscapeDataString(query.Trim())}&langs=de&page_size=20",
+                    cancellationToken);
+                var matches = MapFullText(result.RootElement);
+                if (matches.Count > 0) return matches;
+            }
+            catch (FoodSearchException) { /* Try the existing tag search when the full-text service fails. */ }
+        }
         var words = SearchRequestPolicy.Normalize(query).Split(' ').Select(Tag).Where(w => w.Length > 0).ToArray();
         if (words.Length == 0) return [];
         var slug = string.Join('-', words);
@@ -25,6 +39,20 @@ public sealed class OpenFoodFactsProvider(HttpClient http, SearchRequestPolicy p
             ? $"brands_tags={words[0]}&categories_tags_de={string.Join('-', words[1..])}"
             : $"brands_tags={slug}";
         return await SearchTagsAsync(filter, cancellationToken);
+    }
+
+    public static List<FoodItem> MapFullText(JsonElement response)
+    {
+        var foods = new List<FoodItem>();
+        if (!response.TryGetProperty("hits", out var hits) || hits.ValueKind != JsonValueKind.Array) return foods;
+        foreach (var hit in hits.EnumerateArray())
+        {
+            if (hit.ValueKind != JsonValueKind.Object || Map(hit) is not { } food) continue;
+            if (hit.TryGetProperty("brands", out var brands) && brands.ValueKind == JsonValueKind.Array)
+                food.Brand = string.Join(", ", brands.EnumerateArray().Where(b => b.ValueKind == JsonValueKind.String).Select(b => b.GetString()));
+            foods.Add(food);
+        }
+        return foods;
     }
 
     private async Task<List<FoodItem>> SearchTagsAsync(string filter, CancellationToken cancellationToken)

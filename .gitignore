@@ -27,6 +27,12 @@
 .env.*
 *.pfx
 *.p12
+*.jks
+*.keystore
 PROJECT_MASS_Backup_*
 PROJECT_MASS_Messungen_*.csv
 PROJECT_MASS_Training_*.csv
+
+# Lokale Test-Artefakte
+.task*-*
+.task*/

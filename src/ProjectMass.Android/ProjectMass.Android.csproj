@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+  <PropertyGroup>
+    <TargetFramework>net10.0-android</TargetFramework>
+    <SupportedOSPlatformVersion>26.0</SupportedOSPlatformVersion>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>ProjectMass.Mobile</RootNamespace>
+    <UseMaui>true</UseMaui>
+    <SingleProject>true</SingleProject>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ApplicationTitle>PROJECT MASS</ApplicationTitle>
+    <ApplicationId>io.github.zwenjam.projectmass</ApplicationId>
+    <ApplicationDisplayVersion>2.0.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <AndroidPackageFormats>apk</AndroidPackageFormats>
+    <AndroidManifest>Platforms/Android/AndroidManifest.xml</AndroidManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ProjectMass.Core\ProjectMass.Core.csproj" />
+    <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="$(MauiVersion)" />
+    <MauiIcon Include="..\ProjectMass\wwwroot\icon-512.png" Link="Resources/AppIcon/appicon.png"
+              Color="#15181C" BaseSize="512,512" />
+    <MauiSplashScreen Include="..\ProjectMass\wwwroot\icon-512.png" Link="Resources/Splash/splash.png"
+                      Color="#F2F3F5" BaseSize="160,160" />
+    <MauiAsset Include="..\ProjectMass\wwwroot\**\*"
+               Exclude="..\ProjectMass\wwwroot\index.html;..\ProjectMass\wwwroot\service-worker*.js;..\ProjectMass\wwwroot\js\pwaUpdate.js;..\ProjectMass\wwwroot\manifest.webmanifest;..\ProjectMass\wwwroot\_redirects"
+               Link="wwwroot/%(RecursiveDir)%(Filename)%(Extension)"
+               LogicalName="wwwroot/%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+</Project>

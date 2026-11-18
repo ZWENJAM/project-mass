@@ -8,6 +8,39 @@ namespace ProjectMass.Tests;
 public class FoodApiTests
 {
     [Fact]
+    public async Task AndroidOffUsesFullTextAndMapsSearchALiciousHit()
+    {
+        var handler = new FixtureHandler("off-full-text.json");
+        using var http = OffClient(handler);
+        var provider = new OpenFoodFactsProvider(http, new(TimeProvider.System), fullText: true);
+
+        var food = Assert.Single(await provider.SearchAsync("harzer käse"));
+
+        Assert.Equal("Harzer Käse", food.Name);
+        Assert.Equal("Ja!", food.Brand);
+        Assert.Equal("4388860049183", food.Barcode);
+        Assert.Equal(FoodCategory.Dairy, food.Category);
+        Assert.Equal(new Nutrients { Kcal = 125, ProteinGrams = 30, CarbohydrateGrams = .1m, FatGrams = .5m, SaltGrams = 4 },
+            food.NutrientsPer100G);
+        Assert.StartsWith("https://images.openfoodfacts.org/", food.ImageUrl);
+        Assert.Equal("https://search.openfoodfacts.org/search?q=harzer%20k%C3%A4se&langs=de&page_size=20",
+            Assert.Single(handler.Urls));
+    }
+
+    [Fact]
+    public async Task AndroidOffFallsBackToTagsWhenFullTextFails()
+    {
+        var handler = new FixtureHandler("off-search.json", unavailableHost: "search.openfoodfacts.org");
+        using var http = OffClient(handler);
+        var provider = new OpenFoodFactsProvider(http, new(TimeProvider.System), fullText: true);
+
+        Assert.NotEmpty(await provider.SearchAsync("Skyr"));
+        Assert.Collection(handler.Urls,
+            url => Assert.StartsWith("https://search.openfoodfacts.org/search?", url),
+            url => Assert.StartsWith("https://world.openfoodfacts.org/api/v2/search?categories_tags_de=skyr", url));
+    }
+
+    [Fact]
     public async Task OffMapsGermanNameAllNutrientsPortionKjFallbackAndMissingValues()
     {
         var handler = new FixtureHandler("off-search.json");
@@ -122,12 +155,13 @@ public class FoodApiTests
         Assert.Contains("Zu viele Anfragen", error.Message);
     }
     private static HttpClient OffClient(HttpMessageHandler handler) => new(handler) { BaseAddress = new("https://world.openfoodfacts.org/"), Timeout = TimeSpan.FromSeconds(10) };
-    internal sealed class FixtureHandler(string fixture, HttpStatusCode status = HttpStatusCode.OK) : HttpMessageHandler
+    internal sealed class FixtureHandler(string fixture, HttpStatusCode status = HttpStatusCode.OK, string? unavailableHost = null) : HttpMessageHandler
     {
         public List<string> Urls { get; } = [];
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             Urls.Add(request.RequestUri!.AbsoluteUri);
+            if (request.RequestUri.Host == unavailableHost) return new(HttpStatusCode.ServiceUnavailable);
             return new(status) { Content = new ByteArrayContent(await File.ReadAllBytesAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", fixture), cancellationToken)) };
         }
     }

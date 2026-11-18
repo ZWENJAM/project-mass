@@ -2,6 +2,8 @@
 
 Installierbare App für Krafttraining, Ernährung und Fortschritt mit lokalem Speicher und Offline-Modus.
 
+PROJECT MASS gibt es auch als native Android-App. [APK, Einrichtung und Sicherungen](docs/android.md)
+
 <p>
   <img src="docs/screens/uebersicht.jpg" width="240" alt="Tagesübersicht mit Kalorien, Makros und Training">
   <img src="docs/screens/live-training.jpg" width="240" alt="Live-Training im dunklen Fokusmodus">

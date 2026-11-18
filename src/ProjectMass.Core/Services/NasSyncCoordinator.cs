@@ -2,7 +2,8 @@ using Microsoft.JSInterop;
 
 namespace ProjectMass.Services;
 
-public sealed class NasSyncCoordinator(SyncService service, ChangeTrackingStorageService storage, NasBrowser browser, TimeProvider clock)
+public sealed class NasSyncCoordinator(SyncService service, ChangeTrackingStorageService storage, NasBrowser browser,
+    IWebDavTransport webDav, TimeProvider clock)
 {
     private CancellationTokenSource? debounce;
     private DotNetObjectReference<NasSyncCoordinator>? receiver;
@@ -126,7 +127,7 @@ public sealed class NasSyncCoordinator(SyncService service, ChangeTrackingStorag
     {
         var target = kind == NasTargetKind.Folder
             ? (ISyncTarget)new FolderSyncTarget(browser)
-            : new WebDavSyncTarget(browser, ValidateWebDav(url, username), username.Trim(), password);
+            : new WebDavSyncTarget(webDav, ValidateWebDav(url, username), username.Trim(), password);
         await target.TestAsync();
         ConnectionMessage = "Verbindung funktioniert.";
     });
@@ -175,7 +176,7 @@ public sealed class NasSyncCoordinator(SyncService service, ChangeTrackingStorag
                 NeedsFolderPermission = false;
                 target = new FolderSyncTarget(browser);
             }
-            else target = new WebDavSyncTarget(browser, WebDavSyncTarget.ValidateUrl(Settings.WebDavUrl),
+            else target = new WebDavSyncTarget(webDav, WebDavSyncTarget.ValidateUrl(Settings.WebDavUrl),
                 Settings.Username, Settings.Password);
 
             Result = await service.SyncAsync(target, choice);

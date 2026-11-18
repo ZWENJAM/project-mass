@@ -2,7 +2,7 @@ using Microsoft.JSInterop;
 
 namespace ProjectMass.Services;
 
-public sealed class NasBrowser(IJSRuntime js)
+public sealed class NasBrowser(IJSRuntime js, ProjectMassOptions options)
 {
     private readonly Lazy<Task<IJSObjectReference>> module = new(() =>
         js.InvokeAsync<IJSObjectReference>("import", "./js/nasSync.js").AsTask());
@@ -13,7 +13,8 @@ public sealed class NasBrowser(IJSRuntime js)
     internal async Task CallAsync(string method, params object?[] args) =>
         await (await module.Value).InvokeVoidAsync(method, args);
 
-    public Task<bool> IsFolderSupportedAsync() => CallAsync<bool>("isFolderSupported");
+    public Task<bool> IsFolderSupportedAsync() => options.Native
+        ? Task.FromResult(false) : CallAsync<bool>("isFolderSupported");
     public Task<string> DefaultDeviceNameAsync() => CallAsync<string>("defaultDeviceName");
     public Task<string?> LoadFolderAsync() => CallAsync<string?>("loadFolder");
     public Task<string?> ChooseFolderAsync() => CallAsync<string?>("chooseFolder");

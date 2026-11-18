@@ -3,7 +3,7 @@ using System.Xml.Linq;
 
 namespace ProjectMass.Services;
 
-public sealed class WebDavSyncTarget(NasBrowser browser, Uri baseUri, string username, string password) : ISyncTarget
+public sealed class WebDavSyncTarget(IWebDavTransport transport, Uri baseUri, string username, string password) : ISyncTarget
 {
     private const string PropFindBody = """<?xml version="1.0" encoding="utf-8"?><propfind xmlns="DAV:"><prop><resourcetype/></prop></propfind>""";
 
@@ -113,10 +113,10 @@ public sealed class WebDavSyncTarget(NasBrowser browser, Uri baseUri, string use
         _ => $"Der WebDAV-Server meldet HTTP {status}."
     };
 
-    private Task<DavReply> FindAsync(Uri uri) => RequestAsync("PROPFIND", uri, PropFindBody,
+    private Task<WebDavResponse> FindAsync(Uri uri) => RequestAsync("PROPFIND", uri, PropFindBody,
         new() { ["Depth"] = "1", ["Content-Type"] = "application/xml; charset=utf-8" });
 
-    private async Task<DavReply> PutAsync(string path, string content, Dictionary<string, string> headers)
+    private async Task<WebDavResponse> PutAsync(string path, string content, Dictionary<string, string> headers)
     {
         var uri = PathUri(path);
         var reply = await RequestAsync("PUT", uri, content, headers);
@@ -140,13 +140,13 @@ public sealed class WebDavSyncTarget(NasBrowser browser, Uri baseUri, string use
             throw new SyncTargetException("Ungültiger Pfad zum NAS.");
         return new Uri(baseUri, string.Join('/', parts.Select(Uri.EscapeDataString)) + (path.EndsWith('/') ? "/" : ""));
     }
-    private Task<DavReply> RequestAsync(string method, Uri uri, string? content = null, Dictionary<string, string>? headers = null) =>
-        browser.CallAsync<DavReply>("webDavRequest", uri.AbsoluteUri, method, username, password, content, headers ?? []);
+    private Task<WebDavResponse> RequestAsync(string method, Uri uri, string? content = null, Dictionary<string, string>? headers = null) =>
+        transport.RequestAsync(uri, method, username, password, content, headers ?? []);
 
-    private static void Check(int status)
+    private void Check(int status)
     {
-        if (status is < 200 or > 299) throw new SyncTargetException(ErrorMessage(status));
+        if (status is < 200 or > 299)
+            throw new SyncTargetException(status == 0 ? transport.NetworkFailureMessage ?? ErrorMessage(status) : ErrorMessage(status));
     }
 
-    private sealed record DavReply(int Status, string? Content, string? Etag);
 }
