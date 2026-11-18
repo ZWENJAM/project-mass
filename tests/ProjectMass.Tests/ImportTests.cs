@@ -171,4 +171,47 @@ public class ImportTests
     {
         public override DateTimeOffset GetUtcNow() => new(2026, 11, 16, 12, 0, 0, TimeSpan.Zero);
     }
+
+    [Fact]
+    public async Task CombinedAnswerSplitsIntoPlansAndNutrition()
+    {
+        const string answer = """
+            Hier dein Plan:
+            {
+              "format": "project-mass", "version": 1,
+              "plans": [ { "name": "Ganzkörper", "day": "Montag", "exercises": [ { "name": "Kniebeugen", "sets": 3, "reps": "8-10" } ] } ],
+              "nutrition": {
+                "targets": { "kcal": 2500, "protein": 170 },
+                "tips": [ "Viel trinken." ]
+              }
+            }
+            """;
+        var (plans, nutrition) = ImportPrompts.Split(answer);
+        Assert.NotNull(plans);
+        Assert.NotNull(nutrition);
+        Assert.Single((await Plans.PreviewAsync(plans!)).Plans);
+        var food = await Nutrition.PreviewAsync(nutrition!);
+        Assert.Equal(2500, food.Targets!.Kcal);
+        Assert.Single(food.Tips);
+    }
+
+    [Fact]
+    public void OldSinglePurposeFilesStillSplit()
+    {
+        Assert.Null(ImportPrompts.Split("""{ "format": "project-mass-nutrition", "tips": ["x"] }""").Plans);
+        Assert.Null(ImportPrompts.Split("""{ "plans": [] }""").Nutrition);
+        Assert.Throws<ImportFormatException>(() => ImportPrompts.Split("""{ "foo": 1 }"""));
+    }
+
+    [Fact]
+    public void PromptsContainSchemaProfileAndExerciseNames()
+    {
+        var catalog = new[] { new Exercise { Name = "Latziehen" } };
+        var coach = ImportPrompts.BuildCoach(new UserProfile { HeightCm = 180 }, 85m, catalog);
+        Assert.Contains("\"format\": \"project-mass\"", coach);
+        Assert.Contains("\"nutrition\"", coach);
+        Assert.Contains("Latziehen", coach);
+        Assert.Contains("180 cm", coach);
+        Assert.Contains("\"plans\"", ImportPrompts.BuildTemplate(catalog));
+    }
 }

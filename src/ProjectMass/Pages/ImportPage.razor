@@ -7,125 +7,123 @@
 @inject IJSRuntime JS
 <div class="page-content narrow">
 <PageTitle>Importieren / PROJECT MASS</PageTitle>
-<div class="page-head"><div><h1>Importieren</h1><p>Lass dir Pläne und Empfehlungen von einer KI schreiben und übernimm sie mit einem Tipp.</p></div></div>
-<nav class="segment-tabs" aria-label="Importart">
-    <a href="mehr/import" class="@(nutrition ? "" : "active")" @onclick="() => Switch(false)" @onclick:preventDefault>Trainingsplan</a>
-    <a href="mehr/import" class="@(nutrition ? "active" : "")" @onclick="() => Switch(true)" @onclick:preventDefault>Ernährung</a>
-</nav>
+<div class="page-head"><div><h1>Plan importieren</h1><p>Trainingsplan und Ernährung in einem Rutsch, geschrieben von ChatGPT, Claude oder von dir.</p></div></div>
 @if (error is not null) { <p class="notice" role="alert">@error</p> }
 @if (message is not null) { <p class="notice" role="status">@message</p> }
 
 <section class="protocol-section">
-    <h2>1. Prompt kopieren</h2>
-    <p class="muted">@(nutrition ? "Der Prompt enthält dein Profil und deine Tagesziele." : "Der Prompt enthält dein Profil und die Übungsnamen deiner App.") Füge ihn in ChatGPT oder Claude ein und ergänze deine Wünsche in den eckigen Klammern.</p>
-    <div class="form-actions" style="justify-content:flex-start"><button class="primary" disabled="@busy" @onclick="CopyPrompt">Prompt kopieren</button>
-        <button @onclick="() => showPrompt = !showPrompt">@(showPrompt ? "Prompt ausblenden" : "Prompt anzeigen")</button></div>
-    @if (showPrompt && prompt is not null) { <textarea readonly rows="12" aria-label="Prompt" value="@prompt"></textarea> }
+    <h2>1. Vorlage kopieren</h2>
+    <div class="import-choice">
+        <button class="import-option" disabled="@busy" @onclick="() => Copy(true)">
+            <strong>Coach-Prompt</strong>
+            <span>Die KI fragt dich zu Zielen, Körper, Alltag und Ernährung aus und erstellt danach deinen Plan.</span>
+        </button>
+        <button class="import-option" disabled="@busy" @onclick="() => Copy(false)">
+            <strong>Nur Format-Vorlage</strong>
+            <span>Für einen Plan, den du schon hast. Die KI bringt ihn nur in das App-Format.</span>
+        </button>
+    </div>
+    <p class="muted">Dein Profil und die Übungsnamen der App sind schon eingetragen. In ChatGPT oder Claude einfügen und loslegen.</p>
+    @if (shown is not null) { <textarea readonly rows="10" aria-label="Kopierter Text" value="@shown"></textarea> }
 </section>
 
 <section class="protocol-section">
     <h2>2. Antwort einfügen</h2>
-    <label class="field">Antwort der KI (JSON)<textarea rows="8" @bind="input" @bind:event="oninput" placeholder="Hier die komplette Antwort einfügen. Codeblöcke mit ``` werden automatisch erkannt."></textarea></label>
+    <label class="field">Antwort der KI<textarea rows="8" @bind="input" @bind:event="oninput" placeholder="Die komplette Antwort einfügen. Text drumherum und ```-Codeblöcke werden automatisch entfernt."></textarea></label>
     <label class="field">oder Datei wählen (.json oder .txt)<InputFile accept=".json,.txt,application/json,text/plain" OnChange="ReadFile" /></label>
     <div class="form-actions"><button class="primary" disabled="@(busy || string.IsNullOrWhiteSpace(input))" @onclick="Check">Prüfen</button></div>
 </section>
 
-@if (planPreview is not null)
+@if (planPreview is not null || nutritionPreview is not null)
 {
     <section class="protocol-section">
         <h2>3. Vorschau</h2>
-        @foreach (var warning in planPreview.Warnings) { <p class="notice">@warning</p> }
-        @foreach (var plan in planPreview.Plans)
-        {
-            <div class="entry">
-                <h3>@plan.Name <span class="badge">@TrainingLabels.Day(plan.Day)</span></h3>
-                @if (!string.IsNullOrWhiteSpace(plan.Note)) { <p class="mini-label">@plan.Note</p> }
-                <ul class="import-list">
-                    @foreach (var e in plan.Exercises)
-                    {
-                        <li>@e.Name <span class="mini-label">@e.Sets × @e.MinReps–@e.MaxReps, Pause @e.RestSeconds s</span>@if (e.IsNew) { <span class="badge">neue Übung</span> }</li>
-                    }
-                </ul>
-            </div>
-        }
-        <div class="form-actions"><button @onclick="Reset">Verwerfen</button><button class="primary" disabled="@busy" @onclick="ImportPlans">@planPreview.Plans.Count @(planPreview.Plans.Count == 1 ? "Plan" : "Pläne") übernehmen</button></div>
-    </section>
-}
+        @foreach (var warning in Warnings) { <p class="notice">@warning</p> }
 
-@if (nutritionPreview is not null)
-{
-    <section class="protocol-section">
-        <h2>3. Vorschau</h2>
-        @foreach (var warning in nutritionPreview.Warnings) { <p class="notice">@warning</p> }
-        @if (nutritionPreview.Targets is { } t)
+        @if (planPreview is not null)
         {
-            <h3>Tagesziele</h3>
-            <p class="mini-label">@Value(t.Kcal, "kcal"), @Value(t.ProteinGrams, "g Protein"), @Value(t.CarbohydrateGrams, "g KH"), @Value(t.FatGrams, "g Fett")@if (t.WaterMl is { } w) {<span>, @w ml Wasser</span>}</p>
-            <label class="checkbox-field"><input type="checkbox" @bind="applyTargets" />Als meine Tagesziele übernehmen</label>
-        }
-        @if (nutritionPreview.Foods.Count > 0)
-        {
-            <h3>@nutritionPreview.Foods.Count Lebensmittel</h3>
-            @foreach (var food in nutritionPreview.Foods)
+            <h3>Training: @planPreview.Plans.Count @(planPreview.Plans.Count == 1 ? "Plan" : "Pläne")</h3>
+            @foreach (var plan in planPreview.Plans)
             {
-                <div class="entry row food-row"><FoodThumb Food="food" /><div class="food-text"><h3>@food.Name</h3><small>@food.NutrientsPer100G.Kcal.ToString("0") kcal / @food.NutrientsPer100G.ProteinGrams.ToString("0.#") g Protein pro 100 g</small></div></div>
+                <div class="entry">
+                    <h3>@plan.Name <span class="badge">@TrainingLabels.Day(plan.Day)</span></h3>
+                    @if (!string.IsNullOrWhiteSpace(plan.Note)) { <p class="mini-label">@plan.Note</p> }
+                    <ul class="import-list">
+                        @foreach (var e in plan.Exercises)
+                        {
+                            <li>@e.Name <span class="mini-label">@e.Sets × @e.MinReps–@e.MaxReps, Pause @e.RestSeconds s</span>@if (e.IsNew) { <span class="badge">neue Übung</span> }</li>
+                        }
+                    </ul>
+                </div>
             }
         }
-        @if (nutritionPreview.Recipes.Count > 0)
+
+        @if (nutritionPreview is not null)
         {
-            <h3>@nutritionPreview.Recipes.Count Rezepte</h3>
-            <ul class="import-list">@foreach (var recipe in nutritionPreview.Recipes) { <li>@recipe.Name <span class="mini-label">@recipe.Ingredients.Count Zutaten, @recipe.Portions Portionen</span></li> }</ul>
+            @if (nutritionPreview.Targets is { } t)
+            {
+                <h3>Tagesziele</h3>
+                <p class="mini-label">@Value(t.Kcal, "kcal"), @Value(t.ProteinGrams, "g Protein"), @Value(t.CarbohydrateGrams, "g KH"), @Value(t.FatGrams, "g Fett")@if (t.WaterMl is { } w) {<span>, @w ml Wasser</span>}</p>
+                <label class="checkbox-field"><input type="checkbox" @bind="applyTargets" />Als meine Tagesziele übernehmen</label>
+            }
+            @if (nutritionPreview.Foods.Count > 0)
+            {
+                <h3>@nutritionPreview.Foods.Count Lebensmittel</h3>
+                @foreach (var food in nutritionPreview.Foods)
+                {
+                    <div class="entry row food-row"><FoodThumb Food="food" /><div class="food-text"><h3>@food.Name</h3><small>@food.NutrientsPer100G.Kcal.ToString("0") kcal / @food.NutrientsPer100G.ProteinGrams.ToString("0.#") g Protein pro 100 g</small></div></div>
+                }
+            }
+            @if (nutritionPreview.Recipes.Count > 0)
+            {
+                <h3>@nutritionPreview.Recipes.Count Rezepte</h3>
+                <ul class="import-list">@foreach (var recipe in nutritionPreview.Recipes) { <li>@recipe.Name <span class="mini-label">@recipe.Ingredients.Count Zutaten, @recipe.Portions Portionen</span></li> }</ul>
+            }
+            @if (nutritionPreview.Tips.Count > 0)
+            {
+                <h3>Ernährungstipps (landen im Tagebuch)</h3>
+                <ul class="import-list">@foreach (var tip in nutritionPreview.Tips) { <li>@tip</li> }</ul>
+            }
         }
-        @if (nutritionPreview.Tips.Count > 0)
-        {
-            <h3>Tipps (landen im Tagebuch)</h3>
-            <ul class="import-list">@foreach (var tip in nutritionPreview.Tips) { <li>@tip</li> }</ul>
-        }
-        <div class="form-actions"><button @onclick="Reset">Verwerfen</button><button class="primary" disabled="@busy" @onclick="ImportNutrition">Übernehmen</button></div>
+        <div class="form-actions"><button @onclick="Reset">Verwerfen</button><button class="primary" disabled="@busy" @onclick="Import">Alles übernehmen</button></div>
     </section>
 }
 </div>
 
 @code {
-    private bool nutrition, showPrompt, busy, applyTargets;
+    private bool busy, applyTargets;
     private string input = "";
-    private string? prompt, error, message;
+    private string? shown, error, message;
     private PlanImportPreview? planPreview;
     private NutritionImportPreview? nutritionPreview;
     private IJSObjectReference? module;
 
-    protected override Task OnInitializedAsync() => LoadPrompt();
-
-    private async Task LoadPrompt()
-    {
-        try
-        {
-            var profile = await Profiles.GetAsync();
-            var weight = await Profiles.GetEffectiveWeightAsync(profile);
-            prompt = nutrition ? NutritionImport.BuildPrompt(profile, weight) : PlanImport.BuildPrompt(profile, weight, await Exercises.GetAllAsync());
-        }
-        catch { error = "Der Prompt konnte nicht erstellt werden."; }
-    }
-
-    private async Task Switch(bool toNutrition)
-    {
-        if (nutrition == toNutrition) return;
-        nutrition = toNutrition;
-        Reset(); input = ""; message = null; error = null;
-        await LoadPrompt();
-    }
+    private IEnumerable<string> Warnings => (planPreview?.Warnings ?? Enumerable.Empty<string>()).Concat(nutritionPreview?.Warnings ?? Enumerable.Empty<string>());
 
     private void Reset() { planPreview = null; nutritionPreview = null; applyTargets = false; }
 
     private static string Value(decimal? value, string unit) => value is { } v ? $"{v:0} {unit}" : $"– {unit}";
 
-    private async Task CopyPrompt()
+    private async Task Copy(bool coach)
     {
-        if (prompt is null) return;
-        module ??= await JS.InvokeAsync<IJSObjectReference>("import", "./js/files.js");
-        var copied = await module.InvokeAsync<bool>("copyText", prompt);
-        message = copied ? "Prompt kopiert. Jetzt in ChatGPT oder Claude einfügen." : null;
-        if (!copied) { showPrompt = true; error = "Kopieren nicht möglich. Bitte den Prompt unten markieren und kopieren."; }
+        error = null; message = null; busy = true;
+        try
+        {
+            var catalog = await Exercises.GetAllAsync();
+            if (coach)
+            {
+                var profile = await Profiles.GetAsync();
+                shown = ImportPrompts.BuildCoach(profile, await Profiles.GetEffectiveWeightAsync(profile), catalog);
+            }
+            else shown = ImportPrompts.BuildTemplate(catalog);
+
+            module ??= await JS.InvokeAsync<IJSObjectReference>("import", "./js/files.js");
+            if (await module.InvokeAsync<bool>("copyText", shown))
+                message = (coach ? "Coach-Prompt" : "Format-Vorlage") + " kopiert. Jetzt in ChatGPT oder Claude einfügen.";
+            else error = "Kopieren nicht möglich. Bitte den Text unten markieren und kopieren.";
+        }
+        catch { error = "Die Vorlage konnte nicht erstellt werden."; }
+        finally { busy = false; }
     }
 
     private async Task ReadFile(InputFileChangeEventArgs e)
@@ -146,36 +144,42 @@
         error = null; message = null; Reset(); busy = true;
         try
         {
-            if (nutrition) { nutritionPreview = await NutritionImport.PreviewAsync(input); applyTargets = nutritionPreview.Targets is not null; }
-            else planPreview = await PlanImport.PreviewAsync(input);
+            var (plans, nutrition) = ImportPrompts.Split(input);
+            if (plans is not null) planPreview = await PlanImport.PreviewAsync(plans);
+            if (nutrition is not null)
+            {
+                nutritionPreview = await NutritionImport.PreviewAsync(nutrition);
+                applyTargets = nutritionPreview.Targets is not null;
+            }
         }
         catch (ImportFormatException ex) { error = ex.Message; }
         catch { error = "Der Text konnte nicht gelesen werden."; }
         finally { busy = false; }
     }
 
-    private async Task ImportPlans()
+    private async Task Import()
     {
-        if (planPreview is null || busy) return;
-        busy = true; error = null;
-        try { var count = await PlanImport.ImportAsync(planPreview); message = $"{count} {(count == 1 ? "Plan" : "Pläne")} übernommen. Du findest sie unter Training."; Reset(); input = ""; }
-        catch { error = "Übernehmen fehlgeschlagen. Bitte erneut versuchen."; }
-        finally { busy = false; }
-    }
-
-    private async Task ImportNutrition()
-    {
-        if (nutritionPreview is null || busy) return;
+        if (busy || (planPreview is null && nutritionPreview is null)) return;
         busy = true; error = null;
         try
         {
-            var r = await NutritionImport.ImportAsync(nutritionPreview, applyTargets);
             var parts = new List<string>();
-            if (r.Foods > 0) parts.Add($"{r.Foods} Lebensmittel");
-            if (r.Recipes > 0) parts.Add($"{r.Recipes} Rezepte");
-            if (r.TargetsApplied) parts.Add("Tagesziele");
-            if (r.TipsSaved) parts.Add("Tipps im Tagebuch");
-            message = "Übernommen: " + string.Join(", ", parts) + "." + (r.SkippedFoods > 0 ? $" {r.SkippedFoods} Lebensmittel gab es schon, deine Werte bleiben." : "");
+            if (planPreview is not null)
+            {
+                var count = await PlanImport.ImportAsync(planPreview);
+                parts.Add($"{count} {(count == 1 ? "Trainingsplan" : "Trainingspläne")}");
+            }
+            var skipped = 0;
+            if (nutritionPreview is not null)
+            {
+                var r = await NutritionImport.ImportAsync(nutritionPreview, applyTargets);
+                if (r.TargetsApplied) parts.Add("Tagesziele");
+                if (r.Foods > 0) parts.Add($"{r.Foods} Lebensmittel");
+                if (r.Recipes > 0) parts.Add($"{r.Recipes} Rezepte");
+                if (r.TipsSaved) parts.Add("Tipps im Tagebuch");
+                skipped = r.SkippedFoods;
+            }
+            message = "Übernommen: " + string.Join(", ", parts) + "." + (skipped > 0 ? $" {skipped} Lebensmittel gab es schon, deine Werte bleiben." : "");
             Reset(); input = "";
         }
         catch (ArgumentException ex) { error = ex.Message; }
