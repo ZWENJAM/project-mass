@@ -8,15 +8,47 @@ public sealed class OpenFoodFactsProvider(HttpClient http, SearchRequestPolicy p
     public const string ClientName = "OpenFoodFacts";
     public const string Fields = "code,product_name,product_name_de,brands,nutriments,serving_quantity,serving_size,image_front_small_url,image_small_url,categories_tags";
     public string Name => "Open Food Facts";
+    // Open Food Facts no longer serves its full-text search (cgi/search.pl) to anonymous browser apps, and the new
+    // search service sends no CORS header. The v2 API still works from the browser, but only filters by tags:
+    // so the query is matched as product type (category) first and as brand second. Popular German products first.
     public async Task<List<FoodItem>> SearchAsync(string query, CancellationToken cancellationToken = default)
     {
         if (!SearchRequestPolicy.CanSearch(query)) return [];
+        var words = SearchRequestPolicy.Normalize(query).Split(' ').Select(Tag).Where(w => w.Length > 0).ToArray();
+        if (words.Length == 0) return [];
+        var slug = string.Join('-', words);
+
+        var foods = await SearchTagsAsync($"categories_tags_de={slug}", cancellationToken);
+        if (foods.Count > 0) return foods;
+        // "ehrmann skyr" → brand ehrmann + category skyr; a single word may be a brand ("milram").
+        var filter = words.Length > 1
+            ? $"brands_tags={words[0]}&categories_tags_de={string.Join('-', words[1..])}"
+            : $"brands_tags={slug}";
+        return await SearchTagsAsync(filter, cancellationToken);
+    }
+
+    private async Task<List<FoodItem>> SearchTagsAsync(string filter, CancellationToken cancellationToken)
+    {
         cancellationToken.ThrowIfCancellationRequested();
         policy.ReserveOffSearch();
-        using var json = await FoodJson.ReadAsync(http, $"cgi/search.pl?search_terms={Uri.EscapeDataString(query.Trim())}&search_simple=1&action=process&json=1&page_size=20&lc=de&fields={Fields}&app_name=ProjectMass&app_version=2.0", cancellationToken);
-        return json.RootElement.TryGetProperty("products", out var products) && products.ValueKind == JsonValueKind.Array
-            ? products.EnumerateArray().Select(Map).Where(f => f is not null).Cast<FoodItem>().ToList() : [];
+        JsonDocument json;
+        try
+        {
+            json = await FoodJson.ReadAsync(http, $"api/v2/search?{filter}&countries_tags_en=germany&sort_by=unique_scans_n&page_size=20&lc=de&fields={Fields}&app_name=ProjectMass&app_version=2.0", cancellationToken);
+        }
+        catch (FoodSearchException ex) when (ex.Message.StartsWith("Anbieter nicht erreichbar"))
+        {
+            // When Open Food Facts is busy or rate-limits, its error page has no CORS header and shows up as a network error.
+            throw new FoodSearchException("Open Food Facts antwortet gerade nicht (oft: zu viele Anfragen). Bitte eine Minute warten oder den Barcode scannen.");
+        }
+        using (json)
+            return json.RootElement.TryGetProperty("products", out var products) && products.ValueKind == JsonValueKind.Array
+                ? products.EnumerateArray().Select(Map).Where(f => f is not null).Cast<FoodItem>().ToList() : [];
     }
+
+    // Tags are lowercase with hyphens; umlauts stay (categories_tags_de=käse works, kase does not).
+    private static string Tag(string text) => Uri.EscapeDataString(new string(text.Where(c => char.IsLetterOrDigit(c) || c == '-').ToArray()));
+
     public async Task<FoodItem?> LookupBarcodeAsync(string barcode, CancellationToken cancellationToken = default)
     {
         if (!BarcodeValidator.IsValid(barcode)) throw new FoodSearchException("Bitte einen Barcode mit 8–14 Ziffern und gültiger Prüfziffer eingeben.");

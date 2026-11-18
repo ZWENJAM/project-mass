@@ -72,13 +72,14 @@
         }
     }
 
-    private string Placeholder => source == FoodSource.Own ? "Lebensmittel suchen" : "Produkt suchen (ab 3 Zeichen)";
+    private string Placeholder => source == FoodSource.Own ? "Lebensmittel suchen" : "Produktart oder Marke, z. B. Skyr";
 
     private string EmptyText => view switch
     {
         "recent" when string.IsNullOrWhiteSpace(query) => "Noch nichts eingetragen. Such oben nach einem Lebensmittel oder tippe auf „Online“.",
         "favorites" when string.IsNullOrWhiteSpace(query) => "Noch keine Favoriten. Speichere Lebensmittel unter „Meine Lebensmittel“ als Favorit.",
         "off" or "usda" when query.Trim().Length < 3 => "Gib mindestens 3 Zeichen ein oder scanne einen Barcode.",
+        "off" => "Nichts gefunden. Online geht die Suche nach Produktart (Skyr, Haferflocken) oder Marke (Milram). Am genauesten: Barcode scannen.",
         _ => "Nichts gefunden. Probier einen anderen Begriff oder „Online“."
     };
 

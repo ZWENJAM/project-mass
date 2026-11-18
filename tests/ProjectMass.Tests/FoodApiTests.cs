@@ -28,7 +28,8 @@ public class FoodApiTests
         Assert.Equal(0, foods[2].NutrientsPer100G.FatGrams);
         Assert.False(foods[3].HasIncompleteNutrients); // Explicit 0 kcal is a complete value.
         var url = Assert.Single(handler.Urls);
-        Assert.Contains("search_terms=Skyr%20%26%20Natur", url);
+        Assert.Contains("api/v2/search?categories_tags_de=skyr-natur", url);
+        Assert.Contains("countries_tags_en=germany", url);
         Assert.Contains("page_size=20&lc=de", url);
         Assert.Contains("app_name=ProjectMass&app_version=2.0", url);
         Assert.Contains("serving_quantity,serving_size", url);
