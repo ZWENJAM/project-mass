@@ -1,0 +1,6 @@
+Barlow / Barlow Condensed, Fontsource packages version 5.3.0.
+https://registry.npmjs.org/@fontsource/barlow/-/barlow-5.3.0.tgz
+https://registry.npmjs.org/@fontsource/barlow-condensed/-/barlow-condensed-5.3.0.tgz
+Original font author: Jeremy Tribby (Barlow project).
+License: SIL Open Font License 1.1; see the accompanying OFL files.
+Latin subsets include German umlauts and sharp s. No external font request is made.

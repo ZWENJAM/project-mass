@@ -1,0 +1,6 @@
+*
+!docker/
+!docker/nginx.conf
+!publish/
+!publish/wwwroot/
+!publish/wwwroot/**

@@ -1,0 +1,20 @@
+@page "/mehr"
+@implements IDisposable
+@inject NasSyncCoordinator NasSync
+<PageTitle>Mehr / PROJECT MASS</PageTitle>
+<div class="page-head"><div><h1>Mehr</h1></div></div>
+<nav class="section-list" aria-label="Weitere Bereiche">
+    <a class="protocol-section section-link" href="mehr/tagebuch"><h2>Tagebuch</h2><p class="muted">Notizen zu Training, Energie und Erholung.</p></a>
+    <a class="protocol-section section-link" href="mehr/einstellungen"><h2>Profil und Ziele</h2><p class="muted">Bedarfsrechner, Tagesziele, Wasser, USDA-Key, Progression.</p></a>
+    <a class="protocol-section section-link" href="mehr/import"><h2>Importieren</h2><p class="muted">Trainingspläne und Ernährungsempfehlungen per KI-Prompt übernehmen.</p></a>
+    <a class="protocol-section section-link" href="mehr/daten"><h2>Daten und Backup</h2><p class="muted">Backups, CSV-Export und NAS-Sync.</p>
+        @if (NasSync.Enabled) { <span class="badge more-sync">NAS-Sync · @NasSync.Status</span> }
+    </a>
+    <a class="protocol-section section-link" href="mehr/ueber"><h2>Über und Datenschutz</h2><p class="muted">Version, Lizenz, Datenquellen und lokale Speicherung.</p></a>
+</nav>
+
+@code {
+    protected override void OnInitialized() => NasSync.Changed += Update;
+    private void Update() => _ = InvokeAsync(StateHasChanged);
+    public void Dispose() => NasSync.Changed -= Update;
+}

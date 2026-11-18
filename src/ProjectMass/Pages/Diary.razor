@@ -1,0 +1,73 @@
+@page "/mehr/tagebuch"
+@inject INoteService Notes
+<div class="page-content narrow">
+<PageTitle>Tagebuch / PROJECT MASS</PageTitle>
+<div class="page-head"><div><h1>Tagebuch</h1><p>Energie, Schlaf, Schmerzen, Erfolge. Was dir beim Training später hilft.</p></div></div>
+@if (error is not null) { <p class="notice" role="alert">@error</p> }
+
+<section class="protocol-section">
+    <h2>@(editing is null ? "Neue Notiz" : "Notiz bearbeiten")</h2>
+    <fieldset class="editor-fields" disabled="@busy">
+        <label class="field training-date">Datum<input type="date" @bind="draft.Date" /></label>
+        <label class="field">Notiz<textarea rows="5" maxlength="10000" @bind="draft.Text" @bind:event="oninput" placeholder="Zum Beispiel: Schulter beim Bankdrücken gezwickt, nächstes Mal enger greifen."></textarea></label>
+        <div class="form-actions">
+            @if (editing is not null) { <button @onclick="Reset">Abbrechen</button> }
+            <button class="primary" disabled="@string.IsNullOrWhiteSpace(draft.Text)" @onclick="Save">Notiz speichern</button>
+        </div>
+    </fieldset>
+</section>
+
+<section class="protocol-section">
+    <h2>Alle Notizen</h2>
+    @foreach (var note in notes)
+    {
+        <article class="entry" @key="note.Id">
+            <div class="row wrap"><span class="mini-label">@note.Date.ToString("dd.MM.yyyy")</span>
+                <div class="entry-buttons"><button class="small" @onclick="() => Edit(note)">Bearbeiten</button><button class="small danger" @onclick="() => deleting = note">Löschen</button></div></div>
+            <p class="session-note">@note.Text</p>
+        </article>
+    }
+    @if (notes.Count == 0) { <p class="empty">Noch keine Notizen. Schreib nach dem nächsten Training auf, wie es lief.</p> }
+</section>
+</div>
+@if (deleting is not null) { <ConfirmationDialog Title="Notiz löschen?" Message="@($"Die Notiz vom {deleting.Date:dd.MM.yyyy} wird gelöscht.")" OnConfirm="Delete" OnCancel="() => deleting = null" /> }
+
+@code {
+    private List<Note> notes = [];
+    private Note draft = new();
+    private Note? editing, deleting;
+    private string? error;
+    private bool busy;
+
+    protected override Task OnInitializedAsync() => Load();
+
+    private async Task Load()
+    {
+        try { notes = await Notes.GetAllAsync(); }
+        catch { error = "Notizen konnten nicht geladen werden."; }
+    }
+
+    private void Edit(Note note)
+    {
+        editing = note;
+        draft = new Note { Id = note.Id, Date = note.Date, Text = note.Text };
+    }
+
+    private void Reset() { editing = null; draft = new Note(); }
+
+    private async Task Save()
+    {
+        if (busy) return;
+        busy = true; error = null;
+        try { await Notes.SaveAsync(draft); Reset(); await Load(); }
+        catch (ArgumentException ex) { error = ex.Message; }
+        catch { error = "Speichern fehlgeschlagen. Bitte erneut versuchen."; }
+        finally { busy = false; }
+    }
+
+    private async Task Delete()
+    {
+        try { await Notes.DeleteAsync(deleting!.Id); if (editing?.Id == deleting.Id) Reset(); deleting = null; await Load(); }
+        catch { error = "Löschen fehlgeschlagen."; deleting = null; }
+    }
+}

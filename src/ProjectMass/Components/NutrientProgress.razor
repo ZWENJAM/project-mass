@@ -1,0 +1,15 @@
+<section class="nutrient-row @(Unit == "kcal" ? "calories-row" : "") @Kind @(Target > 0 && Actual > Target ? "over-target" : Target > 0 && Actual == Target ? "target-reached" : "")">
+    <div class="label">@(Kind == "carbohydrate" ? "KH" : Label)</div><div class="nutrient-value"><strong>@Actual.ToString(Unit == "kcal" ? "#,0" : "#,0.#", German)</strong><span class="unit">@Unit</span></div>
+    <div class="progress" role="progressbar" aria-label="@Label" aria-valuenow="@Actual" aria-valuemin="0" aria-valuemax="@(Math.Max(Target, Actual))" aria-valuetext="@($"{Actual:0.#} von {Target:0} {Unit}")"><span style="width:@Width%"></span></div>
+    <p class="mini-label">@(Target > 0 ? $"von {Target.ToString("#,0", German)} {Unit}" : "Kein Ziel gesetzt")</p>
+    @if (Target > 0 && Actual > Target) { <p class="mini-label">Ziel überschritten (+@((Actual - Target).ToString("#,0.#", German)) @Unit)</p> }
+</section>
+@code {
+    private static readonly System.Globalization.CultureInfo German = System.Globalization.CultureInfo.GetCultureInfo("de-DE");
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public string Unit { get; set; } = "g";
+    [Parameter] public decimal Actual { get; set; }
+    [Parameter] public decimal Target { get; set; }
+    [Parameter] public string Kind { get; set; } = "energy";
+    private string Width => (Target > 0 ? Math.Clamp(Actual / Target * 100, 0, 100) : 0).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture);
+}

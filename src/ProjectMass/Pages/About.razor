@@ -1,0 +1,29 @@
+@page "/mehr/ueber"
+
+<PageTitle>Über und Datenschutz / PROJECT MASS</PageTitle>
+<div class="page-content narrow">
+    <div class="page-head"><div><h1>Über und Datenschutz</h1><p>PROJECT MASS · Version @AppInfo.Version</p></div></div>
+    <section class="protocol-section">
+        <h2>Lizenz</h2>
+        <p>PROJECT MASS steht unter der GNU General Public License Version 3 (GPL-3.0).</p>
+        <a class="section-link" href="@AppInfo.RepositoryUrl" target="_blank" rel="noopener">Quellcode auf GitHub</a>
+    </section>
+    <section class="protocol-section">
+        <h2>Datenschutz</h2>
+        <p>Profil, Trainings, Ernährung und Einstellungen liegen in IndexedDB in diesem Browser. Die App hat kein Benutzerkonto. Wenn du den NAS-Sync einrichtest, gleicht sie deine Daten direkt mit deinem eigenen NAS ab. NAS-Zugangsdaten und der USDA-Key werden dabei nicht übertragen.</p>
+        <p>Bei der Online-Lebensmittelsuche sendet dein Browser den Suchbegriff oder Barcode an Open Food Facts und lädt dort Produktbilder. Die optionale USDA-Suche sendet deinen Suchbegriff und deinen eigenen API-Key an USDA. Der Key wird lokal im Profil und in vollständigen Backups gespeichert.</p>
+        <p>Videolinks öffnen YouTube oder den von dir hinterlegten Anbieter. Wenn du einen KI-Prompt kopierst, entscheidest du selbst, an welchen Dienst du ihn weitergibst. Beim Aufruf über GitHub Pages protokolliert GitHub IP-Adressen zu Sicherheitszwecken.</p>
+        <p>Bewahre deine Backup-Dateien privat auf und lade regelmäßig eine aktuelle Kopie herunter.</p>
+        <a class="section-link" href="mehr/daten">Daten und Backup öffnen</a>
+    </section>
+    <section class="protocol-section">
+        <h2>Datenquellen und Lizenzen</h2>
+        <ul>
+            <li>Lebensmitteldaten von Open Food Facts (ODbL). <a href="https://world.openfoodfacts.org/data" target="_blank" rel="noopener">Lizenz und Bildrechte</a></li>
+            <li>Nährwertdaten von USDA FoodData Central (Public Domain). <a href="https://fdc.nal.usda.gov/" target="_blank" rel="noopener">FoodData Central</a></li>
+            <li>Lokale Übungsbilder aus free-exercise-db (gemeinfrei, Unlicense). <a href="https://github.com/yuhonas/free-exercise-db" target="_blank" rel="noopener">Bildquelle</a></li>
+            <li>.NET und Blazor (MIT). <a href="https://github.com/dotnet/aspnetcore/blob/main/LICENSE.txt" target="_blank" rel="noopener">Lizenztext</a></li>
+        </ul>
+    </section>
+    <p class="notice">Kein Ersatz für ärztliche oder ernährungsfachliche Beratung.</p>
+</div>

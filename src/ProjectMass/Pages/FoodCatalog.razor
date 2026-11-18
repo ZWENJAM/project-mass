@@ -1,0 +1,45 @@
+@page "/ernaehrung/lebensmittel"
+@inject IFoodService Foods
+<PageTitle>Meine Lebensmittel / PROJECT MASS</PageTitle>
+<div class="page-head"><div><h1>Meine Lebensmittel</h1><p>Deine Produkte, Portionen und Favoriten.</p></div><a class="button-link primary" href="ernaehrung/lebensmittel/neu">+ Lebensmittel</a></div>
+<NutritionTabs />
+@if (error is not null) { <p class="notice" role="alert">@error</p> }
+<div class="form-grid">
+    <label class="field">Suche<input type="search" @bind="query" @bind:event="oninput" @bind:after="Load" /></label>
+    <label class="field">Ansicht<select @bind="mode" @bind:after="Load"><option value="all">Alle Lebensmittel</option><option value="favorites">Favoriten</option><option value="recent">Zuletzt verwendet (max. 15)</option></select></label>
+</div>
+<section class="protocol-section">
+    @foreach (var food in foods)
+    {
+        <article class="entry" @key="food.Id"><div class="row wrap"><div class="food-row"><FoodThumb Food="food" /><div class="food-text"><h3>@food.Name</h3><small>@food.Brand / @food.NutrientsPer100G.Kcal.ToString("0.#") kcal / @food.NutrientsPer100G.ProteinGrams.ToString("0.#") g Protein pro 100 g</small></div></div>
+            <div class="training-actions"><button class="small" aria-pressed="@food.IsFavorite" @onclick="() => Favorite(food)">@(food.IsFavorite ? "Favorit entfernen" : "Als Favorit speichern")</button><a class="section-link" href="@($"ernaehrung/lebensmittel/{food.Id}")">Bearbeiten</a><button class="small danger" @onclick="() => deleting = food">Löschen</button></div></div>
+            @if (!string.IsNullOrWhiteSpace(food.Note)) { <p class="mini-label">@food.Note</p> }
+        </article>
+    }
+    @if (foods.Count == 0) { <p class="empty">Keine Lebensmittel in dieser Ansicht.</p> }
+</section>
+@if (deleting is not null) { <ConfirmationDialog Title="Lebensmittel löschen?" Message="@($"„{deleting.Name}“ wird aus deinem Katalog entfernt. Gespeicherte Mahlzeiten bleiben erhalten.")" OnCancel="() => deleting = null" OnConfirm="Delete" /> }
+@code {
+    private List<FoodItem> foods = [];
+    private string query = "", mode = "all";
+    private string? error;
+    private FoodItem? deleting;
+    protected override Task OnInitializedAsync() => Load();
+    private async Task Load()
+    {
+        try {
+            foods = mode == "recent" ? (await Foods.GetRecentAsync()).Where(f => $"{f.Name} {f.Brand}".Contains(query.Trim(), StringComparison.CurrentCultureIgnoreCase)).ToList() : await Foods.SearchAsync(query, mode == "favorites");
+        }
+        catch { error = "Lebensmittel konnten nicht geladen werden."; }
+    }
+    private async Task Favorite(FoodItem food)
+    {
+        try { await Foods.SetFavoriteAsync(food.Id, !food.IsFavorite); await Load(); }
+        catch { error = "Favorit konnte nicht gespeichert werden."; }
+    }
+    private async Task Delete()
+    {
+        try { await Foods.DeleteAsync(deleting!.Id); deleting = null; await Load(); }
+        catch { error = "Löschen fehlgeschlagen."; deleting = null; }
+    }
+}

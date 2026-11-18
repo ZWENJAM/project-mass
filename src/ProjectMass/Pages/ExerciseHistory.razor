@@ -1,0 +1,118 @@
+@page "/training/uebungen"
+@page "/training/uebungen/{Id:guid}"
+@inject IWorkoutSessionService Sessions
+@inject IExerciseService Exercises
+@inject IStatisticsService Statistics
+<div class="page-content narrow">
+<PageTitle>Übungen / PROJECT MASS</PageTitle>
+@if (Id is null)
+{
+    <div class="page-head"><div><h1>Übungen</h1><p>Dein Verlauf pro Übung: Gewichte, Rekorde, alle Sätze.</p></div></div>
+    <TrainingTabs />
+    <label class="field">Übung suchen<input type="search" @bind="query" @bind:event="oninput" placeholder="Name" /></label>
+    <section class="protocol-section">
+        @foreach (var item in Filtered)
+        {
+            <a class="entry row exercise-link" href="@($"training/uebungen/{item.Exercise.Id}")" @key="item.Exercise.Id">
+                <div><h3>@item.Exercise.Name</h3><small>@(item.Sessions == 0 ? "Noch nicht trainiert" : $"{item.Sessions} Trainings, zuletzt {item.Last:dd.MM.yyyy}")</small></div>
+                @if (item.Best is { } best) { <span class="number">@best.ToString("0.#", German) kg</span> }
+            </a>
+        }
+        @if (Filtered.Count == 0) { <p class="empty">Keine Übung gefunden.</p> }
+    </section>
+}
+else if (exercise is not null)
+{
+    <div class="page-head"><div><p><a href="training/uebungen">Alle Übungen</a></p><h1>@exercise.Name</h1>
+        @if (exercise.MuscleGroups.Count > 0) { <p>@(string.Join(", ", exercise.MuscleGroups))</p> }</div></div>
+    <div class="exercise-history-actions">
+        <button @onclick="() => showGuide = true"><AppIcon Name="info" />Ausführung</button>
+    </div>
+    @if (showGuide)
+    {
+        <ExerciseGuide Exercise="exercise" OnClose="() => showGuide = false" OnSaved="updated => exercise = updated" />
+    }
+    @if (entries.Count == 0)
+    {
+        <p class="protocol-section empty">Noch kein abgeschlossenes Training mit dieser Übung. Nach dem ersten Training siehst du hier deinen Verlauf.</p>
+    }
+    else
+    {
+        <section class="protocol-section">
+            <dl class="data-ledger">
+                <div><dt>Geschätztes Maximum</dt><dd>@entries.Max(e => e.BestEstimate).ToString("0.#", German) kg</dd></div>
+                <div><dt>Schwerstes Gewicht</dt><dd>@entries.Max(e => e.MaxWeight).ToString("0.##", German) kg</dd></div>
+                <div><dt>Trainings</dt><dd>@entries.Count</dd></div>
+            </dl>
+        </section>
+        <section class="protocol-section">
+            <h2>Geschätztes Maximum (1 Wiederholung)</h2>
+            <LineChart Points="chart" Label="@($"Verlauf {exercise.Name}")" Unit="kg" />
+        </section>
+        <section class="protocol-section">
+            <h2>Alle Trainings</h2>
+            @foreach (var entry in entries)
+            {
+                <div class="entry" @key="entry.SessionId">
+                    <div class="row"><h3>@entry.Date.ToString("dd.MM.yyyy")</h3><a class="section-link" href="@($"training/historie/{entry.SessionId}")">Training öffnen</a></div>
+                    <p class="set-line">@(string.Join("   ", entry.Sets.Select(s => $"{s.WeightKg.ToString("0.##", German)} × {s.Reps}")))</p>
+                </div>
+            }
+        </section>
+    }
+}
+else if (loaded)
+{
+    <p class="protocol-section empty">Übung nicht gefunden. <a href="training/uebungen">Zur Übersicht</a></p>
+}
+@if (error is not null) { <p class="notice" role="alert">@error</p> }
+</div>
+
+@code {
+    [Parameter] public Guid? Id { get; set; }
+    private static readonly System.Globalization.CultureInfo German = System.Globalization.CultureInfo.GetCultureInfo("de-DE");
+    private sealed record Item(Exercise Exercise, int Sessions, DateOnly? Last, decimal? Best);
+    private sealed record Entry(Guid SessionId, DateOnly Date, List<SetEntry> Sets, decimal BestEstimate, decimal MaxWeight);
+    private List<Item> items = [];
+    private List<Entry> entries = [];
+    private List<ChartPoint> chart = [];
+    private Exercise? exercise;
+    private string query = "";
+    private string? error;
+    private bool loaded;
+    private bool showGuide;
+
+    private List<Item> Filtered => items.Where(i => string.IsNullOrWhiteSpace(query) || i.Exercise.Name.Contains(query.Trim(), StringComparison.CurrentCultureIgnoreCase)).ToList();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        loaded = false; error = null; showGuide = false;
+        try
+        {
+            var history = await Sessions.GetHistoryAsync();
+            var catalog = await Exercises.GetAllAsync();
+            if (Id is { } id)
+            {
+                exercise = catalog.FirstOrDefault(e => e.Id == id);
+                entries = history
+                    .Select(s => (Session: s, Sets: s.Exercises.Where(e => e.ExerciseId == id).SelectMany(e => e.Sets).Where(x => x.IsCompleted && x.Type == SetType.Working && x.Reps > 0).ToList()))
+                    .Where(x => x.Sets.Count > 0)
+                    .Select(x => new Entry(x.Session.Id, x.Session.Date, x.Sets, x.Sets.Max(s => Statistics.Epley(s.WeightKg, s.Reps)), x.Sets.Max(s => s.WeightKg)))
+                    .OrderByDescending(e => e.Date).ToList();
+                chart = entries.GroupBy(e => e.Date).Select(g => new ChartPoint(g.Key, Math.Round(g.Max(e => e.BestEstimate), 1))).OrderBy(p => p.Date).ToList();
+            }
+            else
+            {
+                items = catalog.Select(e =>
+                {
+                    var sessions = history.Where(s => s.Exercises.Any(x => x.ExerciseId == e.Id && x.Sets.Any(set => set.IsCompleted))).ToList();
+                    var sets = sessions.SelectMany(s => s.Exercises.Where(x => x.ExerciseId == e.Id)).SelectMany(x => x.Sets).Where(s => s.IsCompleted && s.Type == SetType.Working && s.Reps > 0).ToList();
+                    return new Item(e, sessions.Count, sessions.Count == 0 ? null : sessions.Max(s => s.Date), sets.Count == 0 ? null : Math.Round(sets.Max(s => Statistics.Epley(s.WeightKg, s.Reps)), 1));
+                })
+                .OrderByDescending(i => i.Last.HasValue).ThenByDescending(i => i.Last).ThenBy(i => i.Exercise.Name).ToList();
+            }
+        }
+        catch { error = "Der Verlauf konnte nicht geladen werden."; }
+        finally { loaded = true; }
+    }
+}

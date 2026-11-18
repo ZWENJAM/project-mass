@@ -1,0 +1,42 @@
+@page "/ernaehrung/rezepte"
+@inject IRecipeService RecipeService
+<div class="page-content narrow">
+<PageTitle>Rezepte / PROJECT MASS</PageTitle>
+<div class="page-head"><div><h1>Rezepte</h1><p>Aus deinen Lebensmitteln zusammengestellt. Jedes Rezept kannst du wie ein Lebensmittel eintragen, portionsweise.</p></div><a class="button-link primary" href="ernaehrung/rezepte/neu">+ Rezept</a></div>
+<NutritionTabs />
+@if (error is not null) { <p class="notice" role="alert">@error</p> }
+<section class="protocol-section">
+    @foreach (var recipe in recipes)
+    {
+        var nutrition = RecipeService.Calculate(recipe);
+        <article class="entry" @key="recipe.Id">
+            <div class="row wrap">
+                <div><h3>@recipe.Name</h3><small>@nutrition.PerPortion.Kcal.ToString("0") kcal / @nutrition.PerPortion.ProteinGrams.ToString("0") g Protein pro Portion (@nutrition.GramsPerPortion.ToString("0") g), @recipe.Portions Portionen</small></div>
+                <div class="entry-buttons"><a class="section-link" href="@($"ernaehrung/rezepte/{recipe.Id}")">Bearbeiten</a><button class="small danger" @onclick="() => deleting = recipe">Löschen</button></div>
+            </div>
+        </article>
+    }
+    @if (recipes.Count == 0) { <p class="empty">Noch keine Rezepte. Lege dein Lieblingsgericht aus deinen Lebensmitteln an, dann trägst du es künftig mit einem Tipp ein.</p> }
+</section>
+</div>
+@if (deleting is not null) { <ConfirmationDialog Title="Rezept löschen?" Message="@($"„{deleting.Name}“ wird gelöscht. Bereits eingetragene Mahlzeiten bleiben erhalten.")" OnConfirm="Delete" OnCancel="() => deleting = null" /> }
+
+@code {
+    private List<Recipe> recipes = [];
+    private Recipe? deleting;
+    private string? error;
+
+    protected override Task OnInitializedAsync() => Load();
+
+    private async Task Load()
+    {
+        try { recipes = await RecipeService.GetAllAsync(); }
+        catch { error = "Rezepte konnten nicht geladen werden."; }
+    }
+
+    private async Task Delete()
+    {
+        try { await RecipeService.DeleteAsync(deleting!.Id); deleting = null; await Load(); }
+        catch { error = "Löschen fehlgeschlagen."; deleting = null; }
+    }
+}

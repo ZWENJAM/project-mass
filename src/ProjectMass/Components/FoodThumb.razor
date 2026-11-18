@@ -1,0 +1,23 @@
+@* Product photo from Open Food Facts, otherwise a category pictogram (own foods, USDA, offline). *@
+<span class="food-thumb cat-@Category.ToString().ToLowerInvariant()" title="@FoodCategories.Label(Category)">
+    @if (!string.IsNullOrWhiteSpace(Food.ImageUrl) && !failed)
+    {
+        <img src="@Food.ImageUrl" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" @onerror="() => failed = true" />
+    }
+    else
+    {
+        <FoodPictogram Category="Category" />
+    }
+</span>
+@code {
+    [Parameter, EditorRequired] public FoodItem Food { get; set; } = new();
+    private bool failed;
+    private string? lastUrl;
+    private FoodCategory Category => FoodCategories.Resolve(Food);
+
+    protected override void OnParametersSet()
+    {
+        // Reset the error state when the component is reused for another product.
+        if (lastUrl != Food.ImageUrl) { failed = false; lastUrl = Food.ImageUrl; }
+    }
+}

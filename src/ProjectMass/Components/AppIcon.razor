@@ -1,0 +1,24 @@
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+    @switch (Name)
+    {
+        case "overview": <path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z" /> break;
+        case "training": <path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12" /> break;
+        case "nutrition": <path d="M3 12h18a9 9 0 0 1-18 0zM9 8c0-2 2-2 2-4M14 8c0-2 2-2 2-4" /> break;
+        case "progress": <path d="M4 19V5M4 19h16M8 15l4-4 3 3 5-6" /> break;
+        case "more": <path d="M5 12h.01M12 12h.01M19 12h.01" stroke-width="3.2" /> break;
+        case "previous": <path d="m15 5-7 7 7 7" /> break;
+        case "next": <path d="m9 5 7 7-7 7" /> break;
+        case "up": <path d="m5 15 7-7 7 7" /> break;
+        case "down": <path d="m5 9 7 7 7-7" /> break;
+        case "check": <path d="m5 12 4 4L19 6" /> break;
+        case "close": <path d="m6 6 12 12M6 18 18 6" /> break;
+        case "info": <circle cx="12" cy="12" r="9" /><path d="M12 11v5m0-8h.01" /> break;
+        case "cardio": <path d="M3 12h4l3-6 4 12 3-6h4" /> break;
+        case "leg": <path d="m10 3-3 8 5 4-1 5h7v-2l-4-2 1-4-3-3 3-6" /> break;
+        case "core": <path d="M7 4c0 6-2 8-2 12l2 4m10-16c0 6 2 8 2 12l-2 4M12 7v11m-3-8h6m-6 4h6" /> break;
+        case "arm": <path d="M4 19v-5l3-8 4-2 3 2v3h-4l-1 5 3-2c3-2 7-1 8 2s0 6-4 6H6z" /> break;
+        case "torso": <path d="m3 8 5-3 4 2 4-2 5 3-2 5h-2l-1 6H8l-1-6H5zm5 4h8" /> break;
+        case "plate": <circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="3" /><path d="M12 3v3m0 12v3M3 12h3m12 0h3" /> break;
+    }
+</svg>
+@code { [Parameter] public string Name { get; set; } = "plate"; }

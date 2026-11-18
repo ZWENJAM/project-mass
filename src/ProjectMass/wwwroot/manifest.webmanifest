@@ -1,0 +1,24 @@
+﻿{
+    "name":  "PROJECT MASS",
+    "short_name":  "PROJECT MASS",
+    "id":  "./",
+    "start_url":  "./",
+    "scope":  "./",
+    "display":  "standalone",
+    "background_color":  "#F2F3F5",
+    "theme_color":  "#F2F3F5",
+    "prefer_related_applications":  false,
+    "icons":  [
+                  {
+                      "src":  "icon-512.png",
+                      "type":  "image/png",
+                      "sizes":  "512x512"
+                  },
+                  {
+                      "src":  "icon-192.png",
+                      "type":  "image/png",
+                      "sizes":  "192x192"
+                  }
+              ],
+    "lang":  "de"
+}

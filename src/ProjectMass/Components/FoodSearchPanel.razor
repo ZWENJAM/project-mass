@@ -1,0 +1,106 @@
+@implements IDisposable
+@inject IFoodService Foods
+@inject FoodSearchService SearchService
+@inject IProfileService Profiles
+<section class="protocol-section">
+    <div class="tabs" role="tablist" aria-label="Lebensmittelquellen">
+        <button role="tab" aria-selected="@(source == FoodSource.Own)" class="@(source == FoodSource.Own ? "active" : "")" @onclick="() => SetSource(FoodSource.Own)">Meine</button>
+        <button role="tab" aria-selected="@(source == FoodSource.OpenFoodFacts)" class="@(source == FoodSource.OpenFoodFacts ? "active" : "")" @onclick="() => SetSource(FoodSource.OpenFoodFacts)">Open Food Facts</button>
+        @if (hasUsda) { <button role="tab" aria-selected="@(source == FoodSource.Usda)" class="@(source == FoodSource.Usda ? "active" : "")" @onclick="() => SetSource(FoodSource.Usda)">USDA</button> }
+        <button @onclick="() => scanning = !scanning">Barcode scannen / eingeben</button>
+    </div>
+    @if (scanning) { <BarcodeScanner OnBarcode="Lookup" OnClose="() => scanning = false" /> }
+    <div class="form-grid">
+        <label class="field">Lebensmittel suchen<input type="search" @bind="query" @bind:event="oninput" @bind:after="Search" placeholder="@(source == FoodSource.Own ? "Name oder Marke" : "Mindestens 3 Zeichen")" /></label>
+        @if (source == FoodSource.Own) { <label class="field">Auswahl<select @bind="mode" @bind:after="Search"><option value="all">Alle Lebensmittel</option><option value="favorites">Favoriten</option><option value="recent">Zuletzt verwendet</option></select></label> }
+    </div>
+    <a class="section-link" href="ernaehrung/lebensmittel/neu">+ Eigenes Lebensmittel anlegen</a>
+    @if (loading) { <p role="status">Suche läuft …</p> }
+    @if (message is not null) { <p role="status" class="notice">@message</p> }
+    <div class="exercise-results">
+        @foreach (var food in results)
+        {
+            <div class="entry row food-row"><FoodThumb Food="food" /><div class="food-text"><h3>@food.Name</h3><span class="badge">@SourceName(food.Source)</span><small> @food.Brand / @(food.HasIncompleteNutrients ? "Nährwerte unvollständig" : $"{food.NutrientsPer100G.Kcal:0.#} kcal pro 100 g")</small></div><button class="small" disabled="@importing" @onclick="() => Select(food)">@(food.HasIncompleteNutrients ? "Ergänzen" : "Auswählen")</button></div>
+        }
+        @if (!loading && results.Count == 0) { <p class="empty">Keine passenden Lebensmittel.</p> }
+    </div>
+    @if (incomplete is not null)
+    {
+        <section class="notice"><h3>@incomplete.Name / Nährwerte unvollständig</h3>
+            <p>Bitte die fehlenden Kalorien pro 100 g vom Etikett ergänzen, bevor du dieses Lebensmittel übernimmst. Weitere Werte kannst du danach im Katalog korrigieren.</p>
+            <label class="field">Kalorien pro 100 g<input type="number" min="0" step="any" @bind="manualKcal" @bind:event="oninput" /></label>
+            <button disabled="@importing" @onclick="Complete">Ergänzen und übernehmen</button>
+            <button @onclick="() => incomplete = null">Abbrechen</button>
+        </section>
+    }
+    <p class="mini-label">Datenquellen: <a href="https://world.openfoodfacts.org/" target="_blank" rel="noopener">Open Food Facts (ODbL)</a>@if(hasUsda){<span> / USDA FoodData Central</span>}</p>
+</section>
+@code {
+    [Parameter] public EventCallback<FoodItem> OnSelected { get; set; }
+    private FoodSource source;
+    private string query = "", mode = "all";
+    private List<FoodItem> results = [];
+    private string? message;
+    private bool hasUsda, loading, scanning, importing, disposed;
+    private FoodItem? incomplete;
+    private decimal? manualKcal;
+    private CancellationTokenSource? searchCancellation;
+    private static string SourceName(FoodSource source) => source switch { FoodSource.OpenFoodFacts => "Open Food Facts", FoodSource.Usda => "USDA", _ => "Eigen" };
+    protected override async Task OnInitializedAsync()
+    {
+        hasUsda = !string.IsNullOrWhiteSpace((await Profiles.GetAsync()).UsdaApiKey);
+        await Search();
+    }
+    private async Task SetSource(FoodSource next) { source = next; incomplete = null; await Search(); }
+    private CancellationToken BeginSearch()
+    {
+        searchCancellation?.Cancel(); searchCancellation?.Dispose();
+        searchCancellation = new(); return searchCancellation.Token;
+    }
+    private async Task Search()
+    {
+        var token = BeginSearch(); message = null; loading = true; results = [];
+        try
+        {
+            if (source == FoodSource.Own)
+            {
+                var own = mode == "recent" ? (await Foods.GetRecentAsync()).Where(f => $"{f.Name} {f.Brand}".Contains(query.Trim(), StringComparison.CurrentCultureIgnoreCase)).ToList() : await Foods.SearchAsync(query, mode == "favorites");
+                token.ThrowIfCancellationRequested(); results = own;
+            }
+            else
+            {
+                var result = await SearchService.SearchAsync(source, query, token);
+                token.ThrowIfCancellationRequested(); results = result.Foods; message = result.Message;
+            }
+        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested) { }
+        catch (Exception) { if (!token.IsCancellationRequested) message = "Suche nicht verfügbar. Bitte eigene Lebensmittel nutzen oder erneut versuchen."; }
+        finally { if (!token.IsCancellationRequested && !disposed) loading = false; }
+    }
+    private async Task Lookup(string code)
+    {
+        var token = BeginSearch(); source = FoodSource.OpenFoodFacts; scanning = false; loading = true; message = null; results = [];
+        try { var result = await SearchService.LookupBarcodeAsync(code, token); token.ThrowIfCancellationRequested(); results = result.Foods; message = result.Message; }
+        catch (OperationCanceledException) when (token.IsCancellationRequested) { }
+        catch (FoodSearchException ex) { if (!token.IsCancellationRequested) message = ex.Message; }
+        catch { if (!token.IsCancellationRequested) message = "Barcode-Suche nicht verfügbar. Bitte eigene Lebensmittel nutzen."; }
+        finally { if (!token.IsCancellationRequested && !disposed) loading = false; }
+    }
+    private async Task Select(FoodItem food)
+    {
+        if (food.HasIncompleteNutrients) { incomplete = food; manualKcal = null; return; }
+        importing = true;
+        try { var saved = source == FoodSource.Own || food.Source == FoodSource.Own ? food : await Foods.ImportAsync(food); await OnSelected.InvokeAsync(saved); incomplete = null; }
+        catch (ArgumentException ex) { message = ex.Message; }
+        catch { message = "Übernehmen fehlgeschlagen. Bitte erneut versuchen."; }
+        finally { importing = false; }
+    }
+    private async Task Complete()
+    {
+        if (manualKcal is null or < 0) { message = "Bitte einen gültigen Kalorienwert eingeben (0 ist erlaubt)."; return; }
+        var food = System.Text.Json.JsonSerializer.Deserialize<FoodItem>(System.Text.Json.JsonSerializer.Serialize(incomplete))!;
+        food.NutrientsPer100G.Kcal = manualKcal.Value; food.HasIncompleteNutrients = false;
+        await Select(food);
+    }
+    public void Dispose() { disposed = true; searchCancellation?.Cancel(); searchCancellation?.Dispose(); }
+}

@@ -1,0 +1,117 @@
+@page "/training/plaene/neu"
+@page "/training/plaene/{Id:guid}"
+@inject IWorkoutPlanService Plans
+@inject IExerciseService Exercises
+@inject NavigationManager Navigation
+
+<PageTitle>Trainingsplan / PROJECT MASS</PageTitle>
+<div class="page-head"><div><h1>@(Id.HasValue ? "Plan bearbeiten" : "Neuer Trainingsplan")</h1></div></div>
+<TrainingTabs />
+@if (error is not null) { <p class="notice" role="alert">@error</p> }
+@if (plan is not null)
+{
+    <EditForm Model="plan" OnSubmit="Save" FormName="workout-plan">
+        <ValidationSummary />
+        <fieldset disabled="@busy" class="editor-fields">
+            <section class="protocol-section">
+                <label class="field">Name<InputText @bind-Value="plan.Name" maxlength="80" /></label>
+                <label class="field">Trainingstag<InputSelect @bind-Value="plan.Day"><option value="">Flexibel</option>@foreach (var day in Enum.GetValues<DayOfWeek>()) { <option value="@day">@TrainingLabels.Day(day)</option> }</InputSelect></label>
+                <label class="field">Notiz<InputTextArea @bind-Value="plan.Note" maxlength="3000" /></label>
+            </section>
+            <div class="section-title"><h2>Deine Übungen / @plan.Exercises.Count</h2></div>
+            @for (var i = 0; i < plan.Exercises.Count; i++)
+            {
+                var index = i;
+                var exercise = plan.Exercises[i];
+                var details = catalog.FirstOrDefault(e => e.Id == exercise.ExerciseId);
+                <section class="protocol-section" @key="exercise.Id">
+                    <div class="exercise-head"><h3>@(i + 1). @(details?.Name ?? "Unbekannte Übung")</h3><div class="entry-buttons">
+                        @if (details is not null)
+                        {
+                            <button type="button" class="small icon-button" aria-label="@($"Ausführung: {details.Name}")" @onclick="() => guide = details"><AppIcon Name="info" /></button>
+                        }
+                        <button type="button" class="small" disabled="@(index == 0)" aria-label="Übung nach oben" @onclick="() => Plans.MoveExercise(plan, index, -1)"><AppIcon Name="up" /></button>
+                        <button type="button" class="small" disabled="@(index == plan.Exercises.Count - 1)" aria-label="Übung nach unten" @onclick="() => Plans.MoveExercise(plan, index, 1)"><AppIcon Name="down" /></button>
+                        <button type="button" class="small danger" @onclick="() => plan.Exercises.Remove(exercise)">Entfernen</button>
+                    </div></div>
+                    <div class="plan-values">
+                        <label class="field">Sätze<InputNumber @bind-Value="exercise.Sets" min="1" max="20" /></label>
+                        <label class="field">Wdh. von<InputNumber @bind-Value="exercise.MinReps" min="1" max="999" /></label>
+                        <label class="field">Wdh. bis<InputNumber @bind-Value="exercise.MaxReps" min="1" max="999" /></label>
+                        <label class="field">Pause (s)<InputNumber @bind-Value="exercise.RestSeconds" min="0" max="3600" /></label>
+                    </div>
+                </section>
+            }
+            @if (plan.Exercises.Count == 0) { <p class="notice">Füge mindestens eine Übung aus der Datenbank hinzu.</p> }
+            <section class="protocol-section">
+                <h2>Übung hinzufügen</h2>
+                <div class="form-grid">
+                    <label class="field">Suche<input type="search" @bind="query" @bind:event="oninput" @bind:after="Search" placeholder="Übungsname" /></label>
+                    <label class="field">Muskelgruppe<select @bind="muscle" @bind:after="Search"><option value="">Alle Muskelgruppen</option>@foreach (var group in Enum.GetValues<MuscleGroup>()) { <option value="@group">@group</option> }</select></label>
+                </div>
+                <div class="exercise-results">
+                    @foreach (var exercise in results)
+                    {
+                        <div class="entry row exercise-result" @key="exercise.Id">
+                            <div><h3>@exercise.Name</h3><small>@string.Join(" / ", exercise.MuscleGroups) / @exercise.Equipment / @(exercise.Type == ExerciseType.Cardio ? "Cardio" : "Kraft")</small></div>
+                            <div class="entry-buttons">
+                                <button type="button" class="small icon-button" aria-label="@($"Ausführung: {exercise.Name}")" @onclick="() => guide = exercise"><AppIcon Name="info" /></button>
+                                <button type="button" class="small" aria-label="@($"{exercise.Name} hinzufügen")" @onclick="() => Add(exercise)">+ Hinzufügen</button>
+                            </div>
+                        </div>
+                    }
+                    @if (results.Count == 0) { <p class="empty">Keine passenden Übungen gefunden.</p> }
+                </div>
+            </section>
+            <div class="form-actions"><a class="section-link" href="training">Abbrechen</a><button type="submit" class="primary">Plan speichern</button></div>
+        </fieldset>
+    </EditForm>
+}
+@if (guide is not null)
+{
+    <ExerciseGuide Exercise="guide" OnClose="() => guide = null" OnSaved="GuideSaved" />
+}
+
+@code {
+    [Parameter] public Guid? Id { get; set; }
+    private WorkoutPlan? plan;
+    private List<Exercise> catalog = [];
+    private List<Exercise> results = [];
+    private Exercise? guide;
+    private string query = "";
+    private MuscleGroup? muscle;
+    private string? error;
+    private bool busy;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        guide = null;
+        try
+        {
+            catalog = await Exercises.GetAllAsync();
+            plan = Id.HasValue ? await Plans.GetAsync(Id.Value) : new WorkoutPlan();
+            if (plan is null) error = "Trainingsplan nicht gefunden.";
+            await Search();
+        }
+        catch (Exception) { error = "Der Plan konnte nicht geladen werden. Bitte erneut öffnen."; }
+    }
+    private async Task Search() => results = await Exercises.SearchAsync(query, muscle);
+    private async Task GuideSaved(Exercise updated)
+    {
+        if (guide?.Id == updated.Id) guide = updated;
+        var index = catalog.FindIndex(e => e.Id == updated.Id);
+        if (index >= 0) catalog[index] = updated;
+        else catalog.Add(updated);
+        await Search();
+    }
+    private void Add(Exercise exercise) => plan!.Exercises.Add(new PlannedExercise { ExerciseId = exercise.Id });
+    private async Task Save(EditContext context)
+    {
+        if (!context.Validate() || busy) return;
+        busy = true; error = null;
+        try { await Plans.SaveAsync(plan!); Navigation.NavigateTo("training"); }
+        catch (ArgumentException ex) { error = ex.Message; }
+        catch (Exception) { error = "Speichern fehlgeschlagen. Deine Änderungen sind noch hier. Bitte erneut versuchen."; }
+        finally { busy = false; }
+    }
+}

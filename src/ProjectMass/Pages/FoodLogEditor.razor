@@ -1,0 +1,123 @@
+@page "/ernaehrung/eintrag"
+@page "/ernaehrung/eintrag/{Id:guid}"
+@inject INutritionService Nutrition
+@inject INutritionCalculator Calculator
+@inject NavigationManager Navigation
+<PageTitle>Mahlzeit eintragen / PROJECT MASS</PageTitle>
+<div class="page-head"><div><h1>@(Id.HasValue ? "Eintrag bearbeiten" : "Mahlzeit eintragen")</h1></div></div><nav class="segment-tabs" aria-label="Zurück"><a class="section-link" href="@BackUrl">Zurück</a></nav>
+@if (error is not null) { <p class="notice" role="alert">@error</p> }
+@if (ready)
+{
+    @if (!Id.HasValue)
+    {
+        <FoodSearchPanel OnSelected="Select" />
+    }
+    @if (entry?.IsQuickEntry == true)
+    {
+        <form @onsubmit="SaveQuick" @onsubmit:preventDefault>
+            <section class="protocol-section">
+                <fieldset class="editor-fields" disabled="@busy">
+                    <div class="form-grid">
+                        <label class="field">Name (optional)<input @bind="quickName" maxlength="120" /></label>
+                        <label class="field">Mahlzeit<select @bind="meal">@foreach (var value in Enum.GetValues<MealType>()) { <option value="@value">@NutritionLabels.Meal(value)</option> }</select></label>
+                        <label class="field">Kalorien (kcal)<input type="number" inputmode="decimal" required min="0" max="100000" step="any" @bind="quickKcal" /></label>
+                        <label class="field">Protein (g)<input type="number" inputmode="decimal" required min="0" max="10000" step="any" @bind="quickProtein" /></label>
+                        <label class="field">Datum<input type="date" @bind="date" /></label>
+                    </div>
+                    <button class="primary" type="submit">Eintrag speichern</button>
+                </fieldset>
+            </section>
+        </form>
+    }
+    else if (selected is not null)
+    {
+        <EditForm Model="selected" OnSubmit="Save" FormName="food-log">
+            <fieldset class="editor-fields" disabled="@busy">
+                <section class="protocol-section"><h2>@selected.Name</h2>
+                    @if (Id.HasValue) { <p class="mini-label">Die Nährwerte stammen aus dem gespeicherten Lebensmittel-Snapshot.</p> }
+                    @if (!string.IsNullOrWhiteSpace(selected.Note)) { <p class="notice">@selected.Note</p> }
+                    <div class="form-grid">
+                        <label class="field">Datum<input type="date" @bind="date" /></label>
+                        <label class="field">Mahlzeit<select @bind="meal">@foreach(var value in Enum.GetValues<MealType>()){<option value="@value">@NutritionLabels.Meal(value)</option>}</select></label>
+                        <label class="field">Menge<input type="number" min="0.01" step="any" @bind="quantity" @bind:event="oninput" /></label>
+                        <label class="field">Einheit<select @bind="unit" @bind:after="UnitChanged"><option value="grams">Gramm</option>@for(var i=0;i<selected.PortionSizes.Count;i++){<option value="@i">@selected.PortionSizes[i].Name (@selected.PortionSizes[i].Grams.ToString("0.#") g)</option>}</select></label>
+                    </div>
+                    <p class="notice">@Grams.ToString("0.##") g / @Preview.Kcal.ToString("0.#") kcal / @Preview.ProteinGrams.ToString("0.#") g Protein / @Preview.CarbohydrateGrams.ToString("0.#") g KH / @Preview.FatGrams.ToString("0.#") g Fett</p>
+                    <button class="primary" type="submit">Eintrag speichern</button>
+                </section>
+            </fieldset>
+        </EditForm>
+    }
+}
+@code {
+    [Parameter] public Guid? Id { get; set; }
+    [SupplyParameterFromQuery(Name = "datum")] public string? Datum { get; set; }
+    [SupplyParameterFromQuery(Name = "mahlzeit")] public int? Mahlzeit { get; set; }
+    private FoodItem? selected;
+    private FoodLogEntry? entry;
+    private string unit = "grams";
+    private string? error;
+    private bool busy, ready;
+    private DateOnly date = DateOnly.FromDateTime(DateTime.Today);
+    private MealType meal;
+    private decimal quantity = 100;
+    private string? quickName;
+    private decimal? quickKcal, quickProtein;
+    private string BackUrl => $"ernaehrung?datum={date:yyyy-MM-dd}";
+    private decimal Grams => quantity <= 0 ? 0 : unit == "grams" ? quantity : Nutrition.PortionGrams(selected!.PortionSizes[int.Parse(unit)], quantity);
+    private Nutrients Preview => Calculator.ForAmount(selected!.NutrientsPer100G, Grams);
+    protected override async Task OnParametersSetAsync()
+    {
+        ready = false; error = null;
+        try {
+            if (Id.HasValue)
+            {
+                entry = await Nutrition.GetAsync(Id.Value);
+                if (entry is null) { error = "Eintrag nicht gefunden."; return; }
+                selected = entry.FoodSnapshot; date = entry.Date; meal = entry.Meal; quantity = entry.AmountGrams;
+                if (entry.IsQuickEntry)
+                {
+                    quickName = selected.Name;
+                    quickKcal = selected.NutrientsPer100G.Kcal;
+                    quickProtein = selected.NutrientsPer100G.ProteinGrams;
+                }
+            }
+            else
+            {
+                entry = null; selected = null;
+                date = DateOnly.TryParse(Datum, out var d) ? d : DateOnly.FromDateTime(DateTime.Today);
+                meal = Mahlzeit is >= 0 and <= 3 ? (MealType)Mahlzeit.Value : MealType.Breakfast;
+            }
+            unit = "grams"; ready = true;
+        }
+        catch { error = "Der Eintrag konnte nicht geladen werden."; }
+    }
+    private void Select(FoodItem food) { selected = food; unit = "grams"; quantity = 100; }
+    private void UnitChanged() { quantity = unit == "grams" ? 100 : 1; }
+    private async Task SaveQuick()
+    {
+        if (busy) return;
+        busy = true; error = null;
+        try
+        {
+            await Nutrition.SaveQuickEntryAsync(date, meal, quickName, quickKcal, quickProtein, entry!.Id);
+            Navigation.NavigateTo(BackUrl);
+        }
+        catch (ArgumentException ex) { error = ex.Message; }
+        catch { error = "Speichern fehlgeschlagen. Bitte erneut versuchen."; }
+        finally { busy = false; }
+    }
+    private async Task Save(EditContext context)
+    {
+        if (!context.Validate() || busy) return;
+        busy = true; error = null;
+        try {
+            if (entry is not null) { entry.Date = date; entry.Meal = meal; entry.AmountGrams = Grams; await Nutrition.UpdateAsync(entry); }
+            else await Nutrition.AddAsync(date, meal, selected!.Id, Grams);
+            Navigation.NavigateTo(BackUrl);
+        }
+        catch (ArgumentException ex) { error = ex.Message; }
+        catch { error = "Speichern fehlgeschlagen. Bitte erneut versuchen."; }
+        finally { busy = false; }
+    }
+}

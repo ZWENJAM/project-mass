@@ -1,0 +1,62 @@
+@page "/training"
+@inject IWorkoutPlanService Plans
+@inject IWorkoutSessionService Sessions
+@inject NavigationManager Navigation
+
+<PageTitle>Training / PROJECT MASS</PageTitle>
+<div class="page-head"><div><h1>Trainingspläne</h1></div><a class="button-link primary" href="training/plaene/neu">+ Plan</a></div>
+<TrainingTabs />
+@if (error is not null) { <p class="notice" role="alert">@error</p> }
+@if (draft is not null)
+{
+    <section class="protocol-section draft-banner"><div><span class="badge warning-badge">Offenes Training</span><h2>@draft.Name</h2><p class="muted">@draft.Date.ToString("dd.MM.yyyy") / Dein Entwurf ist gespeichert.</p></div><a class="button-link primary" href="@($"training/live/{draft.Id}")">Fortsetzen</a></section>
+}
+@if (plans is null) { <p role="status">Trainingspläne werden geladen …</p> }
+else if (plans.Count == 0) { <p class="protocol-section empty">Noch keine Pläne. Lege deinen ersten Trainingsplan an.</p> }
+else
+{
+    <div class="section-list">
+        @foreach (var plan in plans)
+        {
+            <section class="protocol-section" @key="plan.Id">
+                <span class="badge">@TrainingLabels.Day(plan.Day)</span><h2 class="section-name">@plan.Name</h2>
+                <p class="muted">@plan.Note.Replace(" · ", ", ")</p><p class="mini-label">@plan.Exercises.Count Übungen</p>
+                <div class="training-actions">
+                    <button class="primary" disabled="@busy" @onclick="() => Start(plan.Id)">@(draft is null ? "Training starten" : "Training fortsetzen")</button>
+                    <a class="section-link" href="@($"training/plaene/{plan.Id}")">Bearbeiten</a>
+                    <button class="small danger" disabled="@busy" @onclick="() => deletePlan = plan">Löschen</button>
+                </div>
+            </section>
+        }
+    </div>
+}
+@if (deletePlan is not null)
+{
+    <ConfirmationDialog Title="Trainingsplan löschen?" Message="@($"„{deletePlan.Name}“ wird entfernt. Bereits gespeicherte Trainings bleiben erhalten.")" OnCancel="() => deletePlan = null" OnConfirm="Delete" />
+}
+
+@code {
+    private List<WorkoutPlan>? plans;
+    private WorkoutSession? draft;
+    private WorkoutPlan? deletePlan;
+    private string? error;
+    private bool busy;
+    protected override async Task OnInitializedAsync()
+    {
+        try { plans = await Plans.GetAllAsync(); draft = await Sessions.GetDraftAsync(); }
+        catch (Exception) { error = "Trainingsdaten konnten nicht geladen werden. Bitte die Seite neu laden."; }
+    }
+    private async Task Start(Guid id)
+    {
+        if (busy) return;
+        busy = true; error = null;
+        try { var session = await Sessions.StartAsync(id); Navigation.NavigateTo($"training/live/{session.Id}"); }
+        catch (Exception) { error = "Das Training konnte nicht gestartet werden. Bitte erneut versuchen."; }
+        finally { busy = false; }
+    }
+    private async Task Delete()
+    {
+        try { await Plans.DeleteAsync(deletePlan!.Id); deletePlan = null; plans = await Plans.GetAllAsync(); }
+        catch (Exception) { error = "Der Plan konnte nicht gelöscht werden."; deletePlan = null; }
+    }
+}

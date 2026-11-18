@@ -1,0 +1,153 @@
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+@inject IExerciseService Exercises
+
+<dialog class="exercise-guide" aria-labelledby="exercise-guide-title" @ref="dialog" @onclose="OnClose">
+    <header class="exercise-guide-head">
+        <h2 id="exercise-guide-title">@(editing ? "Übung bearbeiten" : Exercise.Name)</h2>
+        <form method="dialog"><button class="small" aria-label="Ausführung schließen" autofocus><AppIcon Name="close" /></button></form>
+    </header>
+    @if (editing)
+    {
+        <form @onsubmit="Save" @onsubmit:preventDefault>
+            <fieldset class="editor-fields" disabled="@saving">
+                <label class="field">Name<input @bind="name" required maxlength="80" /></label>
+                <fieldset class="guide-muscles">
+                    <legend>Muskelgruppen</legend>
+                    <div class="form-grid">
+                        @foreach (var group in Enum.GetValues<MuscleGroup>())
+                        {
+                            <label class="checkbox-field"><input type="checkbox" checked="@groups.Contains(group)" @onchange="() => ToggleGroup(group)" />@group</label>
+                        }
+                    </div>
+                </fieldset>
+                <label class="field">Equipment<input @bind="equipment" /></label>
+                <label class="field">Schritte (je einer pro Zeile)<textarea @bind="steps"></textarea></label>
+                <label class="field">Tipps (je einer pro Zeile)<textarea @bind="tips"></textarea></label>
+                <label class="field">Häufige Fehler (je einer pro Zeile)<textarea @bind="mistakes"></textarea></label>
+                <label class="field">Videolink (optional, HTTPS)<input type="url" @bind="video" /></label>
+                @if (error is not null) { <p class="notice" role="alert">@error</p> }
+                <div class="form-actions">
+                    <button type="button" @onclick="() => editing = false">Abbrechen</button>
+                    <button type="submit" class="primary">Änderungen speichern</button>
+                </div>
+            </fieldset>
+        </form>
+    }
+    else
+    {
+        <dl class="guide-meta">
+            <div><dt>Muskelgruppen</dt><dd>@(Exercise.MuscleGroups.Count == 0 ? "Keine Angabe" : string.Join(", ", Exercise.MuscleGroups))</dd></div>
+            <div><dt>Equipment</dt><dd>@(string.IsNullOrWhiteSpace(Exercise.Equipment) ? "Keine Angabe" : Exercise.Equipment)</dd></div>
+        </dl>
+        @if (HasImage(Exercise.ImagePath) || HasImage(Exercise.ImagePath2))
+        {
+            <div class="guide-images">
+                @foreach (var (path, label) in new[] { (Exercise.ImagePath, "Startposition"), (Exercise.ImagePath2, "Endposition") })
+                {
+                    @if (HasImage(path))
+                    {
+                        <figure><img src="@path" loading="lazy" alt="@($"{Exercise.Name} in der {label}")" /><figcaption>@label</figcaption></figure>
+                    }
+                }
+            </div>
+            <p class="guide-source">Bilder: free-exercise-db, gemeinfrei</p>
+        }
+        else
+        {
+            <div class="guide-pictogram"><AppIcon Name="@GroupIcon" /></div>
+        }
+        @if (Exercise.Steps is { Count: > 0 })
+        {
+            <section><h3>So geht’s</h3><ol>@foreach (var line in Exercise.Steps) { <li>@line</li> }</ol></section>
+        }
+        @if (Exercise.Tips is { Count: > 0 })
+        {
+            <section><h3>Tipps</h3><ul>@foreach (var line in Exercise.Tips) { <li>@line</li> }</ul></section>
+        }
+        @if (Exercise.Mistakes is { Count: > 0 })
+        {
+            <section><h3>Häufige Fehler</h3><ul>@foreach (var line in Exercise.Mistakes) { <li>@line</li> }</ul></section>
+        }
+        <div class="guide-actions">
+            <a class="button-link primary" href="@ExerciseGuidance.VideoLink(Exercise)" target="_blank" rel="noopener">Video ansehen</a>
+            @if (OnSaved.HasDelegate) { <button @onclick="Edit">Übung bearbeiten</button> }
+        </div>
+    }
+</dialog>
+
+@code {
+    [Parameter, EditorRequired] public Exercise Exercise { get; set; } = default!;
+    [Parameter] public EventCallback OnClose { get; set; }
+    [Parameter] public EventCallback<Exercise> OnSaved { get; set; }
+
+    private ElementReference dialog;
+    private IJSObjectReference? module;
+    private bool editing, saving;
+    private string name = "", equipment = "", steps = "", tips = "", mistakes = "";
+    private string? video, error;
+    private HashSet<MuscleGroup> groups = [];
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+        module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/exerciseGuide.js");
+        await module.InvokeVoidAsync("open", dialog);
+    }
+
+    private static bool HasImage(string? path) => path is not null &&
+        System.Text.RegularExpressions.Regex.IsMatch(path, @"^images/exercises/[a-zA-Z0-9_-]+\.jpg$");
+
+    private string GroupIcon => Exercise.MuscleGroups.Select(group => group switch
+    {
+        MuscleGroup.Cardio => "cardio",
+        MuscleGroup.Beine or MuscleGroup.Gesäß or MuscleGroup.Waden => "leg",
+        MuscleGroup.Bauch => "core",
+        MuscleGroup.Bizeps or MuscleGroup.Trizeps => "arm",
+        MuscleGroup.Brust or MuscleGroup.Rücken or MuscleGroup.Schultern => "torso",
+        _ => "training"
+    }).FirstOrDefault() ?? "training";
+
+    private void Edit()
+    {
+        name = Exercise.Name;
+        groups = [.. Exercise.MuscleGroups];
+        equipment = Exercise.Equipment;
+        steps = string.Join('\n', Exercise.Steps ?? []);
+        tips = string.Join('\n', Exercise.Tips ?? []);
+        mistakes = string.Join('\n', Exercise.Mistakes ?? []);
+        video = Exercise.VideoUrl;
+        error = null;
+        editing = true;
+    }
+
+    private void ToggleGroup(MuscleGroup group)
+    {
+        if (!groups.Remove(group)) groups.Add(group);
+    }
+
+    private async Task Save()
+    {
+        if (saving) return;
+        saving = true;
+        error = null;
+        try
+        {
+            var saved = await Exercises.UpdateAsync(Exercise.Id, name, groups.Order().ToList(), equipment,
+                Lines(steps), Lines(tips), Lines(mistakes), video);
+            await OnSaved.InvokeAsync(saved);
+            editing = false;
+        }
+        catch (ArgumentException ex) { error = ex.Message; }
+        catch (Exception) { error = "Die Übung konnte nicht gespeichert werden. Versuch es erneut."; }
+        finally { saving = false; }
+    }
+
+    private static List<string> Lines(string text) => [.. text.Split('\n', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)];
+
+    public async ValueTask DisposeAsync()
+    {
+        if (module is null) return;
+        try { await module.DisposeAsync(); } catch (JSDisconnectedException) { }
+    }
+}

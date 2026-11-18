@@ -1,0 +1,151 @@
+@implements IDisposable
+@inject NasSyncCoordinator Sync
+
+<section class="protocol-section nas-sync" aria-labelledby="nas-sync-title">
+    <div class="section-head">
+        <h2 id="nas-sync-title">Mit NAS synchronisieren</h2>
+        @if (Sync.Enabled) { <span class="badge">@Sync.Status</span> }
+    </div>
+    @if (!Sync.Ready)
+    {
+        <p class="mini-label" role="status">@(Sync.Error ?? "NAS-Sync wird vorbereitet …")</p>
+    }
+    else
+    {
+        @if (Sync.Error is not null) { <p class="mini-label sync-error" role="status">@Sync.Error</p> }
+        @if (Sync.ConnectionMessage is not null) { <p class="mini-label" role="status">@Sync.ConnectionMessage</p> }
+        @if (Sync.Enabled)
+        {
+            <p class="mini-label">
+                @if (Sync.Settings.Target == NasTargetKind.Folder)
+                {
+                    <span>NAS-Ordner: <strong>@Sync.Settings.FolderName</strong></span>
+                }
+                else
+                {
+                    <span>WebDAV: <strong>@Sync.Settings.WebDavUrl</strong></span>
+                }
+            </p>
+            @if (Sync.LastSyncLabel is { } label) { <p class="mini-label">@label</p> }
+            @if (Sync.Result?.Status == NasSyncStatus.WaitingForWorkout)
+            {
+                <p class="mini-label" role="status">Auf dem NAS gibt es einen neueren Stand. Schließe oder verwirf den Trainingsentwurf, um ihn abzugleichen.</p>
+            }
+            @if (Sync.NeedsFolderPermission)
+            {
+                <button type="button" @onclick="Sync.RenewPermissionAsync" disabled="@Sync.Busy">Zugriff auf NAS-Ordner erneuern</button>
+            }
+            <label class="field">Gerätename<input maxlength="80" @bind="deviceName" @bind:event="oninput" disabled="@Sync.Busy" /></label>
+            <div class="training-actions">
+                <button type="button" class="primary" disabled="@(Sync.Busy || Sync.NeedsFolderPermission)" @onclick="Sync.SyncNowAsync">Jetzt synchronisieren</button>
+                <button type="button" disabled="@(Sync.Busy || Sync.NeedsFolderPermission)" @onclick="TestSaved">Verbindung testen</button>
+                @if (deviceName != Sync.Settings.DeviceName)
+                {
+                    <button type="button" disabled="@Sync.Busy" @onclick="SaveName">Gerätename speichern</button>
+                }
+                @if (Sync.Result?.Status == NasSyncStatus.Conflict)
+                {
+                    <button type="button" disabled="@Sync.Busy" @onclick="Sync.OpenConflict">Konflikt ansehen</button>
+                }
+                <button type="button" class="subtle" disabled="@Sync.Busy" @onclick="EditConnection">Verbindung ändern</button>
+                <button type="button" class="danger" disabled="@Sync.Busy" @onclick="Stop">Sync beenden</button>
+            </div>
+        }
+        @if (!Sync.Enabled || editing)
+        {
+            <div class="nas-setup">
+                @if (!Sync.Enabled) { <p class="muted">Gleiche deinen Stand mit einem Ordner auf deinem eigenen NAS ab.</p> }
+                <label class="field">Ziel
+                    <select @bind="kind" disabled="@Sync.Busy">
+                        @if (Sync.FolderSupported) { <option value="@NasTargetKind.Folder">Ordner</option> }
+                        <option value="@NasTargetKind.WebDav">WebDAV</option>
+                    </select>
+                </label>
+                @if (!Sync.FolderSupported)
+                {
+                    <p class="mini-label">Die Ordnerauswahl ist in diesem Browser nicht verfügbar. Nutze WebDAV.</p>
+                }
+                @if (!Sync.Enabled)
+                {
+                    <label class="field">Gerätename<input maxlength="80" @bind="deviceName" disabled="@Sync.Busy" /></label>
+                }
+                @if (kind == NasTargetKind.Folder)
+                {
+                    <p class="mini-label">Wähle auf dem PC ein Netzlaufwerk oder einen NAS-Ordner. Auf Android steht die Ordnerauswahl nicht zur Verfügung. Nutze dort WebDAV.</p>
+                    <button type="button" class="primary" @onclick="ChooseFolder" disabled="@Sync.Busy">NAS-Ordner auswählen und verbinden</button>
+                }
+                else
+                {
+                    <label class="field">WebDAV-Basis-URL
+                        <input type="url" inputmode="url" autocomplete="off" placeholder="https://nas.example/webdav/" @bind="url" disabled="@Sync.Busy" />
+                    </label>
+                    <div class="form-grid">
+                        <label class="field">Benutzer<input autocomplete="off" @bind="username" disabled="@Sync.Busy" /></label>
+                        <label class="field">Passwort<input type="password" autocomplete="new-password" @bind="password" disabled="@Sync.Busy" /></label>
+                    </div>
+                    <p class="mini-label">Die Zugangsdaten werden nur auf diesem Gerät gespeichert.</p>
+                    <div class="training-actions">
+                        <button type="button" class="primary" disabled="@Sync.Busy" @onclick="EnableWebDav">@(Sync.Enabled ? "Verbindung speichern" : "Sync aktivieren")</button>
+                        <button type="button" disabled="@Sync.Busy" @onclick="TestWebDav">Verbindung testen</button>
+                    </div>
+                }
+                @if (editing) { <button type="button" class="subtle" @onclick="() => editing = false">Abbrechen</button> }
+            </div>
+        }
+        @if (Sync.Busy) { <p role="status" class="mini-label">NAS-Verbindung wird geprüft …</p> }
+    }
+</section>
+
+@code {
+    private bool initialized, editing;
+    private NasTargetKind kind;
+    private string url = "", username = "", password = "", deviceName = "";
+
+    protected override void OnInitialized()
+    {
+        Sync.Changed += Update;
+        Populate();
+    }
+
+    private void Update() => _ = InvokeAsync(() => { Populate(); StateHasChanged(); });
+
+    private void Populate()
+    {
+        if (initialized || !Sync.Ready) return;
+        initialized = true;
+        deviceName = Sync.Settings.DeviceName;
+        SetConnectionFields();
+    }
+
+    private void SetConnectionFields()
+    {
+        kind = Sync.Settings.Target ?? (Sync.FolderSupported ? NasTargetKind.Folder : NasTargetKind.WebDav);
+        url = Sync.Settings.WebDavUrl;
+        username = Sync.Settings.Username;
+        password = Sync.Settings.Password;
+    }
+
+    private void EditConnection() { SetConnectionFields(); editing = true; }
+    private Task SaveName() => Sync.SaveDeviceNameAsync(deviceName);
+    private Task TestSaved() => Sync.TestAsync(Sync.Settings.Target!.Value, Sync.Settings.WebDavUrl, Sync.Settings.Username, Sync.Settings.Password);
+    private Task TestWebDav() => Sync.TestAsync(NasTargetKind.WebDav, url, username, password);
+    private async Task ChooseFolder()
+    {
+        if (await Sync.ChooseFolderAsync(deviceName)) { editing = false; password = ""; }
+    }
+    private async Task EnableWebDav()
+    {
+        if (await Sync.EnableWebDavAsync(url, username, password, deviceName))
+        {
+            editing = false;
+            password = "";
+        }
+    }
+    private async Task Stop()
+    {
+        await Sync.StopAsync();
+        if (!Sync.Enabled) { SetConnectionFields(); editing = false; }
+    }
+
+    public void Dispose() => Sync.Changed -= Update;
+}

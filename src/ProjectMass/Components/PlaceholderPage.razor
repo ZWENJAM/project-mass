@@ -1,0 +1,13 @@
+<PageTitle>@Title / PROJECT MASS</PageTitle>
+<div class="page-head"><div><h1>@Title</h1></div></div>
+<section class="protocol-section" aria-label="Bereich in Vorbereitung">
+    <span class="badge">In Vorbereitung</span>
+    <p class="muted">@Preview</p>
+</section>
+
+@code {
+    [Parameter, EditorRequired] public string Section { get; set; } = string.Empty;
+    [Parameter, EditorRequired] public string Title { get; set; } = string.Empty;
+    [Parameter, EditorRequired] public string Description { get; set; } = string.Empty;
+    [Parameter, EditorRequired] public string Preview { get; set; } = string.Empty;
+}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#F2F3F5" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#15181C" media="(prefers-color-scheme: dark)" />
+    <meta name="description" content="PROJECT MASS – Training, Ernährung, Fortschritt." />
+    <title>PROJECT MASS</title>
+    <base href="/" />
+    <link rel="preload" id="webassembly" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link href="manifest.webmanifest" rel="manifest" />
+    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
+    <script type="importmap"></script>
+</head>
+<body>
+    <div id="app-update" class="app-update" hidden>
+        <span role="status">Neue Version verfügbar</span>
+        <button type="button" class="small">Neu laden</button>
+    </div>
+    <div id="app"><div class="loading" role="status"><strong>PROJECT MASS</strong><p>Dein Fortschritt wird geladen …</p></div></div>
+    <div id="blazor-error-ui" role="alert">
+        Ein unerwarteter Fehler ist aufgetreten.
+        <a href="." class="reload">Neu laden</a>
+    </div>
+    <script src="_framework/blazor.webassembly#[.{fingerprint}].js"></script>
+    <script src="js/pwaUpdate.js" defer></script>
+</body>
+</html>

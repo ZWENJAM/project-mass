@@ -1,0 +1,155 @@
+@page "/mehr/daten"
+@implements IAsyncDisposable
+@inject IBackupService Backups
+@inject IJSRuntime JS
+@inject NavigationManager Navigation
+@inject TimeProvider Clock
+<div class="page-content narrow">
+<PageTitle>Daten und Backup / PROJECT MASS</PageTitle>
+<div class="page-head"><div><h1>Daten und Backup</h1><p>Dein lokaler Stand liegt in diesem Browser. Sichere ihn als Datei oder gleiche ihn mit deinem NAS ab.</p></div></div>
+@if (error is not null) { <p class="notice" role="alert">@error</p> }
+@if (message is not null) { <p class="notice" role="status">@message</p> }
+
+<NasSyncPanel />
+
+<section class="protocol-section">
+    <h2>Backup herunterladen</h2>
+    <p class="muted">Eine JSON-Datei mit Profil, Plänen, Trainings, Ernährung, Rezepten, Messungen, Wasser und Notizen.</p>
+    <div class="form-actions"><button disabled="@busy" @onclick="ShareBackup">Per E-Mail senden</button><button class="primary" disabled="@busy" @onclick="ExportBackup">Backup herunterladen</button></div>
+    <p class="mini-label">„Per E-Mail senden“ öffnet auf dem Handy das Teilen-Menü mit der Backup-Datei im Anhang (Gmail, Outlook, Mail-App). Die Datei endet auf .txt, weil Android nur bestimmte Dateitypen teilen lässt. Einspielen funktioniert damit genauso.</p>
+</section>
+
+<section class="protocol-section">
+    <h2>Backup einspielen</h2>
+    <p class="muted">Ein Backup dieser App ersetzt alle aktuellen Daten. Ein Backup der alten PROJECT MASS-Web-App wird ergänzt: Trainings, Messungen, Mahlzeiten und Notizen kommen dazu, nichts wird gelöscht.</p>
+    <label class="field">Backup-Datei (.json oder .txt)<InputFile accept=".json,.txt,application/json,text/plain" disabled="@busy" OnChange="ReadFile" /></label>
+</section>
+
+<section class="protocol-section">
+    <h2>Für Excel exportieren</h2>
+    <p class="muted">CSV mit Semikolon und Dezimalkomma, öffnet sich direkt in Excel.</p>
+    <div class="form-actions">
+        <button disabled="@busy" @onclick="ExportMeasurements">Messungen als CSV</button>
+        <button disabled="@busy" @onclick="ExportTraining">Trainingssätze als CSV</button>
+    </div>
+</section>
+</div>
+
+@if (preview is not null)
+{
+    <ConfirmationDialog Title="@(preview.Kind == BackupKind.Current ? "Alle Daten ersetzen?" : "Altes Backup übernehmen?")"
+        Message="@PreviewMessage" ConfirmLabel="@(preview.Kind == BackupKind.Current ? "Daten ersetzen" : "Übernehmen")"
+        OnConfirm="Import" OnCancel="CancelImport" />
+}
+
+@code {
+    private const long MaxFileBytes = 30 * 1024 * 1024;
+    private string? error, message, pendingJson;
+    private BackupPreview? preview;
+    private bool busy;
+    private IJSObjectReference? module;
+
+    private string PreviewMessage => preview is null ? "" : preview.Kind == BackupKind.Current
+        ? $"Das Backup{(preview.ExportedAt is { } at ? $" vom {at.ToLocalTime():dd.MM.yyyy}" : "")} enthält {preview.Sessions} Trainings, {preview.Measurements} Messungen, {preview.FoodEntries} Mahlzeiten und {preview.Notes} Notizen. Deine aktuellen Daten werden vollständig ersetzt. Lade vorher ein Backup herunter, wenn du sie behalten willst."
+        : $"Aus der alten App werden {preview.Sessions} Trainings, {preview.Measurements} Messungen, {preview.FoodEntries} Mahlzeiten und {preview.Notes} Notizen ergänzt. Mahlzeiten der alten App kennen nur kcal und Protein. Doppeltes Einspielen erzeugt keine Duplikate.";
+
+    private async Task<IJSObjectReference> Module() => module ??= await JS.InvokeAsync<IJSObjectReference>("import", "./js/files.js");
+
+    private string Stamp => Clock.GetLocalNow().ToString("yyyy-MM-dd");
+
+    private async Task ExportBackup()
+    {
+        await Download(Backups.ExportJsonAsync, $"PROJECT_MASS_Backup_{Stamp}.json", "application/json", "Backup heruntergeladen. Bewahre die Datei sicher auf.");
+        if (error is null) await TryMarkBackup();
+    }
+
+    // Share sheet with the file attached; without file sharing (most desktops) download it and open a prepared mail.
+    private async Task ShareBackup()
+    {
+        if (busy) return;
+        busy = true; error = null; message = null;
+        try
+        {
+            var content = await Backups.ExportJsonAsync();
+            var fileName = $"PROJECT_MASS_Backup_{Stamp}.txt";
+            var result = await (await Module()).InvokeAsync<string>("shareTextFile", fileName, content, "PROJECT MASS Backup", $"Mein PROJECT MASS Backup vom {Clock.GetLocalNow():dd.MM.yyyy}.");
+            if (result == "shared") { message = "Backup geteilt."; await TryMarkBackup(); }
+            else if (result == "cancelled") { message = "Teilen abgebrochen."; }
+            else
+            {
+                await (await Module()).InvokeVoidAsync("downloadText", fileName, content, "text/plain");
+                await (await Module()).InvokeVoidAsync("openMail", "PROJECT MASS Backup", $"Backup vom {Clock.GetLocalNow():dd.MM.yyyy} im Anhang. Die Datei {fileName} liegt in deinen Downloads, bitte anhängen.");
+                message = $"Dieses Gerät kann keine Dateien teilen. Das Backup ({fileName}) wurde heruntergeladen und eine E-Mail vorbereitet. Bitte die Datei dort anhängen.";
+                await TryMarkBackup();
+            }
+        }
+        catch { error = "Das Backup konnte nicht geteilt werden. Lade es stattdessen herunter."; }
+        finally { busy = false; }
+    }
+
+    private async Task TryMarkBackup()
+    {
+        try { await Backups.MarkBackupAsync(); } catch { /* The reminder is a convenience; the backup itself succeeded. */ }
+    }
+    private Task ExportMeasurements() => Download(Backups.ExportMeasurementsCsvAsync, $"PROJECT_MASS_Messungen_{Stamp}.csv", "text/csv;charset=utf-8", "Messungen exportiert.");
+    private Task ExportTraining() => Download(Backups.ExportTrainingCsvAsync, $"PROJECT_MASS_Training_{Stamp}.csv", "text/csv;charset=utf-8", "Trainingssätze exportiert.");
+
+    private async Task Download(Func<Task<string>> create, string fileName, string mimeType, string success)
+    {
+        if (busy) return;
+        busy = true; error = null; message = null;
+        try
+        {
+            var content = await create();
+            await (await Module()).InvokeVoidAsync("downloadText", fileName, content, mimeType);
+            message = success;
+        }
+        catch { error = "Der Export ist fehlgeschlagen. Bitte erneut versuchen."; }
+        finally { busy = false; }
+    }
+
+    private async Task ReadFile(InputFileChangeEventArgs e)
+    {
+        error = null; message = null; preview = null; pendingJson = null;
+        try
+        {
+            if (e.File.Size > MaxFileBytes) { error = "Die Datei ist größer als 30 MB und wohl kein PROJECT MASS-Backup."; return; }
+            await using var stream = e.File.OpenReadStream(MaxFileBytes);
+            using var reader = new StreamReader(stream);
+            var json = await reader.ReadToEndAsync();
+            preview = Backups.Preview(json);
+            pendingJson = json;
+        }
+        catch (BackupFormatException ex) { error = ex.Message; }
+        catch { error = "Die Datei konnte nicht gelesen werden."; }
+    }
+
+    private void CancelImport() { preview = null; pendingJson = null; }
+
+    private async Task Import()
+    {
+        if (pendingJson is null || busy) return;
+        busy = true; error = null;
+        try
+        {
+            var result = await Backups.ImportJsonAsync(pendingJson);
+            preview = null; pendingJson = null;
+            if (result.Kind == BackupKind.Current)
+            {
+                // A full reload resets every cached service state to the restored data.
+                Navigation.NavigateTo("", forceLoad: true);
+                return;
+            }
+            message = $"Übernommen: {result.Sessions} Trainings, {result.Measurements} Messungen, {result.FoodEntries} Mahlzeiten, {result.Notes} Notizen.";
+        }
+        catch (BackupFormatException ex) { error = ex.Message; preview = null; }
+        catch { error = "Das Einspielen ist fehlgeschlagen. Deine bisherigen Daten wurden nach Möglichkeit wiederhergestellt."; preview = null; }
+        finally { busy = false; }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (module is null) return;
+        try { await module.DisposeAsync(); } catch (JSDisconnectedException) { }
+    }
+}

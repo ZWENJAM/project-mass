@@ -1,0 +1,108 @@
+@page "/"
+@inject IProfileService Profiles
+@inject IWorkoutPlanService Plans
+@inject IWorkoutSessionService Sessions
+@inject IMeasurementService Measurements
+@inject INutritionService Nutrition
+@inject IStorageService Storage
+@inject NasSyncCoordinator NasSync
+@implements IDisposable
+@inject IStatisticsService Statistics
+@inject NavigationManager Navigation
+<PageTitle>Übersicht / PROJECT MASS</PageTitle>
+<div class="page-head"><div><p>@today.ToString("dddd, d. MMMM", German)</p><h1>@Greeting</h1></div><a class="button-link primary desktop-action" href="ernaehrung/eintrag">Essen eintragen</a></div>
+@if(error is not null){<p class="notice" role="alert">@error</p>}
+@if(ready)
+{
+    @if (BackupReminder is { } reminder)
+    {
+        <section class="protocol-section backup-reminder"><div><h2>Backup fällig</h2><p class="mini-label">@reminder</p></div><a class="button-link primary" href="mehr/daten">Jetzt sichern</a></section>
+    }
+    <div class="has-dock">
+    <div class="nutrition-ledger dashboard-nutrition today-card">
+        @if (profile.TargetKcal > 0)
+        {
+            <div class="today-top"><div><p class="mini-label">@(KcalLeft >= 0 ? "Noch frei heute" : "Über deinem Ziel")</p><p class="today-left">@Math.Abs(KcalLeft).ToString("N0", German) <span>kcal</span></p></div><p class="mini-label">@day.Total.Kcal.ToString("N0", German) von @profile.TargetKcal.ToString("N0", German)</p></div>
+            <div class="progress today-progress @(KcalLeft < 0 ? "over" : "")"><span style="width:@KcalWidth%"></span></div>
+        }
+        else
+        {
+            <div class="today-top"><div><p class="mini-label">Heute gegessen</p><p class="today-left">@day.Total.Kcal.ToString("N0", German) <span>kcal</span></p></div><a class="section-link" href="mehr/einstellungen">Ziel festlegen</a></div>
+        }
+        <div class="macro-row">
+        <NutrientProgress Label="Protein" Kind="protein" Actual="day.Total.ProteinGrams" Target="profile.TargetProteinGrams" />
+        <NutrientProgress Label="Kohlenhydrate" Kind="carbohydrate" Actual="day.Total.CarbohydrateGrams" Target="profile.TargetCarbohydrateGrams" />
+        <NutrientProgress Label="Fett" Kind="fat" Actual="day.Total.FatGrams" Target="profile.TargetFatGrams" />
+        </div>
+    </div>
+    <section class="protocol-section training-next"><div><span class="mini-label">@(draft is null ? "Nächstes Training" : "Offener Entwurf")</span><h2>@(draft?.Name ?? next?.Name ?? "Kein Trainingsplan")</h2>
+        @if(draft is not null){<p class="mini-label">Entwurf gespeichert</p>}
+        else if(next is not null){<p class="mini-label">@next.Exercises.Count Übungen</p>}
+    </div>
+        @if(draft is not null){<a class="button-link primary" href="@($"training/live/{draft.Id}")">Training fortsetzen</a>}
+        else if(next is not null){<button class="primary" disabled="@busy" @onclick="Start">Training starten</button>}
+        else {<a class="button-link primary" href="training/plaene/neu">Plan anlegen</a>}
+    </section>
+    <section class="protocol-section"><div class="section-head"><h2>Trainingswoche</h2><span class="mini-label">@Statistics.WeekStart(today).ToString("dd.MM.") – @Statistics.WeekStart(today).AddDays(6).ToString("dd.MM.yyyy")</span></div>
+        <dl class="data-ledger"><div><dt>Abgeschlossene Trainings</dt><dd>@report.Trainings @if(profile.TrainingDaysPerWeek > 0){<span class="mini-label">/ Ziel @profile.TrainingDaysPerWeek</span>}</dd></div><div><dt>Streak</dt><dd>@streak <span class="mini-label">Wochen</span></dd></div></dl>
+        <p class="mini-label">@(profile.TrainingDaysPerWeek > 0 ? "Die laufende Woche zählt nach Erreichen des Wochenziels." : "Trainingstage in den Einstellungen festlegen.")</p>
+        <FrequencyCalendar Days="Statistics.GetFrequency(history, today)" Today="today" />
+    </section>
+    <section class="protocol-section"><div class="section-head"><h2>Gewichtsverlauf</h2><a class="section-link" href="fortschritt">Messungen öffnen</a></div>
+        <dl class="data-ledger"><div><dt>Ø diese Woche</dt><dd>@StatisticsLabels.Value(report.AverageWeight, "kg")</dd></div><div><dt>Ø Vorwoche</dt><dd>@StatisticsLabels.Value(report.PreviousAverageWeight, "kg")</dd></div><div><dt>Veränderung</dt><dd>@StatisticsLabels.Value(report.WeightChange, "kg")</dd></div></dl>
+        <LineChart Points="weights" Average="Statistics.MovingAverage(weights)" Label="Gewichtsverlauf" />
+    </section>
+    <section class="protocol-section"><div class="section-head"><h2>Letzte Rekorde</h2><a class="section-link" href="fortschritt">Alle Rekorde</a></div>
+        @if(records.Count == 0){<p class="empty">Noch keine Rekorde. Ein Training abschließen.</p>}
+        else {<div class="table-wrap"><table class="records-table"><thead><tr><th>Übung</th><th>Rekord</th><th>Wert</th><th>Datum</th></tr></thead><tbody>@foreach(var record in records){<tr><td>@record.ExerciseName</td><td>@StatisticsLabels.Record(record.Kind)</td><td class="number">@record.Value.ToString("0.##") @StatisticsLabels.Unit(record.Kind)</td><td>@record.Date.ToString("dd.MM.yyyy")</td></tr>}</tbody></table></div>}
+    </section>
+    </div>
+    <div class="dock"><a class="button-link" href="ernaehrung/eintrag">Essen eintragen</a></div>
+}
+@code {
+    private static readonly System.Globalization.CultureInfo German = System.Globalization.CultureInfo.GetCultureInfo("de-DE");
+    private string Greeting => (DateTime.Now.Hour switch { < 11 => "Guten Morgen", < 18 => "Hallo", _ => "Guten Abend" }) + (string.IsNullOrWhiteSpace(profile.Name) ? "" : $", {profile.Name}");
+    private decimal KcalLeft => profile.TargetKcal - day.Total.Kcal;
+    private string KcalWidth => (profile.TargetKcal > 0 ? Math.Clamp(day.Total.Kcal / profile.TargetKcal * 100, 0, 100) : 0).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture);
+    // Shown once there is data worth losing and the last backup is a week old or missing.
+    private string? BackupReminder => NasSync.Settings.LastCompletedAt is { } synced && (DateTimeOffset.UtcNow - synced).TotalDays < 7 ? null
+        : history.Count == 0 && weights.Count == 0 && day.Total.Kcal == 0 ? null
+        : profile.LastBackupAt is not { } last ? "Du hast noch nie ein Backup gemacht."
+        : (DateTimeOffset.UtcNow - last).TotalDays >= 7 ? $"Letztes Backup vor {(int)(DateTimeOffset.UtcNow - last).TotalDays} Tagen." : null;
+    private UserProfile profile = new();
+    private WorkoutSession? draft;
+    private WorkoutPlan? next;
+    private List<WorkoutSession> history = [];
+    private List<ChartPoint> weights = [];
+    private List<PersonalRecord> records = [];
+    private NutritionDay day = new(default, [], new());
+    private WeeklyReport report = new(default, 0, null, null, null, null, null, 0, 0);
+    private DateOnly today = DateOnly.FromDateTime(DateTime.Today);
+    private bool ready, busy;
+    private int streak;
+    private string? error;
+    protected override async Task OnInitializedAsync()
+    {
+        NasSync.Changed += SyncChanged;
+        try {
+            profile = await Profiles.GetAsync(); history = await Sessions.GetHistoryAsync(); draft = await Sessions.GetDraftAsync();
+            next = Statistics.GetNextPlan(await Plans.GetAllAsync(), history, today);
+            var measurements = await Measurements.GetAllAsync();
+            weights = measurements.Where(m => m.WeightKg.HasValue).OrderBy(m => m.Date).Select(m => new ChartPoint(m.Date, m.WeightKg!.Value)).ToList();
+            day = await Nutrition.GetDayAsync(today);
+            report = Statistics.GetWeeklyReport(today, await Storage.GetAllAsync<FoodLogEntry>(StorageStores.FoodLogEntries), measurements, history);
+            streak = Statistics.GetStreak(history, profile.TrainingDaysPerWeek, today);
+            records = Statistics.GetPersonalRecords(history).Take(6).ToList(); ready = true;
+        }
+        catch { error = "Die Übersicht konnte nicht geladen werden. Bitte erneut öffnen."; }
+    }
+    private void SyncChanged() => _ = InvokeAsync(StateHasChanged);
+    public void Dispose() => NasSync.Changed -= SyncChanged;
+    private async Task Start()
+    {
+        if(busy || next is null)return; busy = true;
+        try { var session = await Sessions.StartAsync(next.Id); Navigation.NavigateTo($"training/live/{session.Id}"); }
+        catch { error = "Das Training konnte nicht gestartet werden."; }
+        finally { busy = false; }
+    }
+}

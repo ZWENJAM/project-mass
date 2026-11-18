@@ -1,0 +1,98 @@
+[
+    {
+        "id":  "40000000-0000-0000-0000-000000000001",
+        "name":  "Protein-Pudding (200 g)",
+        "source":  0,
+        "note":  "Grobe Startwerte aus der alten App. Nur kcal und Protein sind bekannt; übrige Nährwerte bitte ergänzen.",
+        "nutrientsPer100G":  {
+                                 "kcal":  75,
+                                 "proteinGrams":  10
+                             },
+        "portionSizes":  [
+                             {
+                                 "name":  "1 Portion",
+                                 "grams":  200
+                             }
+                         ]
+    },
+    {
+        "id":  "40000000-0000-0000-0000-000000000002",
+        "name":  "Skyr mit Beeren (250 g)",
+        "source":  0,
+        "note":  "Grobe Startwerte aus der alten App. Nur kcal und Protein sind bekannt; übrige Nährwerte bitte ergänzen.",
+        "nutrientsPer100G":  {
+                                 "kcal":  80,
+                                 "proteinGrams":  10.8
+                             },
+        "portionSizes":  [
+                             {
+                                 "name":  "1 Portion",
+                                 "grams":  250
+                             }
+                         ]
+    },
+    {
+        "id":  "40000000-0000-0000-0000-000000000003",
+        "name":  "Whey-Shake (30 g, Wasser)",
+        "source":  0,
+        "note":  "Grobe Startwerte aus der alten App. Nur kcal und Protein sind bekannt; übrige Nährwerte bitte ergänzen.",
+        "nutrientsPer100G":  {
+                                 "kcal":  400,
+                                 "proteinGrams":  76.666666666666666666666666667
+                             },
+        "portionSizes":  [
+                             {
+                                 "name":  "1 Portion",
+                                 "grams":  30
+                             }
+                         ]
+    },
+    {
+        "id":  "40000000-0000-0000-0000-000000000004",
+        "name":  "Körniger Frischkäse (200 g)",
+        "source":  0,
+        "note":  "Grobe Startwerte aus der alten App. Nur kcal und Protein sind bekannt; übrige Nährwerte bitte ergänzen.",
+        "nutrientsPer100G":  {
+                                 "kcal":  100,
+                                 "proteinGrams":  12.5
+                             },
+        "portionSizes":  [
+                             {
+                                 "name":  "1 Portion",
+                                 "grams":  200
+                             }
+                         ]
+    },
+    {
+        "id":  "40000000-0000-0000-0000-000000000005",
+        "name":  "Chicken-Wrap",
+        "source":  0,
+        "note":  "Grobe Startwerte aus der alten App. Nur kcal und Protein sind bekannt; übrige Nährwerte bitte ergänzen. Portionsgewicht für einen Wrap mit 200 g angenommen; bei Bedarf korrigieren.",
+        "nutrientsPer100G":  {
+                                 "kcal":  200,
+                                 "proteinGrams":  17.5
+                             },
+        "portionSizes":  [
+                             {
+                                 "name":  "1 Wrap (ca. 200 g)",
+                                 "grams":  200
+                             }
+                         ]
+    },
+    {
+        "id":  "40000000-0000-0000-0000-000000000006",
+        "name":  "Harzer Käse (100 g)",
+        "source":  0,
+        "note":  "Grobe Startwerte aus der alten App. Nur kcal und Protein sind bekannt; übrige Nährwerte bitte ergänzen.",
+        "nutrientsPer100G":  {
+                                 "kcal":  125,
+                                 "proteinGrams":  30
+                             },
+        "portionSizes":  [
+                             {
+                                 "name":  "1 Portion",
+                                 "grams":  100
+                             }
+                         ]
+    }
+]

@@ -1,0 +1,17 @@
+<div class="frequency-wrap">
+    <div class="frequency-labels" aria-hidden="true">@foreach(var label in new[]{"Mo","Di","Mi","Do","Fr","Sa","So"}){<span>@label</span>}</div>
+    <div class="frequency-scroll">
+        <div class="frequency-grid" role="group" aria-label="Trainingshäufigkeit der letzten 12 Wochen">
+            @foreach (var day in Days)
+            {
+                <button class="frequency-cell level-@Math.Min(3, day.Sessions)" disabled="@(day.Date > Today)" title="@($"{day.Date:dd.MM.yyyy}: {day.Sessions} Trainings")" aria-label="@($"{day.Date:dd.MM.yyyy}: {day.Sessions} Trainings")" @onclick="() => selected = day"></button>
+            }
+        </div>
+    </div>
+</div>
+<p class="mini-label" role="status">@(selected is null ? "Letzte 12 Wochen / Montag bis Sonntag / Zelle antippen für Details." : $"{selected.Date:dd.MM.yyyy}: {selected.Sessions} abgeschlossene Trainings")</p>
+@code {
+    [Parameter] public IReadOnlyList<FrequencyDay> Days { get; set; } = [];
+    [Parameter] public DateOnly Today { get; set; }
+    private FrequencyDay? selected;
+}

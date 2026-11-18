@@ -1,0 +1,118 @@
+@page "/ernaehrung"
+@inject INutritionService NutritionService
+@inject IProfileService Profiles
+@inject NavigationManager Navigation
+<div class="page-content narrow">
+<PageTitle>Ernährung / PROJECT MASS</PageTitle>
+<div class="page-head"><div><h1>Ernährung</h1></div><a class="button-link primary" href="@($"ernaehrung/eintrag?datum={date:yyyy-MM-dd}")">+ Eintrag</a></div>
+<NutritionTabs />
+<div class="day-navigation"><button aria-label="Vorheriger Tag" @onclick="() => ChangeDay(-1)"><AppIcon Name="previous" /></button><DatePickerButton Value="date" ValueChanged="PickDate" /><button aria-label="Nächster Tag" @onclick="() => ChangeDay(1)"><AppIcon Name="next" /></button>@if(date != DateOnly.FromDateTime(DateTime.Today)){<button @onclick="Today">Heute</button>}</div>
+@if (error is not null) { <p class="notice" role="alert">@error</p> }
+@if (message is not null) { <p class="notice" role="status">@message</p> }
+@if (day is not null && profile is not null)
+{
+    <div class="quick-entry-actions">
+        <button aria-expanded="@(quickOpen ? "true" : "false")" @onclick="() => quickOpen = !quickOpen">Schnell eintragen</button>
+    </div>
+    @if (quickOpen)
+    {
+        <section class="protocol-section quick-entry-form" aria-label="Schnell eintragen">
+            <form @onsubmit="SaveQuick" @onsubmit:preventDefault>
+                <fieldset class="editor-fields" disabled="@busy">
+                    <div class="form-grid">
+                        <label class="field">Name (optional)<input @bind="quickName" maxlength="120" /></label>
+                        <label class="field">Mahlzeit<select @bind="quickMeal">@foreach (var meal in Enum.GetValues<MealType>()) { <option value="@meal">@NutritionLabels.Meal(meal)</option> }</select></label>
+                        <label class="field">Kalorien (kcal)<input type="number" inputmode="decimal" required min="0" max="100000" step="any" @bind="quickKcal" /></label>
+                        <label class="field">Protein (g)<input type="number" inputmode="decimal" required min="0" max="10000" step="any" @bind="quickProtein" /></label>
+                    </div>
+                    @if (quickError is not null) { <p class="notice" role="alert">@quickError</p> }
+                    <button type="submit" class="primary">Eintrag speichern</button>
+                </fieldset>
+            </form>
+        </section>
+    }
+    <div class="nutrition-ledger">
+        <NutrientProgress Label="Kalorien" Unit="kcal" Actual="day.Total.Kcal" Target="profile.TargetKcal" />
+        <div class="macro-row">
+            <NutrientProgress Label="Protein" Kind="protein" Actual="day.Total.ProteinGrams" Target="profile.TargetProteinGrams" />
+            <NutrientProgress Label="Kohlenhydrate" Kind="carbohydrate" Actual="day.Total.CarbohydrateGrams" Target="profile.TargetCarbohydrateGrams" />
+            <NutrientProgress Label="Fett" Kind="fat" Actual="day.Total.FatGrams" Target="profile.TargetFatGrams" />
+        </div>
+    </div>
+    <WaterTracker Date="date" Target="profile.TargetWaterMl" />
+    @foreach (var summary in day.Meals)
+    {
+        <section class="protocol-section">
+            <div class="section-head"><h2>@NutritionLabels.Meal(summary.Meal)</h2><a class="section-link" href="@($"ernaehrung/eintrag?datum={date:yyyy-MM-dd}&mahlzeit={(int)summary.Meal}")">+ Eintrag</a></div>
+            <p class="mini-label">@summary.Total.Kcal.ToString("0.#") kcal / @summary.Total.ProteinGrams.ToString("0.#") g Protein / @summary.Total.CarbohydrateGrams.ToString("0.#") g KH / @summary.Total.FatGrams.ToString("0.#") g Fett</p>
+            @foreach (var entry in summary.Entries)
+            {
+                <div class="entry row wrap" @key="entry.Id"><div class="food-row"><FoodThumb Food="entry.FoodSnapshot" /><div class="food-text"><h3>@entry.FoodSnapshot.Name</h3>
+                    @if (entry.IsQuickEntry) { <small>@entry.FoodSnapshot.NutrientsPer100G.Kcal.ToString("0.##") kcal / @entry.FoodSnapshot.NutrientsPer100G.ProteinGrams.ToString("0.##") g Protein</small> }
+                    else { <small>@entry.AmountGrams.ToString("0.##") g</small> }
+                </div></div><div class="entry-buttons"><a class="section-link" href="@($"ernaehrung/eintrag/{entry.Id}")">Bearbeiten</a><button class="small danger" @onclick="() => deleting = entry">Löschen</button></div></div>
+            }
+            @if (summary.Entries.Count == 0) { <p class="empty">Noch kein Eintrag für diese Mahlzeit.</p> }
+            <button class="small" disabled="@busy" @onclick="() => copying = summary.Meal">Mahlzeit vom Vortag kopieren</button>
+        </section>
+    }
+}
+@if (deleting is not null) { <ConfirmationDialog Title="Eintrag löschen?" Message="@($"„{deleting.FoodSnapshot.Name}“ wird aus diesem Tageslog entfernt.")" OnConfirm="Delete" OnCancel="() => deleting = null" /> }
+@if (copying.HasValue) { <ConfirmationDialog Title="Mahlzeit vom Vortag kopieren?" Message="@($"Alle Einträge für {NutritionLabels.Meal(copying.Value)} vom {date.AddDays(-1):dd.MM.yyyy} werden ergänzt. Vorhandene Einträge bleiben erhalten.")" ConfirmLabel="Kopieren" OnConfirm="Copy" OnCancel="() => copying = null" /> }
+</div>
+@code {
+    [SupplyParameterFromQuery(Name = "datum")] public string? Datum { get; set; }
+    private DateOnly date = DateOnly.FromDateTime(DateTime.Today);
+    private NutritionDay? day;
+    private UserProfile? profile;
+    private FoodLogEntry? deleting;
+    private MealType? copying;
+    private string? error, message;
+    private bool busy;
+    private bool quickOpen;
+    private string? quickName, quickError;
+    private decimal? quickKcal, quickProtein;
+    private MealType quickMeal;
+    protected override async Task OnParametersSetAsync()
+    {
+        date = DateOnly.TryParse(Datum, out var selected) ? selected : DateOnly.FromDateTime(DateTime.Today);
+        await Load();
+    }
+    private async Task Load()
+    {
+        try { day = await NutritionService.GetDayAsync(date); profile = await Profiles.GetAsync(); }
+        catch { error = "Ernährungsdaten konnten nicht geladen werden."; }
+    }
+    private async Task SaveQuick()
+    {
+        if (busy) return;
+        busy = true; quickError = null; error = null; message = null;
+        try
+        {
+            await NutritionService.SaveQuickEntryAsync(date, quickMeal, quickName, quickKcal, quickProtein);
+            quickOpen = false; quickName = null; quickKcal = null; quickProtein = null;
+            message = "Schnelleintrag gespeichert.";
+            await Load();
+        }
+        catch (ArgumentException ex) { quickError = ex.Message; }
+        catch (Exception) { quickError = "Der Eintrag konnte nicht gespeichert werden. Versuch es erneut."; }
+        finally { busy = false; }
+    }
+    private void NavigateDate() { error = null; message = null; Navigation.NavigateTo($"ernaehrung?datum={date:yyyy-MM-dd}"); }
+    private void PickDate(DateOnly selected) { date = selected; NavigateDate(); }
+    private void ChangeDay(int direction) { date = date.AddDays(direction); NavigateDate(); }
+    private void Today() { date = DateOnly.FromDateTime(DateTime.Today); NavigateDate(); }
+    private async Task Delete()
+    {
+        try { await NutritionService.DeleteAsync(deleting!.Id); deleting = null; await Load(); }
+        catch { error = "Löschen fehlgeschlagen."; deleting = null; }
+    }
+    private async Task Copy()
+    {
+        if (busy) return;
+        busy = true; error = null;
+        try { var count = await NutritionService.CopyPreviousMealAsync(date, copying!.Value); message = count == 0 ? "Am Vortag gibt es für diese Mahlzeit keine Einträge." : $"{count} Einträge vom Vortag ergänzt."; await Load(); }
+        catch { error = "Kopieren fehlgeschlagen. Bitte prüfe den Tageslog, bevor du es erneut versuchst."; }
+        finally { copying = null; busy = false; }
+    }
+}

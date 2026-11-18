@@ -1,0 +1,40 @@
+@* Simple stroke pictograms, one per food category. Decorative: the food name is always shown as text next to it. *@
+<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+    @switch (Category)
+    {
+        case FoodCategory.Dairy:
+            <path d="M8 3h8v3l2 3v12H6V9l2-3z" /><path d="M6 9h12M10 13h4" />
+            break;
+        case FoodCategory.Meat:
+            <path d="M5 14c0-5 4-10 9-10 3 0 6 2 6 5 0 6-6 11-11 11-2 0-4-2-4-6z" /><circle cx="14" cy="10" r="2" />
+            break;
+        case FoodCategory.Fish:
+            <path d="M3 12c3-4 8-6 12-3l6-3v12l-6-3c-4 3-9 1-12-3z" /><path d="M8 11.5h.01" />
+            break;
+        case FoodCategory.Egg:
+            <path d="M12 3c4 0 7 6 7 11a7 7 0 0 1-14 0c0-5 3-11 7-11z" />
+            break;
+        case FoodCategory.Grain:
+            <path d="M5 11a4 4 0 0 1 3-5h8a4 4 0 0 1 3 5v9H5z" /><path d="M9 10v2M12 10v2M15 10v2" />
+            break;
+        case FoodCategory.Fruit:
+            <path d="M12 8c-3-2-8-1-8 5s4 8 6 8c1 0 1.5-.5 2-.5s1 .5 2 .5c2 0 6-2 6-8s-5-7-8-5z" /><path d="M12 8c0-2 1-4 3-5" />
+            break;
+        case FoodCategory.Vegetable:
+            <path d="M5 19C5 11 11 5 19 5c0 8-6 14-14 14z" /><path d="M5 19l8-8" />
+            break;
+        case FoodCategory.Drink:
+            <path d="M7 4h10l-1.5 16h-7z" /><path d="M7.5 9h9" />
+            break;
+        case FoodCategory.Sweets:
+            <rect x="6" y="3" width="12" height="18" rx="1.5" /><path d="M6 9h12M6 15h12M12 3v18" />
+            break;
+        case FoodCategory.Nuts:
+            <path d="M12 4c4 0 6 3 6 7s-3 9-6 9-6-5-6-9 2-7 6-7z" /><path d="M12 4v16" />
+            break;
+        default:
+            <path d="M3 12h18a9 9 0 0 1-18 0z" /><path d="M9 8c0-2 2-2 2-4M14 8c0-2 2-2 2-4" />
+            break;
+    }
+</svg>
+@code { [Parameter] public FoodCategory Category { get; set; } }

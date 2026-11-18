@@ -1,0 +1,61 @@
+@page "/ernaehrung/lebensmittel/neu"
+@page "/ernaehrung/lebensmittel/{Id:guid}"
+@inject IFoodService Foods
+@inject NavigationManager Navigation
+<PageTitle>Eigenes Lebensmittel / PROJECT MASS</PageTitle>
+<div class="page-head"><div><h1>@(Id.HasValue ? "Lebensmittel bearbeiten" : "Eigenes Lebensmittel")</h1></div></div><nav class="segment-tabs" aria-label="Zurück"><a class="section-link" href="ernaehrung/lebensmittel">Zurück</a></nav>
+@if (error is not null) { <p class="notice" role="alert">@error</p> }
+@if (food is not null)
+{
+    <EditForm Model="food" OnSubmit="Save" FormName="food">
+        <ValidationSummary />
+        <fieldset class="editor-fields" disabled="@busy">
+            <section class="protocol-section"><div class="form-grid">
+                <label class="field">Name<input @bind="food.Name" @bind:event="oninput" maxlength="180" /></label>
+                <label class="field">Marke<input @bind="food.Brand" @bind:event="oninput" maxlength="180" /></label>
+            </div><label class="checkbox-field"><input type="checkbox" @bind="food.IsFavorite" /> Favorit</label>
+            <label class="field">Hinweis<textarea @bind="food.Note" @bind:event="oninput" maxlength="3000"></textarea></label></section>
+            <section class="protocol-section"><h2>Nährwerte pro 100 g</h2><div class="form-grid">
+                <label class="field">Kalorien (kcal)<input type="number" min="0" step="any" @bind="food.NutrientsPer100G.Kcal" @bind:event="oninput" /></label>
+                <label class="field">Protein (g)<input type="number" min="0" step="any" @bind="food.NutrientsPer100G.ProteinGrams" @bind:event="oninput" /></label>
+                <label class="field">Kohlenhydrate (g)<input type="number" min="0" step="any" @bind="food.NutrientsPer100G.CarbohydrateGrams" @bind:event="oninput" /></label>
+                <label class="field">Fett (g)<input type="number" min="0" step="any" @bind="food.NutrientsPer100G.FatGrams" @bind:event="oninput" /></label>
+                <label class="field">Ballaststoffe (g)<input type="number" min="0" step="any" @bind="food.NutrientsPer100G.FiberGrams" @bind:event="oninput" /></label>
+                <label class="field">Zucker (g)<input type="number" min="0" step="any" @bind="food.NutrientsPer100G.SugarGrams" @bind:event="oninput" /></label>
+                <label class="field">Salz (g)<input type="number" min="0" step="any" @bind="food.NutrientsPer100G.SaltGrams" @bind:event="oninput" /></label>
+            </div></section>
+            <section class="protocol-section"><h2>Portionsgrößen (optional)</h2>
+                @foreach (var portion in food.PortionSizes)
+                {
+                    <div class="portion-row">
+                        <label class="field">Bezeichnung<input @bind="portion.Name" @bind:event="oninput" placeholder="z. B. 1 Becher" /></label>
+                        <label class="field">Gramm pro Portion<input type="number" min="0.01" step="any" @bind="portion.Grams" @bind:event="oninput" /></label>
+                        <button type="button" class="small danger" @onclick="() => food.PortionSizes.Remove(portion)">Entfernen</button>
+                    </div>
+                }
+                <button type="button" class="small" @onclick="() => food.PortionSizes.Add(new PortionSize())">+ Portion</button>
+            </section>
+            <div class="form-actions"><button class="primary" type="submit">Lebensmittel speichern</button></div>
+        </fieldset>
+    </EditForm>
+}
+@code {
+    [Parameter] public Guid? Id { get; set; }
+    private FoodItem? food;
+    private string? error;
+    private bool busy;
+    protected override async Task OnParametersSetAsync()
+    {
+        try { food = Id.HasValue ? await Foods.GetAsync(Id.Value) : new(); if (food is null) error = "Lebensmittel nicht gefunden."; }
+        catch { error = "Lebensmittel konnte nicht geladen werden."; }
+    }
+    private async Task Save(EditContext context)
+    {
+        if (!context.Validate() || busy) return;
+        busy = true; error = null;
+        try { await Foods.SaveAsync(food!); Navigation.NavigateTo("ernaehrung/lebensmittel"); }
+        catch (ArgumentException ex) { error = ex.Message; }
+        catch { error = "Speichern fehlgeschlagen. Bitte erneut versuchen."; }
+        finally { busy = false; }
+    }
+}

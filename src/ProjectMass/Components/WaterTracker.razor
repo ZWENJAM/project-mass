@@ -1,0 +1,43 @@
+@inject IWaterService Water
+<section class="protocol-section water-tracker">
+    <NutrientProgress Label="Wasser" Unit="ml" Kind="water" Actual="total" Target="Target" />
+    @if (error is not null) { <p class="notice" role="alert">@error</p> }
+    <div class="form-actions">
+        <button disabled="@busy" @onclick="() => Add(250)">+250 ml</button>
+        <button disabled="@busy" @onclick="() => Add(500)">+500 ml</button>
+        @if (total > 0) { <button class="subtle" disabled="@busy" @onclick="RemoveLast">Letzten Eintrag entfernen</button> }
+    </div>
+</section>
+@code {
+    [Parameter, EditorRequired] public DateOnly Date { get; set; }
+    [Parameter] public decimal Target { get; set; }
+    private int total;
+    private string? error;
+    private bool busy;
+    private DateOnly? loadedDate;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (loadedDate == Date) return;
+        loadedDate = Date;
+        await Load();
+    }
+
+    private async Task Load()
+    {
+        try { total = await Water.GetTotalMlAsync(Date); error = null; }
+        catch { error = "Wasserstand konnte nicht geladen werden."; }
+    }
+
+    private async Task Add(int ml) => await Run(() => Water.AddAsync(Date, ml));
+    private async Task RemoveLast() => await Run(async () => { await Water.RemoveLastAsync(Date); });
+
+    private async Task Run(Func<Task> action)
+    {
+        if (busy) return;
+        busy = true; error = null;
+        try { await action(); await Load(); }
+        catch { error = "Speichern fehlgeschlagen. Bitte erneut versuchen."; }
+        finally { busy = false; }
+    }
+}

@@ -1,0 +1,52 @@
+name: GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Einmalig unter Settings → Pages als Source „GitHub Actions“ wählen.
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: read
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+      - uses: actions/configure-pages@v5
+      - run: dotnet publish src/ProjectMass -c Release -o publish
+      - name: Unterpfad, SPA-Fallback und Offline-Manifest vorbereiten
+        shell: pwsh
+        env:
+          PAGES_REPOSITORY: ${{ github.event.repository.name }}
+        run: ./tools/prepare-pages.ps1 -RepositoryName $env:PAGES_REPOSITORY
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: publish/wwwroot
+          include-hidden-files: true
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Auf GitHub Pages veröffentlichen
+        id: deployment
+        uses: actions/deploy-pages@v4

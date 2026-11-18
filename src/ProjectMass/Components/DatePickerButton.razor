@@ -1,0 +1,29 @@
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+<span class="date-picker-button">
+    <button class="date-display" aria-label="Datum auswählen" @onclick="Open">@Label</button>
+    <input class="sr-only" type="date" @ref="input" aria-label="Datum" value="@Value.ToString("yyyy-MM-dd")" @onchange="Changed" />
+    @if (fallback) { <label class="field">Datum auswählen<input type="date" value="@Value.ToString("yyyy-MM-dd")" @onchange="Changed" /></label> }
+</span>
+@code {
+    [Parameter] public DateOnly Value { get; set; }
+    [Parameter] public EventCallback<DateOnly> ValueChanged { get; set; }
+    private ElementReference input;
+    private IJSObjectReference? module;
+    private bool fallback;
+    private string Label => Value.ToString("ddd", System.Globalization.CultureInfo.GetCultureInfo("de-DE")).TrimEnd('.') + ", " + Value.ToString("d. MMM", System.Globalization.CultureInfo.GetCultureInfo("de-DE")).TrimEnd('.');
+    private async Task Open()
+    {
+        module ??= await JS.InvokeAsync<IJSObjectReference>("import", "./js/datePicker.js");
+        fallback = !await module.InvokeAsync<bool>("open", input);
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender) module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/datePicker.js");
+    }
+    private async Task Changed(ChangeEventArgs args)
+    {
+        if (DateOnly.TryParse(args.Value?.ToString(), out var date)) { fallback = false; await ValueChanged.InvokeAsync(date); }
+    }
+    public async ValueTask DisposeAsync() { if (module is not null) await module.DisposeAsync(); }
+}

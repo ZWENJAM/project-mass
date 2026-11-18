@@ -1,0 +1,1539 @@
+[
+  {
+    "id": "10000000-0000-0000-0000-000000000001",
+    "name": "Brustpresse",
+    "muscleGroups": [
+      "Brust",
+      "Trizeps"
+    ],
+    "equipment": "Maschine",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Stell den Sitz so ein, dass die Griffe auf mittlerer Brusthöhe liegen.",
+      "Setz beide Füße auf und leg den Rücken an das Polster.",
+      "Drück die Griffe nach vorn und lass sie langsam zurückkommen."
+    ],
+    "tips": [
+      "Halte die Handgelenke in Verlängerung der Unterarme.",
+      "Führ die Ellbogen leicht unter Schulterhöhe."
+    ],
+    "mistakes": [
+      "Schultern zu den Ohren ziehen.",
+      "Den Gewichtsstapel aufschlagen lassen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000001-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000001-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000002",
+    "name": "Latziehen",
+    "muscleGroups": [
+      "Rücken",
+      "Bizeps"
+    ],
+    "equipment": "Kabelzug",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Fixier die Oberschenkel unter dem Polster und greif die Stange etwas weiter als schulterbreit.",
+      "Lehn dich leicht zurück und zieh die Ellbogen nach unten, bis die Stange vor der oberen Brust ist.",
+      "Führ die Stange kontrolliert nach oben."
+    ],
+    "tips": [
+      "Halte den Brustkorb ruhig.",
+      "Lass die Schulterblätter beim Hochführen mitgehen."
+    ],
+    "mistakes": [
+      "Hinter den Kopf ziehen.",
+      "Mit dem Oberkörper Schwung holen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000002-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000002-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000003",
+    "name": "Schrägbankdrücken (Kurzhantel)",
+    "muscleGroups": [
+      "Brust",
+      "Trizeps"
+    ],
+    "equipment": "Kurzhanteln",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Stell die Bank auf etwa 30 Grad und setz die Füße fest auf.",
+      "Halt die Hanteln neben der oberen Brust und drück sie nach oben.",
+      "Senk sie langsam, bis du eine angenehme Dehnung spürst."
+    ],
+    "tips": [
+      "Halte die Unterarme von vorn gesehen senkrecht.",
+      "Lass die Schulterblätter stabil auf der Bank."
+    ],
+    "mistakes": [
+      "Die Hanteln oben zusammenstoßen lassen.",
+      "Die Ellbogen weit abspreizen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000003-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000003-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000004",
+    "name": "Rudern am Kabel",
+    "muscleGroups": [
+      "Rücken",
+      "Bizeps"
+    ],
+    "equipment": "Kabelzug",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Setz dich mit leicht gebeugten Knien hin und greif den Griff.",
+      "Zieh die Ellbogen eng nach hinten, bis der Griff am unteren Rippenbogen ist.",
+      "Streck die Arme langsam wieder nach vorn."
+    ],
+    "tips": [
+      "Halte den Abstand zwischen Brust und Becken gleich.",
+      "Lass die Schulterblätter kontrolliert vor- und zurückgleiten."
+    ],
+    "mistakes": [
+      "Dich bei jedem Zug weit zurücklehnen.",
+      "Die Schultern hochziehen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000004-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000004-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000005",
+    "name": "Seitheben",
+    "muscleGroups": [
+      "Schultern"
+    ],
+    "equipment": "Kurzhanteln",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Stell dich hüftbreit hin und halt die Hanteln seitlich mit leicht gebeugten Ellbogen.",
+      "Heb die Arme leicht vor der Körperseite bis etwa Schulterhöhe.",
+      "Senk die Hanteln langsam ab."
+    ],
+    "tips": [
+      "Führ mit den Ellbogen.",
+      "Halte die Handgelenke neutral."
+    ],
+    "mistakes": [
+      "Mit Knien oder Rücken Schwung holen.",
+      "Die Schultern zu den Ohren heben."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000005-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000005-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000006",
+    "name": "Trizepsdrücken",
+    "muscleGroups": [
+      "Trizeps"
+    ],
+    "equipment": "Kabelzug",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Befestige eine kurze Stange am hohen Kabel und greif sie von oben.",
+      "Leg die Oberarme am Rumpf an und drück die Stange nach unten.",
+      "Beug die Ellbogen wieder, bis die Unterarme etwa waagerecht sind."
+    ],
+    "tips": [
+      "Spann den Bauch leicht an.",
+      "Streck die Arme kontrolliert bis zur Endposition."
+    ],
+    "mistakes": [
+      "Die Schulter zum Drücken nach vorn schieben.",
+      "Die Stange mit dem Körpergewicht herunterreißen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000006-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000006-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000007",
+    "name": "Cable Crunches",
+    "muscleGroups": [
+      "Bauch"
+    ],
+    "equipment": "Kabelzug",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Knie dich vor den hohen Kabelzug und halt die Seilenden neben deinem Kopf.",
+      "Roll den Brustkorb zum Becken ein, während die Hüfte ruhig bleibt.",
+      "Richte den Oberkörper langsam wieder auf."
+    ],
+    "tips": [
+      "Atme beim Einrollen aus.",
+      "Halte den Abstand zwischen Händen und Kopf konstant."
+    ],
+    "mistakes": [
+      "Nur aus der Hüfte beugen.",
+      "Das Seil mit den Armen herunterziehen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000007-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000007-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000008",
+    "name": "Beinpresse",
+    "muscleGroups": [
+      "Beine",
+      "Gesäß"
+    ],
+    "equipment": "Maschine",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Setz dich so hin, dass Becken und Rücken am Polster anliegen, und stell die Füße vollflächig auf.",
+      "Löse die Sicherung und beug die Knie so weit, wie dein Becken stabil bleibt.",
+      "Drück über den ganzen Fuß zurück und sichere den Schlitten nach dem Satz."
+    ],
+    "tips": [
+      "Lass die Knie in Richtung der Zehen laufen.",
+      "Kontrollier das Tempo beim Absenken."
+    ],
+    "mistakes": [
+      "Das Becken unten vom Sitz abrollen lassen.",
+      "Die Knie oben ruckartig durchdrücken."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000008-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000008-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000009",
+    "name": "Rumänisches Kreuzheben",
+    "muscleGroups": [
+      "Beine",
+      "Gesäß",
+      "Rücken"
+    ],
+    "equipment": "Langhantel",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Halt die Langhantel vor den Oberschenkeln und beug die Knie leicht.",
+      "Schieb die Hüfte zurück und führ die Stange dicht an den Beinen nach unten.",
+      "Richte dich über die Hüfte auf, sobald du die Beinrückseiten deutlich spürst."
+    ],
+    "tips": [
+      "Halte den Kniewinkel ungefähr gleich.",
+      "Spann den Rumpf vor dem Absenken an."
+    ],
+    "mistakes": [
+      "Für mehr Tiefe den Rücken runden.",
+      "Die Stange nach vorn vom Körper wegführen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000009-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000009-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000010",
+    "name": "Beinbeuger",
+    "muscleGroups": [
+      "Beine"
+    ],
+    "equipment": "Maschine",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Stell die sitzende Maschine so ein, dass dein Knie auf Höhe der Drehachse liegt.",
+      "Fixier die Oberschenkel und leg die unteren Waden an die Rolle.",
+      "Zieh die Fersen nach hinten und führ die Rolle langsam zurück."
+    ],
+    "tips": [
+      "Halte das Becken am Sitz.",
+      "Brems die Streckung bis zum Ende ab."
+    ],
+    "mistakes": [
+      "Beim Zug das Becken heben.",
+      "Das Gewicht beim Rückweg fallen lassen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000010-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000010-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000011",
+    "name": "Wadenheben",
+    "muscleGroups": [
+      "Waden"
+    ],
+    "equipment": "Maschine",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Stell die Fußballen auf die Kante und nimm die Maschine in Position.",
+      "Senk die Fersen langsam unter die Kante, soweit es angenehm ist.",
+      "Drück dich auf die Fußballen und senk die Fersen wieder ab."
+    ],
+    "tips": [
+      "Verteil den Druck über den Vorfuß.",
+      "Halte den Kniewinkel während der Wiederholung stabil."
+    ],
+    "mistakes": [
+      "Aus den Knien federn.",
+      "Die Füße nach außen wegkippen lassen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000011-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000011-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000012",
+    "name": "Reverse Crunches",
+    "muscleGroups": [
+      "Bauch"
+    ],
+    "equipment": "Körpergewicht",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Leg dich auf den Rücken und heb die Beine mit gebeugten Knien an.",
+      "Kipp das Becken und zieh die Knie zur Brust, bis das Steißbein abhebt.",
+      "Roll das Becken langsam zurück auf die Matte."
+    ],
+    "tips": [
+      "Atme beim Einrollen aus.",
+      "Halte die Bewegung klein und kontrolliert."
+    ],
+    "mistakes": [
+      "Die Beine als Schwungpendel nutzen.",
+      "Beim Absenken ins Hohlkreuz fallen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000012-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000012-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000013",
+    "name": "Schrägbank-Brustpresse",
+    "muscleGroups": [
+      "Brust",
+      "Trizeps"
+    ],
+    "equipment": "Maschine",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Stell die Sitzhöhe so ein, dass die Griffe vor der oberen Brust starten.",
+      "Leg den Rücken an und drück die Griffe schräg nach oben.",
+      "Senk die Griffe langsam, bis du die Brust angenehm gedehnt spürst."
+    ],
+    "tips": [
+      "Halte die Füße fest am Boden.",
+      "Führ die Ellbogen schräg unter den Griffen."
+    ],
+    "mistakes": [
+      "Die Schultern am Ende hochziehen.",
+      "Das Becken beim Drücken nach vorn schieben."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000013-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000013-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000014",
+    "name": "Rudern an der Maschine",
+    "muscleGroups": [
+      "Rücken",
+      "Bizeps"
+    ],
+    "equipment": "Maschine",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Stell den Sitz so ein, dass du die Griffe mit ruhig anliegendem Brustkorb erreichst.",
+      "Zieh die Ellbogen nach hinten, bis die Griffe am Rumpf sind.",
+      "Lass die Arme kontrolliert wieder lang werden."
+    ],
+    "tips": [
+      "Halte die Handgelenke gerade.",
+      "Lass die Schulterblätter beim Rückweg nach vorn gleiten."
+    ],
+    "mistakes": [
+      "Dich vom Brustpolster abstoßen.",
+      "Die Ellbogen durch Schulterheben weiter nach hinten zwingen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000014-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000014-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000015",
+    "name": "Schulterdrücken",
+    "muscleGroups": [
+      "Schultern",
+      "Trizeps"
+    ],
+    "equipment": "Kurzhanteln",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Setz dich an eine fast aufrechte Lehne und bring die Hanteln auf Schulterhöhe.",
+      "Drück beide Hanteln nahezu senkrecht über den Kopf.",
+      "Senk sie kontrolliert auf Schulterhöhe ab."
+    ],
+    "tips": [
+      "Halte die Rippen über dem Becken.",
+      "Positionier die Ellbogen leicht vor dem Oberkörper."
+    ],
+    "mistakes": [
+      "Den unteren Rücken stark überstrecken.",
+      "Die Hanteln nach vorn wegdrücken."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000015-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000015-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000016",
+    "name": "Kabel-Flys",
+    "muscleGroups": [
+      "Brust"
+    ],
+    "equipment": "Kabelzug",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Stell die Rollen hoch ein, greif beide Griffe und tritt in einen stabilen Schrittstand.",
+      "Führ die leicht gebeugten Arme in einem Bogen vor der Brust zusammen.",
+      "Öffne die Arme langsam bis zur angenehmen Dehnung."
+    ],
+    "tips": [
+      "Halte den Ellbogenwinkel annähernd gleich.",
+      "Stabilisier den Rumpf mit beiden Füßen."
+    ],
+    "mistakes": [
+      "Aus den Armen eine Drückbewegung machen.",
+      "Die Oberarme weit hinter den Rumpf ziehen lassen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000016-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000016-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000017",
+    "name": "Latziehen (neutral)",
+    "muscleGroups": [
+      "Rücken",
+      "Bizeps"
+    ],
+    "equipment": "Kabelzug",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Greif den Neutralgriff und stell das Oberschenkelpolster fest ein.",
+      "Zieh die Ellbogen nach unten in Richtung Rippen, bis der Griff zur oberen Brust kommt.",
+      "Führ den Griff nach oben zurück, bis die Arme wieder lang sind."
+    ],
+    "tips": [
+      "Lehn dich nur leicht zurück.",
+      "Lass den Griff von den Ellbogen führen."
+    ],
+    "mistakes": [
+      "Die Ellbogen weit nach außen spreizen.",
+      "Beim Ziehen nach hinten schwingen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000017-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000017-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000018",
+    "name": "Bizepscurls",
+    "muscleGroups": [
+      "Bizeps"
+    ],
+    "equipment": "Kurzhanteln",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Stell dich aufrecht hin, die Hanteln hängen neben dem Körper.",
+      "Beug die Ellbogen und dreh die Handflächen beim Hochführen zu dir.",
+      "Senk die Hanteln langsam ab und dreh die Hände zurück."
+    ],
+    "tips": [
+      "Halte die Oberarme nah am Rumpf.",
+      "Lass die Handgelenke gerade."
+    ],
+    "mistakes": [
+      "Die Hüfte zum Anschwingen nutzen.",
+      "Die Ellbogen am Ende weit nach vorn schieben."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000018-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000018-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000019",
+    "name": "Trizeps am Kabel",
+    "muscleGroups": [
+      "Trizeps"
+    ],
+    "equipment": "Kabelzug",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Häng ein Seil am hohen Kabel ein und greif ein Ende pro Hand.",
+      "Halte die Oberarme neben dem Rumpf und streck die Ellbogen nach unten.",
+      "Führ die Seilenden am Ende leicht auseinander und dann kontrolliert zurück."
+    ],
+    "tips": [
+      "Steh stabil mit leicht gebeugten Knien.",
+      "Lass die Handgelenke mit den Unterarmen in einer Linie."
+    ],
+    "mistakes": [
+      "Die Ellbogen bei jeder Wiederholung anheben.",
+      "Das Seil mit Druck aus den Schultern auseinanderreißen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000019-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000019-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000020",
+    "name": "Hackenschmidt-Kniebeuge / Beinpresse",
+    "muscleGroups": [
+      "Beine",
+      "Gesäß"
+    ],
+    "equipment": "Maschine",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Leg bei der Hackenschmidt-Maschine Rücken und Schultern an die Polster oder setz dich fest in die Beinpresse.",
+      "Stell die Füße vollflächig auf, löse die Sicherung und senk den Schlitten kontrolliert.",
+      "Drück dich über beide Füße hoch und sichere den Schlitten nach dem Satz."
+    ],
+    "tips": [
+      "Führ die Knie in Richtung der Zehen.",
+      "Wähl die Tiefe so, dass Becken und Rücken stabil am Polster bleiben."
+    ],
+    "mistakes": [
+      "Die Fersen von der Platte heben.",
+      "Den Schlitten unten abfedern."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000020-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000020-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000021",
+    "name": "Beinstrecker",
+    "muscleGroups": [
+      "Beine"
+    ],
+    "equipment": "Maschine",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Richte die Maschine so ein, dass das Kniegelenk auf Höhe der Drehachse liegt.",
+      "Leg die Rolle knapp oberhalb der Fußgelenke an und greif die Griffe.",
+      "Streck die Knie gleichmäßig und senk die Rolle langsam zurück."
+    ],
+    "tips": [
+      "Lass das Becken auf dem Sitz.",
+      "Nutze einen Bewegungsumfang, den du ohne Schwung kontrollierst."
+    ],
+    "mistakes": [
+      "Das Gewicht nach oben treten.",
+      "Die Hüfte beim Strecken vom Sitz heben."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000021-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000021-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000022",
+    "name": "Bauchmaschine",
+    "muscleGroups": [
+      "Bauch"
+    ],
+    "equipment": "Maschine",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Stell Sitz und Polster so ein, dass du aus aufrechter Haltung startest.",
+      "Bring die Rippen in Richtung Becken und roll den Oberkörper gegen den Widerstand ein.",
+      "Richte dich langsam auf, bis der Bauch wieder gedehnt ist."
+    ],
+    "tips": [
+      "Atme beim Einrollen aus.",
+      "Halte den Nacken lang."
+    ],
+    "mistakes": [
+      "An den Griffen reißen.",
+      "Mit einer reinen Hüftbeuge nach vorn kippen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000022-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000022-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000023",
+    "name": "Bankdrücken (Langhantel)",
+    "muscleGroups": [
+      "Brust",
+      "Trizeps"
+    ],
+    "equipment": "Langhantel",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Leg dich mit fest aufgestellten Füßen auf die Bank und greif die Stange etwas weiter als schulterbreit.",
+      "Heb die Stange aus der Ablage und senk sie kontrolliert zur unteren Brust.",
+      "Drück sie nach oben über die Schultern und leg sie sicher zurück."
+    ],
+    "tips": [
+      "Zieh die Schulterblätter stabil zusammen.",
+      "Stell bei schweren Sätzen die Sicherheitsablagen ein oder trainiere mit Sicherung."
+    ],
+    "mistakes": [
+      "Die Stange auf der Brust abprallen lassen.",
+      "Das Gesäß von der Bank heben."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000023-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000023-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000024",
+    "name": "Bankdrücken (Kurzhantel)",
+    "muscleGroups": [
+      "Brust",
+      "Trizeps"
+    ],
+    "equipment": "Kurzhanteln",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Leg dich mit fest aufgestellten Füßen auf die Flachbank und bring die Hanteln neben die Brust.",
+      "Drück beide Hanteln über den Brustkorb nach oben.",
+      "Senk sie gleichmäßig, bis die Brust angenehm gedehnt ist."
+    ],
+    "tips": [
+      "Halte die Unterarme von vorn gesehen senkrecht.",
+      "Zieh die Schulterblätter leicht zusammen."
+    ],
+    "mistakes": [
+      "Die Ellbogen rechtwinklig vom Rumpf abspreizen.",
+      "Die Hanteln oben gegeneinanderschlagen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000024-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000024-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000025",
+    "name": "Liegestütze",
+    "muscleGroups": [
+      "Brust",
+      "Trizeps"
+    ],
+    "equipment": "Körpergewicht",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Stütz dich mit den Händen etwas weiter als schulterbreit und stell die Füße auf die Zehen.",
+      "Spann Gesäß und Bauch an und senk die Brust zwischen die Hände.",
+      "Drück den Boden weg und kehr als Einheit nach oben zurück."
+    ],
+    "tips": [
+      "Führ die Ellbogen schräg nach hinten.",
+      "Nutz eine erhöhte Auflage, wenn du am Boden die Spannung verlierst."
+    ],
+    "mistakes": [
+      "Die Hüfte durchhängen lassen.",
+      "Den Kopf vor der Brust zum Boden schieben."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000025-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000025-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000026",
+    "name": "Butterfly",
+    "muscleGroups": [
+      "Brust"
+    ],
+    "equipment": "Maschine",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Stell den Sitz so ein, dass die Griffe etwa auf Brusthöhe liegen.",
+      "Führ die Arme mit leicht gebeugten Ellbogen vor dir zusammen.",
+      "Öffne die Arme langsam bis zur angenehmen Dehnung."
+    ],
+    "tips": [
+      "Halte Brust und Rücken ruhig am Sitz.",
+      "Lass die Ellbogen möglichst im gleichen Winkel."
+    ],
+    "mistakes": [
+      "Die Arme durchstrecken, um mehr Weg zu gewinnen.",
+      "Die Griffe beim Rückweg zu weit nach hinten ziehen lassen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000026-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000026-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000027",
+    "name": "Dips",
+    "muscleGroups": [
+      "Brust",
+      "Trizeps"
+    ],
+    "equipment": "Barren",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Stütz dich mit langen Armen zwischen den Holmen ab.",
+      "Beug die Ellbogen und senk dich kontrolliert, solange die Schultern stabil bleiben.",
+      "Drück dich über beide Hände zurück in den Stütz."
+    ],
+    "tips": [
+      "Führ die Ellbogen nach hinten.",
+      "Nutz bei Bedarf eine unterstützende Dip-Maschine."
+    ],
+    "mistakes": [
+      "Unkontrolliert in große Tiefe fallen.",
+      "Mit den Beinen Schwung holen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000027-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000027-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000028",
+    "name": "Klimmzüge",
+    "muscleGroups": [
+      "Rücken",
+      "Bizeps"
+    ],
+    "equipment": "Klimmzugstange",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Greif die Stange mit Handflächen nach vorn etwas weiter als schulterbreit.",
+      "Zieh die Ellbogen Richtung Rippen, bis das Kinn etwa auf Höhe der Stange ist.",
+      "Senk dich langsam bis zu langen Armen ab."
+    ],
+    "tips": [
+      "Halte die Rippen über dem Becken.",
+      "Nutze Unterstützung, wenn du nur mit Schwung hochkommst."
+    ],
+    "mistakes": [
+      "Mit den Beinen treten.",
+      "Das Kinn durch Überstrecken des Nackens über die Stange schieben."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000028-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000028-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000029",
+    "name": "Langhantelrudern",
+    "muscleGroups": [
+      "Rücken",
+      "Bizeps"
+    ],
+    "equipment": "Langhantel",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Greif die Stange im Obergriff, beug die Knie leicht und schieb die Hüfte zurück.",
+      "Halte den Oberkörper vorgebeugt und zieh die Stange zu den unteren Rippen.",
+      "Lass die Stange kontrolliert ab, bis die Arme wieder lang sind."
+    ],
+    "tips": [
+      "Spann den Bauch vor dem Zug an.",
+      "Lass den Oberkörperwinkel gleich."
+    ],
+    "mistakes": [
+      "Die Hüfte zum Anschwingen strecken.",
+      "Den Rücken unter der Last einrunden."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000029-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000029-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000030",
+    "name": "Einarmiges Kurzhantelrudern",
+    "muscleGroups": [
+      "Rücken",
+      "Bizeps"
+    ],
+    "equipment": "Kurzhantel",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Stütz eine Hand und bei Bedarf das gleichseitige Knie auf einer Bank ab.",
+      "Lass die Hantel vom anderen Arm nach unten hängen und zieh den Ellbogen Richtung Hüfte.",
+      "Senk die Hantel langsam und wiederhol die Bewegung auf der anderen Seite."
+    ],
+    "tips": [
+      "Halte Brustkorb und Becken möglichst parallel zur Bank.",
+      "Zieh die Hantel dicht an der Seite nach oben."
+    ],
+    "mistakes": [
+      "Den Rumpf zum Ziehen aufdrehen.",
+      "Die Schulter Richtung Ohr ziehen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000030-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000030-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000031",
+    "name": "Kreuzheben",
+    "muscleGroups": [
+      "Rücken",
+      "Beine",
+      "Gesäß"
+    ],
+    "equipment": "Langhantel",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Stell dich hüftbreit mit der Stange über dem Mittelfuß hin.",
+      "Beug Hüfte und Knie, greif die Stange und spann den Rumpf an.",
+      "Drück den Boden weg und streck Knie und Hüfte, bis du aufrecht stehst.",
+      "Schieb die Hüfte zurück und setz die Stange kontrolliert ab."
+    ],
+    "tips": [
+      "Halte die Stange nah am Körper.",
+      "Bau Spannung auf, bevor die Stange vom Boden abhebt."
+    ],
+    "mistakes": [
+      "Ruckartig an der Stange reißen.",
+      "Dich oben nach hinten lehnen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000031-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000031-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000032",
+    "name": "Rückenstrecken",
+    "muscleGroups": [
+      "Rücken",
+      "Gesäß"
+    ],
+    "equipment": "Rückenstreckerbank",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Stell das Polster knapp unter die Hüftfalte und fixier die Füße.",
+      "Beug die Hüfte und senk den Oberkörper mit stabilem Rücken.",
+      "Streck die Hüfte bis Beine und Rumpf eine Linie bilden."
+    ],
+    "tips": [
+      "Halte den Nacken in Verlängerung des Rückens.",
+      "Verschränk die Arme vor der Brust, solange du ohne Zusatzlast trainierst."
+    ],
+    "mistakes": [
+      "Den Rücken oben überstrecken.",
+      "Mit Schwung aus der Tiefe hochschnellen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000032-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000032-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000033",
+    "name": "Face Pulls",
+    "muscleGroups": [
+      "Schultern",
+      "Rücken"
+    ],
+    "equipment": "Kabelzug",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Befestige ein Seil etwa auf Augenhöhe und tritt zurück bis zur Spannung.",
+      "Zieh die Seilenden neben die Schläfen und führ die Ellbogen nach außen.",
+      "Streck die Arme kontrolliert nach vorn zurück."
+    ],
+    "tips": [
+      "Lass die Hände am Ende ungefähr auf Höhe der Ohren.",
+      "Halte den Rumpf ruhig."
+    ],
+    "mistakes": [
+      "Das Seil zur Brust statt zum Gesicht ziehen.",
+      "Mit dem Oberkörper zurückwippen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000033-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000033-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000034",
+    "name": "Schulterdrücken (Maschine)",
+    "muscleGroups": [
+      "Schultern",
+      "Trizeps"
+    ],
+    "equipment": "Maschine",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Stell den Sitz so ein, dass die Griffe ungefähr auf Schulterhöhe starten.",
+      "Setz beide Füße auf und lehn den Rücken ans Polster.",
+      "Drück die Griffe nach oben und senk sie langsam zurück."
+    ],
+    "tips": [
+      "Halte die Unterarme unter den Griffen.",
+      "Lass den Bauch leicht angespannt."
+    ],
+    "mistakes": [
+      "Den Rücken für mehr Reichweite ins Hohlkreuz drücken.",
+      "Das Gewicht unten aufschlagen lassen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000034-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000034-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000035",
+    "name": "Frontheben",
+    "muscleGroups": [
+      "Schultern"
+    ],
+    "equipment": "Kurzhanteln",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Halt die Hanteln mit leicht gebeugten Ellbogen vor den Oberschenkeln.",
+      "Heb einen oder beide Arme bis etwa Schulterhöhe an.",
+      "Senk die Hanteln langsam zurück."
+    ],
+    "tips": [
+      "Halte die Rippen über dem Becken.",
+      "Behalte den Ellbogenwinkel bei."
+    ],
+    "mistakes": [
+      "Mit dem Oberkörper nach hinten schwingen.",
+      "Die Schultern zum Anheben hochziehen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000035-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000035-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000036",
+    "name": "Reverse Butterfly",
+    "muscleGroups": [
+      "Schultern",
+      "Rücken"
+    ],
+    "equipment": "Maschine",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Setz dich mit der Brust ans Polster und richte die Griffe auf Schulterhöhe aus.",
+      "Öffne die Arme mit weich gebeugten Ellbogen seitlich nach hinten.",
+      "Führ die Griffe langsam wieder nach vorn."
+    ],
+    "tips": [
+      "Halte die Ellbogen etwa auf Griffhöhe.",
+      "Beende den Zug, solange die Brust am Polster bleibt."
+    ],
+    "mistakes": [
+      "Die Arme weit hinter den Rumpf reißen.",
+      "Mit dem Oberkörper vom Polster abfedern."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000036-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000036-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000037",
+    "name": "Arnold-Drücken",
+    "muscleGroups": [
+      "Schultern",
+      "Trizeps"
+    ],
+    "equipment": "Kurzhanteln",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Setz dich mit Hanteln vor den Schultern hin, die Handflächen zeigen zu dir.",
+      "Öffne die Ellbogen und dreh die Hände beim Hochdrücken nach vorn.",
+      "Senk die Hanteln ab und dreh die Handflächen wieder zu dir."
+    ],
+    "tips": [
+      "Dreh und drück in einer fließenden Bewegung.",
+      "Halte den unteren Rücken ruhig."
+    ],
+    "mistakes": [
+      "Die Drehung ruckartig aus den Handgelenken erzwingen.",
+      "Beim Hochdrücken ins Hohlkreuz ausweichen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000037-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000037-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000038",
+    "name": "Hammercurls",
+    "muscleGroups": [
+      "Bizeps"
+    ],
+    "equipment": "Kurzhanteln",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Halt die Hanteln seitlich mit den Handflächen zueinander.",
+      "Beug einen oder beide Ellbogen und führ die Hanteln in Richtung Schultern.",
+      "Senk die Hanteln langsam zurück und behalt den neutralen Griff."
+    ],
+    "tips": [
+      "Halte die Oberarme neben dem Rumpf.",
+      "Streck die Ellbogen unten kontrolliert."
+    ],
+    "mistakes": [
+      "Die Hanteln mit der Hüfte anschwingen.",
+      "Die Handgelenke nach innen knicken."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000038-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000038-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000039",
+    "name": "Scottcurls",
+    "muscleGroups": [
+      "Bizeps"
+    ],
+    "equipment": "SZ-Stange",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Stell die Bank so ein, dass die Oberarme voll auf dem Polster liegen.",
+      "Greif die SZ-Stange und beug die Ellbogen gegen das Gewicht.",
+      "Senk die Stange langsam, bis die Arme fast gestreckt sind."
+    ],
+    "tips": [
+      "Lass die Oberarme durchgehend am Polster.",
+      "Wähl ein Gewicht, das du unten ohne Ruck wenden kannst."
+    ],
+    "mistakes": [
+      "Die Ellbogen unter Last hart durchdrücken.",
+      "Die Schultern vorschieben und Oberarme abheben."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000039-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000039-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000040",
+    "name": "Kabelcurls",
+    "muscleGroups": [
+      "Bizeps"
+    ],
+    "equipment": "Kabelzug",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Häng eine kurze Stange am tiefen Kabel ein und greif sie von unten.",
+      "Beug die Ellbogen und führ die Stange nach oben, während die Oberarme ruhig bleiben.",
+      "Senk die Stange langsam zurück, bis die Arme wieder lang sind."
+    ],
+    "tips": [
+      "Tritt so weit zurück, dass auch unten Zug anliegt.",
+      "Halte die Handgelenke neutral."
+    ],
+    "mistakes": [
+      "Dich beim Hochziehen zurücklehnen.",
+      "Den Gewichtsstapel unten absetzen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000040-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000040-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000041",
+    "name": "Trizepsstrecken über Kopf",
+    "muscleGroups": [
+      "Trizeps"
+    ],
+    "equipment": "Kurzhantel",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Umfass den oberen Hantelkopf mit beiden Händen und bring die Hantel über den Kopf.",
+      "Beug die Ellbogen und senk die Hantel kontrolliert hinter den Kopf.",
+      "Streck die Ellbogen und führ die Hantel wieder nach oben."
+    ],
+    "tips": [
+      "Halt die Rippen über dem Becken.",
+      "Führ die Oberarme nah am Kopf, soweit deine Schulterbeweglichkeit es zulässt."
+    ],
+    "mistakes": [
+      "Die Ellbogen weit nach außen klappen lassen.",
+      "Für mehr Tiefe den Rücken überstrecken."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000041-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000041-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000042",
+    "name": "Enges Bankdrücken",
+    "muscleGroups": [
+      "Trizeps",
+      "Brust"
+    ],
+    "equipment": "Langhantel",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Leg dich auf die Bank und greif die Stange ungefähr schulterbreit.",
+      "Heb aus und senk die Stange kontrolliert zur unteren Brust.",
+      "Drück die Stange über die Schultern zurück nach oben."
+    ],
+    "tips": [
+      "Führ die Ellbogen näher am Rumpf als beim normalen Bankdrücken.",
+      "Halte die Handgelenke über den Unterarmen."
+    ],
+    "mistakes": [
+      "Die Hände so eng setzen, dass die Handgelenke abknicken.",
+      "Die Stange auf der Brust abfedern."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000042-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000042-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000043",
+    "name": "Kniebeugen",
+    "muscleGroups": [
+      "Beine",
+      "Gesäß"
+    ],
+    "equipment": "Langhantel",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Leg die Langhantel auf dem oberen Rücken ab und nimm einen stabilen Stand ein.",
+      "Spann den Rumpf an und beug Knie und Hüfte gleichzeitig.",
+      "Senk dich kontrolliert so tief wie stabil möglich und drück dich über die ganzen Füße hoch."
+    ],
+    "tips": [
+      "Stell die Sicherheitsablagen passend ein.",
+      "Lass Knie und Zehen in dieselbe Richtung zeigen."
+    ],
+    "mistakes": [
+      "Die Fersen abheben lassen.",
+      "Aus der Tiefe zuerst nur die Hüfte hochschieben."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000043-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000043-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000044",
+    "name": "Ausfallschritte",
+    "muscleGroups": [
+      "Beine",
+      "Gesäß"
+    ],
+    "equipment": "Kurzhanteln",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Halt die Hanteln seitlich und mach einen Schritt nach vorn.",
+      "Beug beide Knie, bis das hintere Knie knapp über dem Boden ist.",
+      "Drück dich über den vorderen Fuß zurück und wechsel das Bein."
+    ],
+    "tips": [
+      "Lass etwas seitlichen Abstand zwischen den Füßen.",
+      "Setz den vorderen Fuß vollständig auf."
+    ],
+    "mistakes": [
+      "Auf einer engen Linie landen und seitlich kippen.",
+      "Mit dem vorderen Knie nach innen einknicken."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000044-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000044-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000045",
+    "name": "Bulgarische Kniebeugen",
+    "muscleGroups": [
+      "Beine",
+      "Gesäß"
+    ],
+    "equipment": "Kurzhanteln",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Leg den hinteren Fuß auf einer niedrigen Bank ab und halt die Hanteln neben dem Körper.",
+      "Beug vor allem das vordere Bein und senk das hintere Knie Richtung Boden.",
+      "Drück dich über den vorderen Fuß hoch und wechsel nach dem Satz die Seite."
+    ],
+    "tips": [
+      "Verlager den Großteil des Gewichts aufs vordere Bein.",
+      "Wähl einen Abstand, auf dem der Vorderfuß voll aufliegt."
+    ],
+    "mistakes": [
+      "Dich hauptsächlich mit dem hinteren Bein abstoßen.",
+      "Das Becken zur Seite aufdrehen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000045-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000045-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000046",
+    "name": "Goblet Squats",
+    "muscleGroups": [
+      "Beine",
+      "Gesäß"
+    ],
+    "equipment": "Kurzhantel",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Halt eine Kurzhantel senkrecht dicht vor der Brust.",
+      "Beug Hüfte und Knie und geh zwischen deinen Füßen in die Hocke.",
+      "Drück dich mit stabilen Knien zurück in den Stand."
+    ],
+    "tips": [
+      "Halte den Druck auf Ferse und Vorfuß verteilt.",
+      "Lass die Ellbogen vor dem Körper und die Hantel nahe am Brustbein."
+    ],
+    "mistakes": [
+      "Die Hantel nach vorn vom Körper wegtragen.",
+      "Die Fersen unten abheben lassen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000046-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000046-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000047",
+    "name": "Hip Thrusts",
+    "muscleGroups": [
+      "Gesäß",
+      "Beine"
+    ],
+    "equipment": "Langhantel",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Lehn die unteren Schulterblätter an eine stabile Bank und polster die Stange über der Hüfte ab.",
+      "Setz beide Füße auf und drück die Hüfte hoch, bis Oberschenkel und Rumpf etwa eine Linie bilden.",
+      "Senk die Hüfte kontrolliert wieder ab."
+    ],
+    "tips": [
+      "Stell die Füße so, dass die Schienbeine oben etwa senkrecht stehen.",
+      "Kipp das Becken oben leicht nach hinten und spann das Gesäß an."
+    ],
+    "mistakes": [
+      "Die Endposition aus dem Hohlkreuz holen.",
+      "Über die Zehenspitzen statt den ganzen Fuß drücken."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000047-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000047-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000048",
+    "name": "Glute Bridge",
+    "muscleGroups": [
+      "Gesäß"
+    ],
+    "equipment": "Körpergewicht",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Leg dich auf den Rücken, beug die Knie und setz die Füße auf.",
+      "Spann das Gesäß an und heb das Becken, bis Rumpf und Oberschenkel eine Linie bilden.",
+      "Senk das Becken langsam zur Matte zurück."
+    ],
+    "tips": [
+      "Halte die Rippen unten.",
+      "Lass die Knie in Richtung der Zehen zeigen."
+    ],
+    "mistakes": [
+      "Über den unteren Rücken zusätzliche Höhe erzwingen.",
+      "Die Knie nach innen fallen lassen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000048-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000048-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000049",
+    "name": "Abduktorenmaschine",
+    "muscleGroups": [
+      "Gesäß"
+    ],
+    "equipment": "Maschine",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Setz dich mit dem Rücken am Polster hin und leg die Außenseiten der Oberschenkel an die Polster.",
+      "Drück die Knie in einem kontrollierten Bogen nach außen.",
+      "Führ die Beine langsam zurück, bis die Polster wieder nahe zusammen sind."
+    ],
+    "tips": [
+      "Halte beide Seiten des Beckens am Sitz.",
+      "Nutz nur den Bereich, in dem du den Oberkörper ruhig hältst."
+    ],
+    "mistakes": [
+      "Mit dem Oberkörper Schwung holen.",
+      "Die Polster am Ende zuschnappen lassen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000049-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000049-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000050",
+    "name": "Adduktorenmaschine",
+    "muscleGroups": [
+      "Beine"
+    ],
+    "equipment": "Maschine",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Setz dich aufrecht hin und leg die Innenseiten der Oberschenkel an die Polster.",
+      "Wähl eine Startweite mit angenehmer Dehnung und zieh die Beine zur Mitte zusammen.",
+      "Öffne die Beine langsam bis zur Startposition."
+    ],
+    "tips": [
+      "Halte den Rücken am Polster.",
+      "Nutz einen gleichmäßigen Druck auf beiden Seiten."
+    ],
+    "mistakes": [
+      "Eine unangenehme Startweite erzwingen.",
+      "Das Gewicht beim Öffnen fallen lassen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000050-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000050-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000051",
+    "name": "Wadenheben sitzend",
+    "muscleGroups": [
+      "Waden"
+    ],
+    "equipment": "Maschine",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Setz die Fußballen auf die Trittfläche und stell die Polster knapp oberhalb der Knie ein.",
+      "Heb die Fersen an, um die Sicherung zu lösen, und senk sie kontrolliert.",
+      "Drück die Fersen wieder nach oben und sichere die Maschine nach dem Satz."
+    ],
+    "tips": [
+      "Pausier kurz in der gedehnten Position.",
+      "Verteil den Druck gleichmäßig auf beide Vorfüße."
+    ],
+    "mistakes": [
+      "Die Fersen aus der tiefen Position hochfedern.",
+      "Die Fußgelenke nach außen wegkippen lassen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000051-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000051-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000052",
+    "name": "Unterarmstütz",
+    "muscleGroups": [
+      "Bauch"
+    ],
+    "equipment": "Körpergewicht",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Setz die Ellbogen unter den Schultern und stütz dich auf die Unterarme und Zehen.",
+      "Spann Bauch und Gesäß an, bis Kopf, Rumpf und Beine eine Linie bilden.",
+      "Atme ruhig weiter und beende den Satz, sobald du die Linie verlierst."
+    ],
+    "tips": [
+      "Drück die Unterarme aktiv in den Boden.",
+      "Schau zum Boden und halt den Nacken lang."
+    ],
+    "mistakes": [
+      "Das Becken durchhängen oder hochwandern lassen.",
+      "Die Luft während der gesamten Haltezeit anhalten."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000052-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000052-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000053",
+    "name": "Beinheben hängend",
+    "muscleGroups": [
+      "Bauch"
+    ],
+    "equipment": "Klimmzugstange",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Häng mit langen Armen an der Klimmzugstange und bring den Körper zur Ruhe.",
+      "Heb die Beine mit leicht gebeugten Knien an und roll das Becken am Ende leicht ein.",
+      "Senk die Beine langsam und beginne erst wieder, wenn du ruhig hängst."
+    ],
+    "tips": [
+      "Beug die Knie stärker, wenn du sonst Schwung brauchst.",
+      "Atme beim Anheben aus."
+    ],
+    "mistakes": [
+      "Die Beine vor und zurück pendeln lassen.",
+      "Beim Absenken ins Hohlkreuz fallen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000053-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000053-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000054",
+    "name": "Seitstütz",
+    "muscleGroups": [
+      "Bauch"
+    ],
+    "equipment": "Körpergewicht",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Stütz dich seitlich auf den Unterarm, der Ellbogen steht unter der Schulter.",
+      "Stapel die Füße oder stell sie leicht versetzt und heb die Hüfte ab.",
+      "Halt den Körper in einer Linie, atme weiter und wechsel anschließend die Seite."
+    ],
+    "tips": [
+      "Drück den Boden über den Unterarm weg.",
+      "Halte Brustbein und Beckenknochen nach vorn ausgerichtet."
+    ],
+    "mistakes": [
+      "Die Schulter zum Ohr sinken lassen.",
+      "Die Hüfte zum Boden drehen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000054-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000054-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000055",
+    "name": "Crunches",
+    "muscleGroups": [
+      "Bauch"
+    ],
+    "equipment": "Körpergewicht",
+    "type": "Strength",
+    "note": "",
+    "steps": [
+      "Leg dich auf den Rücken, stell die Füße auf und leg die Hände locker an die Schläfen.",
+      "Roll die Rippen Richtung Becken, bis die Schulterblätter abheben.",
+      "Senk den Oberkörper kontrolliert zurück."
+    ],
+    "tips": [
+      "Lass zwischen Kinn und Brust etwa eine Faust Platz.",
+      "Atme beim Hochrollen aus."
+    ],
+    "mistakes": [
+      "Mit den Händen am Kopf ziehen.",
+      "Dich bis in den Sitz hochschwingen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000055-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000055-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000056",
+    "name": "Burpees",
+    "muscleGroups": [
+      "Ganzkörper",
+      "Cardio"
+    ],
+    "equipment": "Körpergewicht",
+    "type": "Cardio",
+    "note": "",
+    "steps": [
+      "Geh aus dem Stand in die Hocke und setz beide Hände auf.",
+      "Spring oder steig in den hohen Stütz und senk bei Bedarf die Brust wie beim Liegestütz.",
+      "Bring die Füße zurück unter den Körper und richte dich auf.",
+      "Spring leicht hoch und lande weich, wenn du die Sprungvariante machst."
+    ],
+    "tips": [
+      "Wähl ein Tempo, bei dem der Rumpf im Stütz stabil bleibt.",
+      "Nutze einzelne Schritte für eine ruhigere Variante."
+    ],
+    "mistakes": [
+      "Beim Rücksprung im unteren Rücken durchhängen.",
+      "Mit steifen Knien landen."
+    ]
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000057",
+    "name": "Ruderergometer",
+    "muscleGroups": [
+      "Cardio",
+      "Ganzkörper"
+    ],
+    "equipment": "Ruderergometer",
+    "type": "Cardio",
+    "note": "",
+    "steps": [
+      "Fixier die Füße und greif den Griff mit langen Armen.",
+      "Drück zuerst die Beine, öffne dann leicht die Hüfte und zieh den Griff zu den unteren Rippen.",
+      "Streck die Arme vor, neig den Rumpf aus der Hüfte und roll erst dann mit den Knien zurück."
+    ],
+    "tips": [
+      "Lass die Schultern tief und den Griff waagerecht.",
+      "Mach den Rückweg ruhig und langsamer als den Zug."
+    ],
+    "mistakes": [
+      "Die Arme vor dem Beinstoß beugen.",
+      "Die Knie beugen, solange der Griff noch darüber steht."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000057-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000057-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000058",
+    "name": "Fahrradergometer",
+    "muscleGroups": [
+      "Cardio",
+      "Beine"
+    ],
+    "equipment": "Fahrradergometer",
+    "type": "Cardio",
+    "note": "",
+    "steps": [
+      "Stell den Sattel so ein, dass das Knie am tiefsten Pedalpunkt leicht gebeugt bleibt.",
+      "Setz die Füße auf die Pedale und beginn mit wenig Widerstand zu treten.",
+      "Steiger den Widerstand und tritt gleichmäßig, bis du zum Ausrollen wieder reduzierst."
+    ],
+    "tips": [
+      "Halte Schultern und Hände locker.",
+      "Stell den Sattel nach, wenn das Becken hin und her kippt."
+    ],
+    "mistakes": [
+      "Mit fast gestreckten Knien nach den Pedalen greifen.",
+      "Den Widerstand so hoch wählen, dass der Tritt stockt."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000058-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000058-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000059",
+    "name": "Laufband",
+    "muscleGroups": [
+      "Cardio",
+      "Beine"
+    ],
+    "equipment": "Laufband",
+    "type": "Cardio",
+    "note": "",
+    "steps": [
+      "Steig bei stehendem Band auf und befestige, falls vorhanden, den Sicherheitsclip.",
+      "Starte im Gehtempo und erhöh Geschwindigkeit oder Steigung schrittweise.",
+      "Drossle am Ende das Tempo und steig erst ab, wenn das Band steht."
+    ],
+    "tips": [
+      "Schau nach vorn und halte die Schritte natürlich kurz.",
+      "Wähl eine Stufe, bei der du dich frei bewegen kannst."
+    ],
+    "mistakes": [
+      "Beim Laufen dauerhaft an den Griffen hängen.",
+      "Auf ein bereits schnell laufendes Band steigen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000059-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000059-1.jpg"
+  },
+  {
+    "id": "10000000-0000-0000-0000-000000000060",
+    "name": "Crosstrainer",
+    "muscleGroups": [
+      "Cardio",
+      "Ganzkörper"
+    ],
+    "equipment": "Crosstrainer",
+    "type": "Cardio",
+    "note": "",
+    "steps": [
+      "Steig auf die ruhenden Pedale und halte dich zunächst an den festen Griffen fest.",
+      "Beginne mit leichtem Widerstand und lass Beine und bewegliche Griffe gleichmäßig kreisen.",
+      "Reduzier das Tempo am Ende und steig ab, sobald die Pedale stehen."
+    ],
+    "tips": [
+      "Halte den Oberkörper aufrecht und den Griff locker.",
+      "Lass Knie und Fußspitzen in die gleiche Richtung zeigen."
+    ],
+    "mistakes": [
+      "Dich schwer auf die Griffe stützen.",
+      "Die Knie bei jedem Schritt nach innen fallen lassen."
+    ],
+    "imagePath": "images/exercises/10000000-0000-0000-0000-000000000060-0.jpg",
+    "imagePath2": "images/exercises/10000000-0000-0000-0000-000000000060-1.jpg"
+  }
+]

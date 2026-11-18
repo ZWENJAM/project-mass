@@ -1,0 +1,74 @@
+@inherits LayoutComponentBase
+@inject TrainingDataInitializer TrainingData
+@inject NutritionDataInitializer NutritionData
+@inject NasSyncCoordinator NasSync
+@inject NavigationManager Navigation
+@implements IDisposable
+
+<a class="skip-link" href="#main-content" @onclick="FocusMain" @onclick:preventDefault>Zum Inhalt springen</a>
+<aside class="sidebar">
+    <a class="brand" href="" aria-label="PROJECT MASS – Übersicht">
+        <img src="icon.svg" alt="" width="36" height="36" /><span>Project Mass</span>
+    </a>
+    <nav aria-label="Hauptnavigation"><NavMenu /></nav>
+    <div class="side-bottom">
+        @if (NasSync.Enabled) { <a class="side-sync" href="mehr/daten#nas-sync-title">NAS-Sync · @NasSync.Status</a> }
+        else { <span>Lokaler Speicher</span> }
+    </div>
+</aside>
+<div class="shell">
+    <main id="main-content" tabindex="-1" @ref="main">
+        @if (ready)
+        {
+            @if (NasSync.ViewNeedsRefresh && !Navigation.ToBaseRelativePath(Navigation.Uri).StartsWith("training/live/", StringComparison.Ordinal))
+            {
+                <div class="notice sync-refresh" role="status"><span>NAS-Stand übernommen.</span><button class="small" @onclick="() => Navigation.Refresh(forceReload: true)">Ansicht neu laden</button></div>
+            }
+            @Body
+        }
+        else if (error is not null)
+        {
+            <h1>Startdaten konnten nicht geladen werden.</h1>
+            <p role="alert">@error</p><button @onclick="Initialize">Erneut versuchen</button>
+        }
+        else { <p role="status">PROJECT MASS wird vorbereitet …</p> }
+    </main>
+    <footer>PROJECT MASS <span>Version @AppInfo.Version</span></footer>
+</div>
+<nav class="mobile-nav" aria-label="Mobile Hauptnavigation"><NavMenu /></nav>
+@if (NasSync.ShowConflict && NasSync.Result?.Conflict is { } conflict &&
+    !Navigation.ToBaseRelativePath(Navigation.Uri).StartsWith("training/live/", StringComparison.Ordinal))
+{
+    <ConfirmationDialog Title="NAS-Sync-Konflikt"
+        Message="@($"Auf dem NAS gibt es neuere Daten von {conflict.DeviceName} ({conflict.SavedAt.ToLocalTime():dd.MM.yyyy HH:mm}). Hier wurde ebenfalls geändert.")"
+        ConfirmLabel="NAS-Stand übernehmen" AlternateLabel="Diesen Stand hochladen" IsBusy="NasSync.Busy" Error="@NasSync.Error"
+        OnConfirm="() => NasSync.ResolveAsync(SyncResolution.TakeNas)"
+        OnAlternate="() => NasSync.ResolveAsync(SyncResolution.UploadLocal)"
+        OnCancel="NasSync.DismissConflict" />
+}
+
+@code {
+    private bool ready;
+    private string? error;
+    private ElementReference main;
+    private async Task FocusMain() => await main.FocusAsync();
+    protected override Task OnInitializedAsync()
+    {
+        NasSync.Changed += SyncChanged;
+        return Initialize();
+    }
+    private void SyncChanged() => _ = InvokeAsync(StateHasChanged);
+    private async Task Initialize()
+    {
+        error = null;
+        try
+        {
+            await TrainingData.InitializeAsync();
+            await NutritionData.InitializeAsync();
+            ready = true;
+            _ = NasSync.StartAsync();
+        }
+        catch (Exception) { error = "Bitte prüfe, ob der lokale Browserspeicher verfügbar ist und die App vollständig geladen wurde."; }
+    }
+    public void Dispose() => NasSync.Changed -= SyncChanged;
+}

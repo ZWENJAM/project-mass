@@ -1,0 +1,39 @@
+<div class="confirmation-backdrop">
+    <section class="protocol-section confirmation" role="alertdialog" aria-modal="true" aria-labelledby="confirmation-title" tabindex="-1" @ref="dialog">
+        <h2 id="confirmation-title">@Title</h2>
+        <p>@Message</p>
+        @if (Error is not null) { <p class="notice" role="alert">@Error</p> }
+        <div class="form-actions">
+            <button disabled="@(busy || IsBusy)" @onclick="OnCancel">Abbrechen</button>
+            @if (AlternateLabel is not null)
+            {
+                <button disabled="@(busy || IsBusy)" @onclick="() => Confirm(OnAlternate)">@AlternateLabel</button>
+            }
+            <button class="@(AlternateLabel is null ? "danger" : "primary")" disabled="@(busy || IsBusy)" @onclick="() => Confirm(OnConfirm)">@ConfirmLabel</button>
+        </div>
+    </section>
+</div>
+
+@code {
+    [Parameter] public string Title { get; set; } = "Eintrag löschen?";
+    [Parameter] public string Message { get; set; } = "Dieser Eintrag wird dauerhaft gelöscht.";
+    [Parameter] public string ConfirmLabel { get; set; } = "Löschen";
+    [Parameter] public EventCallback OnConfirm { get; set; }
+    [Parameter] public EventCallback OnCancel { get; set; }
+    [Parameter] public string? AlternateLabel { get; set; }
+    [Parameter] public EventCallback OnAlternate { get; set; }
+    [Parameter] public bool IsBusy { get; set; }
+    [Parameter] public string? Error { get; set; }
+    private bool busy;
+    private ElementReference dialog;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender) await dialog.FocusAsync();
+    }
+    private async Task Confirm(EventCallback action)
+    {
+        busy = true;
+        try { await action.InvokeAsync(); }
+        finally { busy = false; }
+    }
+}

@@ -1,0 +1,7 @@
+{"foods":[{"fdcId":12345,"description":"Yogurt, plain","foodNutrients":[
+ {"nutrientNumber":"208","value":63},{"nutrientNumber":"203","value":5.25},
+ {"nutrientNumber":"205","value":7},{"nutrientNumber":"204","value":1.55},
+ {"nutrientNumber":"291","value":0.4},{"nutrientNumber":"269","value":6},
+ {"nutrientNumber":"307","value":40}]},
+ {"fdcId":54321,"description":"Missing energy","foodNutrients":[{"nutrientNumber":"203","value":2}]}
+]}

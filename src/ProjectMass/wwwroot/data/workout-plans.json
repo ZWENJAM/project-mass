@@ -1,0 +1,226 @@
+[
+    {
+        "id":  "20000000-0000-0000-0000-000000000001",
+        "name":  "Oberkörper A",
+        "day":  1,
+        "note":  "Brust · Rücken · Bauch",
+        "exercises":  [
+                          {
+                              "id":  "c952ebcb-f7ab-4b88-be95-354f8b5d70bb",
+                              "exerciseId":  "10000000-0000-0000-0000-000000000001",
+                              "sets":  3,
+                              "minReps":  8,
+                              "maxReps":  12,
+                              "restSeconds":  120
+                          },
+                          {
+                              "id":  "99ae6cfc-5b16-462c-ae28-08553df5912e",
+                              "exerciseId":  "10000000-0000-0000-0000-000000000002",
+                              "sets":  3,
+                              "minReps":  8,
+                              "maxReps":  12,
+                              "restSeconds":  120
+                          },
+                          {
+                              "id":  "689e23b1-3e9d-4100-bae8-15dc8b2886f4",
+                              "exerciseId":  "10000000-0000-0000-0000-000000000003",
+                              "sets":  3,
+                              "minReps":  8,
+                              "maxReps":  12,
+                              "restSeconds":  120
+                          },
+                          {
+                              "id":  "c572af79-0dce-4d71-b290-8d0eb853c059",
+                              "exerciseId":  "10000000-0000-0000-0000-000000000004",
+                              "sets":  3,
+                              "minReps":  10,
+                              "maxReps":  12,
+                              "restSeconds":  120
+                          },
+                          {
+                              "id":  "1ade32f1-5a72-4cdc-a1d7-9a235c488e81",
+                              "exerciseId":  "10000000-0000-0000-0000-000000000005",
+                              "sets":  3,
+                              "minReps":  12,
+                              "maxReps":  15,
+                              "restSeconds":  120
+                          },
+                          {
+                              "id":  "d9ea3451-45a1-45f8-9d8b-74a1525944f9",
+                              "exerciseId":  "10000000-0000-0000-0000-000000000006",
+                              "sets":  2,
+                              "minReps":  10,
+                              "maxReps":  15,
+                              "restSeconds":  120
+                          },
+                          {
+                              "id":  "99fba312-0ed9-4300-82ae-8ce91fbdfede",
+                              "exerciseId":  "10000000-0000-0000-0000-000000000007",
+                              "sets":  3,
+                              "minReps":  8,
+                              "maxReps":  12,
+                              "restSeconds":  120
+                          }
+                      ]
+    },
+    {
+        "id":  "20000000-0000-0000-0000-000000000002",
+        "name":  "Unterkörper A",
+        "day":  2,
+        "note":  "Beine · Rumpf",
+        "exercises":  [
+                          {
+                              "id":  "696db186-f400-4bf1-9a7c-b34cc9b46e2a",
+                              "exerciseId":  "10000000-0000-0000-0000-000000000008",
+                              "sets":  3,
+                              "minReps":  8,
+                              "maxReps":  12,
+                              "restSeconds":  120
+                          },
+                          {
+                              "id":  "67acf824-036b-4fa3-b818-43aede4e683e",
+                              "exerciseId":  "10000000-0000-0000-0000-000000000009",
+                              "sets":  3,
+                              "minReps":  8,
+                              "maxReps":  12,
+                              "restSeconds":  120
+                          },
+                          {
+                              "id":  "eba78485-ad56-4f49-ae62-e90fd3168ed3",
+                              "exerciseId":  "10000000-0000-0000-0000-000000000010",
+                              "sets":  3,
+                              "minReps":  10,
+                              "maxReps":  15,
+                              "restSeconds":  120
+                          },
+                          {
+                              "id":  "09951328-8750-4f70-bb0e-12adf5880a43",
+                              "exerciseId":  "10000000-0000-0000-0000-000000000011",
+                              "sets":  3,
+                              "minReps":  12,
+                              "maxReps":  20,
+                              "restSeconds":  120
+                          },
+                          {
+                              "id":  "9ba9df5a-1417-4296-9358-b3d5fd724086",
+                              "exerciseId":  "10000000-0000-0000-0000-000000000012",
+                              "sets":  3,
+                              "minReps":  10,
+                              "maxReps":  15,
+                              "restSeconds":  120
+                          }
+                      ]
+    },
+    {
+        "id":  "20000000-0000-0000-0000-000000000003",
+        "name":  "Oberkörper B",
+        "day":  4,
+        "note":  "Schultern · Brust · Arme",
+        "exercises":  [
+                          {
+                              "id":  "ccc2c236-9ac5-4c69-bade-8c916735bf88",
+                              "exerciseId":  "10000000-0000-0000-0000-000000000013",
+                              "sets":  3,
+                              "minReps":  8,
+                              "maxReps":  12,
+                              "restSeconds":  120
+                          },
+                          {
+                              "id":  "8a805e88-2a6d-4c00-b032-91ef0429370b",
+                              "exerciseId":  "10000000-0000-0000-0000-000000000014",
+                              "sets":  3,
+                              "minReps":  8,
+                              "maxReps":  12,
+                              "restSeconds":  120
+                          },
+                          {
+                              "id":  "b7f9942a-2abb-4220-b5f5-ded9a693dfe8",
+                              "exerciseId":  "10000000-0000-0000-0000-000000000015",
+                              "sets":  3,
+                              "minReps":  8,
+                              "maxReps":  12,
+                              "restSeconds":  120
+                          },
+                          {
+                              "id":  "c258a885-1b0c-411a-875d-fab3cfc628df",
+                              "exerciseId":  "10000000-0000-0000-0000-000000000016",
+                              "sets":  2,
+                              "minReps":  10,
+                              "maxReps":  15,
+                              "restSeconds":  120
+                          },
+                          {
+                              "id":  "6bfd00cf-401c-4e5f-ac43-7fcc8a957976",
+                              "exerciseId":  "10000000-0000-0000-0000-000000000017",
+                              "sets":  3,
+                              "minReps":  10,
+                              "maxReps":  12,
+                              "restSeconds":  120
+                          },
+                          {
+                              "id":  "df6c6bab-8c64-4476-b7e4-967c5dc436bd",
+                              "exerciseId":  "10000000-0000-0000-0000-000000000018",
+                              "sets":  3,
+                              "minReps":  10,
+                              "maxReps":  15,
+                              "restSeconds":  120
+                          },
+                          {
+                              "id":  "2636505b-db72-4a6e-8930-4f8607909002",
+                              "exerciseId":  "10000000-0000-0000-0000-000000000019",
+                              "sets":  2,
+                              "minReps":  10,
+                              "maxReps":  15,
+                              "restSeconds":  120
+                          }
+                      ]
+    },
+    {
+        "id":  "20000000-0000-0000-0000-000000000004",
+        "name":  "Unterkörper B",
+        "day":  6,
+        "note":  "Beine · Bauch",
+        "exercises":  [
+                          {
+                              "id":  "ae67f3e1-1264-4127-8263-9c4689767db1",
+                              "exerciseId":  "10000000-0000-0000-0000-000000000020",
+                              "sets":  3,
+                              "minReps":  8,
+                              "maxReps":  12,
+                              "restSeconds":  120
+                          },
+                          {
+                              "id":  "16b0fa39-260e-4cd9-9f4f-1ea853281d0b",
+                              "exerciseId":  "10000000-0000-0000-0000-000000000010",
+                              "sets":  3,
+                              "minReps":  10,
+                              "maxReps":  15,
+                              "restSeconds":  120
+                          },
+                          {
+                              "id":  "d176d730-75b6-4544-ab4b-f92d1b85a4d6",
+                              "exerciseId":  "10000000-0000-0000-0000-000000000021",
+                              "sets":  3,
+                              "minReps":  10,
+                              "maxReps":  15,
+                              "restSeconds":  120
+                          },
+                          {
+                              "id":  "30ecf481-d5c7-4fb2-bb32-289eafdaabd9",
+                              "exerciseId":  "10000000-0000-0000-0000-000000000011",
+                              "sets":  3,
+                              "minReps":  12,
+                              "maxReps":  20,
+                              "restSeconds":  120
+                          },
+                          {
+                              "id":  "8e45ba28-0608-46f4-b373-cb3ba80b3710",
+                              "exerciseId":  "10000000-0000-0000-0000-000000000022",
+                              "sets":  3,
+                              "minReps":  10,
+                              "maxReps":  15,
+                              "restSeconds":  120
+                          }
+                      ]
+    }
+]

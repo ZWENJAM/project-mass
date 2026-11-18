@@ -1,0 +1,301 @@
+@page "/training/live/{Id:guid}"
+@implements IAsyncDisposable
+@inject IWorkoutSessionService Sessions
+@inject IJSRuntime JS
+@inject NavigationManager Navigation
+@inject IStatisticsService Statistics
+@inject IExerciseService Exercises
+@inject IProfileService Profiles
+
+<div class="page-content narrow focus-mode">
+<PageTitle>Live-Training / PROJECT MASS</PageTitle>
+<div class="focus-head">
+    <a class="button-link" href="training" aria-label="Training verlassen, der Entwurf bleibt gespeichert"><AppIcon Name="close" /></a>
+    <div class="focus-title"><h1>@(session?.Name ?? "Live-Training")</h1>
+        @if (session is { IsCompleted: false }) { <p>@Sessions.CountSets(session).Completed von @Sessions.CountSets(session).Total Sätzen <span class="save-status" role="status">@saveStatus</span></p> }
+    </div>
+    @if (session is { IsCompleted: false })
+    {
+        <details class="page-menu"><summary aria-label="Trainingsmenü">⋯</summary><div class="menu-panel">
+            <label class="field">Trainingstag<input type="date" @bind="session.Date" @bind:after="Save" /></label>
+            <button class="danger" @onclick="() => confirmDiscard = true">Entwurf verwerfen</button>
+        </div></details>
+    }
+</div>
+@if (error is not null) { <p class="notice" role="alert">@error</p> }
+@if (session is { IsCompleted: false })
+{
+    <div class="exercise-steps" aria-hidden="true">@foreach (var step in session.Exercises) { <span class="@StepClass(step)"></span> }</div>
+    <div class="live-workout">
+    <fieldset class="editor-fields" disabled="@finishing">
+        @if (Current is { } current && CurrentSet is { } focusSet)
+        {
+            var setNumber = current.Sets.IndexOf(focusSet) + 1;
+            <section class="focus-card" aria-label="Aktueller Satz">
+                <p class="eyebrow">Übung @(session.Exercises.IndexOf(current) + 1) von @session.Exercises.Count</p>
+                <h2>@current.Name</h2>
+                <p class="target">Ziel @current.MinReps–@current.MaxReps Wiederholungen, Pause @RestLabel(current.RestSeconds). <a href="@($"training/uebungen/{current.ExerciseId}")">Verlauf ansehen</a></p>
+                @if (catalog.TryGetValue(current.ExerciseId, out var details))
+                {
+                    <button class="small" @onclick="() => guide = details"><AppIcon Name="info" />Ausführung</button>
+                }
+                @if (suggestions.TryGetValue(current.ExerciseId, out var suggestion) && !current.ProgressionApplied)
+                {
+                    <div class="notice progression-notice"><span>Letztes Mal alles geschafft: +@suggestion.IncreaseKg.ToString("0.##", German) kg</span>
+                        <button class="small" disabled="@(pendingSaves > 0 || current.Sets.Any(s => s.Type == SetType.Working && s.IsCompleted))" @onclick="() => Apply(current, suggestion)">Übernehmen</button></div>
+                }
+                <div class="set-chips">
+                    @for (var i = 0; i < current.Sets.Count; i++)
+                    {
+                        var chip = current.Sets[i];
+                        var chipNumber = i + 1;
+                        if (chip.IsCompleted) { <span class="set-chip"><AppIcon Name="check" />@chip.WeightKg.ToString("0.##", German) × @chip.Reps</span> }
+                        else if (chip == focusSet) { <span class="set-chip current">Satz @chipNumber</span> }
+                        else { <span class="set-chip open">Satz @chipNumber</span> }
+                    }
+                </div>
+                <div class="steppers">
+                    <div class="stepper"><p class="stepper-label">Kilogramm</p><span class="stepper-value">@focusSet.WeightKg.ToString("0.##", German)</span>
+                        <div class="stepper-buttons"><button aria-label="2,5 kg weniger" @onclick="() => Step(focusSet, -2.5m, 0)">−</button><button aria-label="2,5 kg mehr" @onclick="() => Step(focusSet, 2.5m, 0)">+</button></div></div>
+                    <div class="stepper"><p class="stepper-label">Wiederholungen</p><span class="stepper-value">@focusSet.Reps</span>
+                        <div class="stepper-buttons"><button aria-label="Eine Wiederholung weniger" @onclick="() => Step(focusSet, 0, -1)">−</button><button aria-label="Eine Wiederholung mehr" @onclick="() => Step(focusSet, 0, 1)">+</button></div></div>
+                </div>
+                <p class="focus-hint">Vorbelegt mit deinem letzten Training. Feinwerte und RPE unten unter „Alle Übungen und Sätze“.</p>
+                <button class="primary complete-set" disabled="@(pendingSaves > 0)" @onclick="() => Toggle(current, focusSet)">Satz @setNumber erledigt</button>
+            </section>
+            @if (NextExercise is { } nextExercise) { <p class="next-exercise">Als Nächstes: <strong>@nextExercise.Name</strong></p> }
+        }
+        else
+        {
+            <section class="focus-card">
+                <h2>Alle Sätze erledigt</h2>
+                <p class="target">Speichere das Training. Dann landet es in deiner Historie und zählt für Rekorde und Statistik.</p>
+                <button class="primary complete-set" disabled="@(pendingSaves > 0)" @onclick="Finish">Training abschließen</button>
+            </section>
+        }
+        @if (notificationPermission != "granted")
+        {
+            <button class="subtle small" aria-describedby="rest-notification-limits" @onclick="RequestNotifications">Benachrichtigen, wenn die Pause vorbei ist</button>
+        }
+        <p id="rest-notification-limits" class="mini-label">Funktioniert, wenn du kurz in eine andere App wechselst. Bei gesperrtem Display kann der Browser die App anhalten.</p>
+        @if (notificationMessage is not null)
+        {
+            <p class="mini-label" role="status">@notificationMessage</p>
+        }
+        <details class="all-sets"><summary>Alle Übungen und Sätze</summary>
+        @foreach (var exercise in session.Exercises)
+        {
+            <section class="protocol-section" @key="exercise.Id">
+                <div class="exercise-head"><div><h2>@exercise.Name</h2><p>Ziel @exercise.MinReps–@exercise.MaxReps Wdh. / Pause @exercise.RestSeconds s</p></div></div>
+                <table class="set-table"><colgroup><col class="set-column" /><col class="weight-column" /><col class="reps-column" /><col class="rpe-column" /><col class="check-column" /></colgroup><thead><tr><th>Satz</th><th>kg</th><th>Wdh.</th><th>RPE</th><th><AppIcon Name="check" /><span class="sr-only">Erledigt</span></th></tr></thead><tbody>
+                @for (var i = 0; i < exercise.Sets.Count; i++)
+                {
+                    var set = exercise.Sets[i];
+                    var number = i + 1;
+                    <tr class="set-row @(set.IsCompleted ? "completed" : set.Id == NextSetId ? "next-due" : "")" @key="set.Id">
+                        <td class="set-num">@number@if(set.Type != SetType.Working){<small class="set-abbreviation" title="@TrainingLabels.Set(set.Type)">@(set.Type == SetType.WarmUp ? "W" : "D")</small>}</td>
+                        <td><input class="weight-input" type="text" inputmode="decimal" aria-label="@($"Gewicht (kg), Satz {number}")" @bind="set.WeightKg" @bind:culture="@(System.Globalization.CultureInfo.GetCultureInfo("de-DE"))" @bind:event="oninput" @bind:after="Save" /></td>
+                        <td><input type="number" min="0" max="999" inputmode="numeric" aria-label="@($"Wdh., Satz {number}")" @bind="set.Reps" @bind:event="oninput" @bind:after="Save" /></td>
+                        <td><input type="text" inputmode="decimal" aria-label="@($"RPE (optional), Satz {number}")" @bind="set.Rpe" @bind:culture="@(System.Globalization.CultureInfo.GetCultureInfo("de-DE"))" @bind:event="oninput" @bind:after="Save" /></td>
+                        <td><div class="set-actions"><button class="set-check" aria-label="@($"Satz {number} {(set.IsCompleted ? "als offen markieren" : "abhaken")}")" aria-pressed="@set.IsCompleted" @onclick="() => Toggle(exercise, set)">@if(set.IsCompleted){<AppIcon Name="check" />}</button>
+                            <details class="set-menu"><summary aria-label="@($"Satzmenü {number}")">⋯</summary><div class="menu-panel"><label class="field">Satztyp ändern<select aria-label="@($"Satztyp, Satz {number}")" @bind="set.Type" @bind:after="Save">@foreach (var type in Enum.GetValues<SetType>()) { <option value="@type">@TrainingLabels.Set(type)</option> }</select></label><button disabled="@(exercise.Sets.Count <= 1)" aria-label="@($"Satz {number} entfernen")" @onclick="() => Remove(exercise, set)">Satz entfernen</button></div></details>
+                        </div></td>
+                    </tr>
+                }
+                </tbody></table>
+                <button class="small" @onclick="() => Add(exercise)">Satz hinzufügen</button>
+            </section>
+        }
+        <label class="field">Trainingsnotiz<textarea @bind="session.Note" @bind:event="oninput" @bind:after="Save" maxlength="10000" placeholder="Technik, Energie, nächste Schritte …"></textarea></label>
+        <div class="form-actions"><button class="primary" disabled="@(pendingSaves > 0)" @onclick="Finish">Training abschließen</button></div>
+        </details>
+        <div class="rest-timer @(remaining == 0 ? "idle" : "")" role="region" aria-label="Pausentimer"><div class="rest-timer-inner"><div class="timer-readout"><span>Pause</span><strong role="timer">@($"{remaining / 60:00}:{remaining % 60:00}")</strong></div><div class="timer-segments" aria-hidden="true">@for(var segment=0;segment<8;segment++){<span class="@(segment < ActiveSegments ? "filled" : "")"></span>}</div><div class="timer-actions"><button @onclick="ExtendRest">+30 s</button><button @onclick="StopRest">Weiter</button></div></div></div>
+    </fieldset>
+    </div>
+}
+else if (session?.IsCompleted == true)
+{
+    <p class="protocol-section">Dieses Training ist bereits abgeschlossen. <a class="section-link" href="@($"training/historie/{Id}")">Details öffnen</a></p>
+}
+@if (confirmDiscard)
+{
+    <ConfirmationDialog Title="Entwurf verwerfen?" Message="Alle Einträge dieses offenen Trainings werden entfernt." ConfirmLabel="Verwerfen" OnCancel="() => confirmDiscard = false" OnConfirm="Discard" />
+}
+@if (guide is not null)
+{
+    <ExerciseGuide Exercise="guide" OnClose="() => guide = null" />
+}
+</div>
+@code {
+    private static readonly System.Globalization.CultureInfo German = System.Globalization.CultureInfo.GetCultureInfo("de-DE");
+    private SessionExercise? Current => session?.Exercises.FirstOrDefault(e => e.Sets.Any(s => !s.IsCompleted));
+    private SetEntry? CurrentSet => Current?.Sets.FirstOrDefault(s => !s.IsCompleted);
+    private SessionExercise? NextExercise => session is null || Current is not { } current ? null
+        : session.Exercises.Skip(session.Exercises.IndexOf(current) + 1).FirstOrDefault(e => e.Sets.Any(s => !s.IsCompleted));
+    private string StepClass(SessionExercise exercise) => exercise.Sets.All(s => s.IsCompleted) ? "done" : exercise == Current ? "current" : "";
+    private static string RestLabel(int seconds) => seconds % 60 == 0 ? $"{seconds / 60} min" : $"{seconds} s";
+
+    // Big −/+ buttons for one-handed use between sets: 2,5 kg and one rep per tap.
+    private async Task Step(SetEntry set, decimal kg, int reps)
+    {
+        set.WeightKg = Math.Clamp(set.WeightKg + kg, 0, 2000);
+        set.Reps = Math.Clamp(set.Reps + reps, 0, 999);
+        await Save();
+    }
+
+    [Parameter] public Guid Id { get; set; }
+    private WorkoutSession? session;
+    private Dictionary<Guid, Exercise> catalog = [];
+    private Exercise? guide;
+    private Dictionary<Guid, ProgressionSuggestion> suggestions = [];
+    private string? error;
+    private string saveStatus = "Gespeichert";
+    private bool finishing, confirmDiscard, disposed;
+    private int remaining, pendingSaves;
+    private readonly SemaphoreSlim saveGate = new(1, 1);
+    private readonly CancellationTokenSource timerCancellation = new();
+    private Task? timerTask;
+    private IJSObjectReference? module;
+    private DateTimeOffset? notifiedEnd;
+    private string? notificationPermission, notificationMessage;
+    private int timerSpan = 120;
+    private Guid? NextSetId => session?.Exercises.SelectMany(e => e.Sets).FirstOrDefault(s => !s.IsCompleted)?.Id;
+    private int ActiveSegments => session?.RestEndsAt is null ? 0 : Math.Clamp((int)Math.Ceiling(remaining * 8d / Math.Max(1, timerSpan)), 0, 8);
+    private string CompletedWidth => session is null || Sessions.CountSets(session).Total == 0 ? "0" : (Sessions.CountSets(session).Completed * 100m / Sessions.CountSets(session).Total).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture);
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            session = await Sessions.GetAsync(Id);
+            if (session is null) { error = "Training nicht gefunden."; return; }
+            var history = await Sessions.GetHistoryAsync();
+            var exercises = await Exercises.GetAllAsync();
+            catalog = exercises.ToDictionary(e => e.Id);
+            var profile = await Profiles.GetAsync();
+            suggestions = session.Exercises.Select(e => Statistics.GetProgression(e.ExerciseId, history, exercises, profile)).Where(s => s is not null).Cast<ProgressionSuggestion>().DistinctBy(s => s.ExerciseId).ToDictionary(s => s.ExerciseId);
+            remaining = Sessions.GetRemainingRestSeconds(session);
+            if (remaining == 0) notifiedEnd = session.RestEndsAt;
+            timerSpan = session.Exercises.Select(e => e.RestSeconds).DefaultIfEmpty(120).Max();
+            module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/training.js");
+            notificationPermission = await module.InvokeAsync<string>("notificationPermission");
+            timerTask = RunTimer();
+        }
+        catch (Exception) { error = "Das Training konnte nicht geladen werden. Bitte die Seite erneut öffnen."; }
+    }
+
+    private async Task RequestNotifications()
+    {
+        if (module is null) return;
+        try { notificationPermission = await module.InvokeAsync<string>("requestNotifications"); }
+        catch (JSException) { notificationPermission = "unavailable"; }
+        notificationMessage = notificationPermission switch
+        {
+            "granted" => "Pausenbenachrichtigungen sind aktiviert.",
+            "denied" => "Benachrichtigungen sind in den Browser-Einstellungen blockiert.",
+            "unavailable" => "Dieser Browser unterstützt hier keine Benachrichtigungen.",
+            _ => null
+        };
+    }
+
+    private async Task Save()
+    {
+        if (session is null || disposed) return;
+        // Serialize a snapshot now; later keystrokes must not overtake this write.
+        var snapshot = System.Text.Json.JsonSerializer.Deserialize<WorkoutSession>(System.Text.Json.JsonSerializer.Serialize(session))!;
+        pendingSaves++; saveStatus = "Wird gespeichert …";
+        await saveGate.WaitAsync();
+        try
+        {
+            await Sessions.SaveDraftAsync(snapshot);
+            error = null; saveStatus = "Gespeichert";
+        }
+        catch (ArgumentException ex) { error = ex.Message; saveStatus = "Änderungen noch nicht gespeichert"; }
+        catch (Exception) { error = "Speichern fehlgeschlagen. Bitte erneut versuchen, bevor du die Seite verlässt."; saveStatus = "Änderungen noch nicht gespeichert"; }
+        finally { pendingSaves--; saveGate.Release(); }
+    }
+
+    private async Task Change(Func<Task> action)
+    {
+        await saveGate.WaitAsync();
+        try { await action(); error = null; saveStatus = "Gespeichert"; }
+        catch (ArgumentException ex) { error = ex.Message; saveStatus = "Bitte Eingaben prüfen"; }
+        catch (Exception) { error = "Änderung konnte nicht gespeichert werden. Bitte erneut versuchen."; saveStatus = "Änderungen noch nicht gespeichert"; }
+        finally { saveGate.Release(); }
+    }
+
+    private async Task Toggle(SessionExercise exercise, SetEntry set)
+    {
+        if (!set.IsCompleted) timerSpan = exercise.RestSeconds;
+        await Change(() => Sessions.ToggleSetAsync(session!, exercise, set));
+        remaining = Sessions.GetRemainingRestSeconds(session!);
+    }
+    private async Task Apply(SessionExercise exercise, ProgressionSuggestion suggestion)
+    {
+        try { Statistics.ApplyProgression(exercise, suggestion); await Save(); }
+        catch (ArgumentException ex) { error = ex.Message; }
+    }
+    private async Task Add(SessionExercise exercise)
+    {
+        try { Sessions.AddSet(exercise); await Save(); }
+        catch (ArgumentException ex) { error = ex.Message; }
+    }
+    private async Task Remove(SessionExercise exercise, SetEntry set)
+    {
+        try { Sessions.RemoveSet(exercise, set); await Save(); }
+        catch (ArgumentException ex) { error = ex.Message; }
+    }
+    private async Task ExtendRest()
+    {
+        await Change(() => Sessions.ExtendRestAsync(session!));
+        remaining = Sessions.GetRemainingRestSeconds(session!);
+        timerSpan = Math.Max(timerSpan, remaining);
+    }
+    private async Task StopRest() { await Change(() => Sessions.StopRestAsync(session!)); remaining = Sessions.GetRemainingRestSeconds(session!); }
+    private async Task Finish()
+    {
+        if (finishing) return;
+        finishing = true;
+        await Change(async () => { await Sessions.CompleteAsync(session!); Navigation.NavigateTo($"training/historie/{session!.Id}"); });
+        finishing = false;
+    }
+    private async Task Discard()
+    {
+        finishing = true;
+        await Change(async () => { await Sessions.DeleteAsync(Id); Navigation.NavigateTo("training"); });
+        confirmDiscard = false; finishing = false;
+    }
+    private async Task RunTimer()
+    {
+        using var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(250));
+        try
+        {
+            while (await timer.WaitForNextTickAsync(timerCancellation.Token))
+                await InvokeAsync(async () =>
+                {
+                    if (disposed || session is null || session.IsCompleted) return;
+                    var next = Sessions.GetRemainingRestSeconds(session);
+                    if (next != remaining) { remaining = next; StateHasChanged(); }
+                    if (session.RestEndsAt is { } end && next == 0 && notifiedEnd != end)
+                    {
+                        notifiedEnd = end;
+                        if (module is not null)
+                        {
+                            try { await module.InvokeVoidAsync("restFinished", Current?.Name); }
+                            catch (JSException) { /* Browser notifications and vibration are optional. */ }
+                        }
+                        StateHasChanged();
+                    }
+                });
+        }
+        catch (OperationCanceledException) { }
+        catch (JSException) { /* Timer remains timestamp based even if vibration is unavailable. */ }
+    }
+    public async ValueTask DisposeAsync()
+    {
+        disposed = true; timerCancellation.Cancel();
+        if (timerTask is not null) await timerTask;
+        timerCancellation.Dispose();
+        if (module is not null) await module.DisposeAsync();
+    }
+}

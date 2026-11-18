@@ -1,0 +1,118 @@
+@page "/ernaehrung/rezepte/neu"
+@page "/ernaehrung/rezepte/{Id:guid}"
+@inject IRecipeService RecipeService
+@inject IFoodService Foods
+@inject NavigationManager Navigation
+<div class="page-content narrow">
+<PageTitle>@(Id is null ? "Neues Rezept" : "Rezept bearbeiten") / PROJECT MASS</PageTitle>
+<div class="page-head"><div><h1>@(Id is null ? "Neues Rezept" : "Rezept bearbeiten")</h1><p>Zutaten mit der Menge für das ganze Gericht eintragen, dann auf Portionen aufteilen.</p></div><a class="section-link" href="ernaehrung/rezepte">Zu den Rezepten</a></div>
+@if (error is not null) { <p class="notice" role="alert">@error</p> }
+@if (recipe is not null)
+{
+    <fieldset class="editor-fields" disabled="@busy">
+        <section class="protocol-section">
+            <div class="form-grid">
+                <label class="field">Name<input @bind="recipe.Name" @bind:event="oninput" maxlength="180" placeholder="Zum Beispiel: Hähnchen-Reis-Bowl" /></label>
+                <label class="field">Portionen<input type="number" min="1" max="50" inputmode="numeric" @bind="recipe.Portions" @bind:event="oninput" /></label>
+            </div>
+            <label class="field">Zubereitung (optional)<textarea rows="4" maxlength="10000" @bind="recipe.Instructions" @bind:event="oninput"></textarea></label>
+        </section>
+
+        <section class="protocol-section">
+            <h2>Zutaten</h2>
+            @foreach (var ingredient in recipe.Ingredients)
+            {
+                <div class="entry row wrap" @key="ingredient.Id">
+                    <div><h3>@ingredient.FoodSnapshot.Name</h3><small>@ForAmount(ingredient).Kcal.ToString("0") kcal / @ForAmount(ingredient).ProteinGrams.ToString("0.#") g Protein</small></div>
+                    <div class="entry-buttons">
+                        <label class="sr-only" for="@($"amount-{ingredient.Id}")">Menge in g</label>
+                        <input id="@($"amount-{ingredient.Id}")" class="amount-input" type="number" min="1" max="10000" step="any" inputmode="decimal" @bind="ingredient.AmountGrams" @bind:event="oninput" /><span class="mini-label">g</span>
+                        <button class="small danger" aria-label="@($"{ingredient.FoodSnapshot.Name} entfernen")" @onclick="() => recipe.Ingredients.Remove(ingredient)">Entfernen</button>
+                    </div>
+                </div>
+            }
+            @if (recipe.Ingredients.Count == 0) { <p class="empty">Noch keine Zutaten. Such unten in deinen Lebensmitteln.</p> }
+
+            <label class="field">Zutat aus deinen Lebensmitteln suchen<input type="search" @bind="query" @bind:event="oninput" @bind:after="Search" placeholder="Name oder Marke" /></label>
+            @foreach (var food in results)
+            {
+                <div class="entry row wrap" @key="food.Id">
+                    <div><h3>@food.Name</h3><small>@food.NutrientsPer100G.Kcal.ToString("0") kcal / @food.NutrientsPer100G.ProteinGrams.ToString("0.#") g Protein pro 100 g</small></div>
+                    <button class="small" @onclick="() => Add(food)">Hinzufügen</button>
+                </div>
+            }
+            @if (query.Trim().Length > 0 && results.Count == 0) { <p class="mini-label">Nichts gefunden. Lege das Produkt unter „Meine Lebensmittel“ an oder übernimm es aus Open Food Facts.</p> }
+        </section>
+
+        <section class="protocol-section">
+            <h2>Nährwerte</h2>
+            <dl class="data-ledger">
+                <div><dt>Pro Portion</dt><dd>@nutrition.PerPortion.Kcal.ToString("0") <span class="mini-label">kcal</span></dd></div>
+                <div><dt>Protein pro Portion</dt><dd>@nutrition.PerPortion.ProteinGrams.ToString("0") <span class="mini-label">g</span></dd></div>
+                <div><dt>KH / Fett pro Portion</dt><dd>@nutrition.PerPortion.CarbohydrateGrams.ToString("0") / @nutrition.PerPortion.FatGrams.ToString("0") <span class="mini-label">g</span></dd></div>
+                <div><dt>Gewicht pro Portion</dt><dd>@nutrition.GramsPerPortion.ToString("0") <span class="mini-label">g</span></dd></div>
+            </dl>
+        </section>
+
+        <div class="form-actions"><button class="primary" @onclick="Save">Rezept speichern</button></div>
+    </fieldset>
+}
+</div>
+
+@code {
+    [Parameter] public Guid? Id { get; set; }
+    private Recipe? recipe;
+    private List<FoodItem> results = [];
+    private string query = "";
+    private string? error;
+    private bool busy;
+
+    private RecipeNutrition nutrition => recipe is null
+        ? new(new(), new(), 0, 0)
+        : RecipeService.Calculate(new Recipe { Portions = recipe.Portions, Ingredients = recipe.Ingredients.Where(i => i.AmountGrams > 0).ToList() });
+
+    protected override async Task OnParametersSetAsync()
+    {
+        try
+        {
+            recipe = Id is { } id ? await RecipeService.GetAsync(id) : new Recipe { Portions = 2 };
+            if (recipe is null) error = "Rezept nicht gefunden.";
+        }
+        catch { error = "Das Rezept konnte nicht geladen werden."; }
+    }
+
+    private Nutrients ForAmount(RecipeIngredient ingredient)
+    {
+        var factor = Math.Max(0, ingredient.AmountGrams) / 100m;
+        var n = ingredient.FoodSnapshot.NutrientsPer100G;
+        return new Nutrients { Kcal = n.Kcal * factor, ProteinGrams = n.ProteinGrams * factor };
+    }
+
+    private async Task Search()
+    {
+        if (query.Trim().Length < 2) { results = []; return; }
+        try
+        {
+            // A recipe cannot contain itself.
+            results = (await Foods.SearchAsync(query)).Where(f => f.Id != recipe?.Id).Take(12).ToList();
+        }
+        catch { error = "Lebensmittel konnten nicht durchsucht werden."; }
+    }
+
+    private void Add(FoodItem food)
+    {
+        var portion = food.PortionSizes.FirstOrDefault()?.Grams ?? 100;
+        recipe!.Ingredients.Add(new RecipeIngredient { FoodSnapshot = food, AmountGrams = portion });
+        query = ""; results = [];
+    }
+
+    private async Task Save()
+    {
+        if (busy || recipe is null) return;
+        busy = true; error = null;
+        try { await RecipeService.SaveAsync(recipe); Navigation.NavigateTo("ernaehrung/rezepte"); }
+        catch (ArgumentException ex) { error = ex.Message; }
+        catch { error = "Speichern fehlgeschlagen. Bitte erneut versuchen."; }
+        finally { busy = false; }
+    }
+}

@@ -1,0 +1,65 @@
+@using System.Globalization
+@if (Points.Count == 0)
+{
+    <p class="empty">Noch keine Messung. Gewicht eintragen.</p>
+}
+else
+{
+    <svg class="line-chart" viewBox="0 0 640 290" role="group" aria-label="@Label">
+        @for (var tick = 0; tick < 4; tick++)
+        {
+            var y = 30 + tick * 60;
+            var value = max - (max - min) * tick / 3;
+            <line x1="100" y1="@y" x2="590" y2="@y" class="chart-grid" />
+            <g><text x="90" y="@(y + 4)" text-anchor="end">@value.ToString("0.#")</text></g>
+        }
+        <line x1="100" y1="30" x2="100" y2="210" class="chart-axis" />
+        <line x1="100" y1="210" x2="590" y2="210" class="chart-axis" />
+        @foreach (var date in Points.Select(p => p.Date).Distinct().Order().Where((d, i) => i == 0 || i == Points.Select(p => p.Date).Distinct().Count() / 2 || d == Points.Max(p => p.Date)))
+        {
+            <g><text x="@F(X(date))" y="255" text-anchor="middle">@date.ToString("dd.MM.yy")</text></g>
+        }
+        <polyline points="@Coordinates(Points)" class="chart-primary" />
+        @if (Average.Count > 0) { <polyline points="@Coordinates(Average)" class="chart-average" /> }
+        @foreach (var point in Points)
+        {
+            <g class="chart-hit-target" role="button" tabindex="0" aria-label="@($"{point.Date:dd.MM.yyyy}: {point.Value:0.##} {Unit}")" @onclick="() => selected = point" @onkeydown="e => SelectKey(e, point)">
+                <circle cx="@F(X(point.Date))" cy="@F(Y(point.Value))" r="46" class="chart-hit" />
+                <circle cx="@F(X(point.Date))" cy="@F(Y(point.Value))" r="7" class="chart-point" />
+                <title>@point.Date.ToString("dd.MM.yyyy"): @point.Value.ToString("0.##") @Unit</title>
+            </g>
+        }
+    </svg>
+    @if (Average.Count > 0) { <p class="mini-label chart-legend"><span class="legend-solid">Messung</span><span class="legend-dashed">7-Tage-Durchschnitt</span></p> }
+    @if (selected is not null)
+    {
+        <p class="chart-selection" role="status">@selected.Date.ToString("dd.MM.yyyy"): <strong>@selected.Value.ToString("0.##") @Unit</strong>@if (Average.FirstOrDefault(p => p.Date == selected.Date) is { } avg){<span> / Ø 7 Tage: @avg.Value.ToString("0.##") @Unit</span>}</p>
+    }
+    else { <p class="mini-label">Tippe einen Messpunkt an, um seinen Wert zu sehen.</p> }
+    @if (Points.Count == 1) { <p class="empty">Für einen Verlauf eine weitere Messung eintragen.</p> }
+}
+@code {
+    [Parameter] public IReadOnlyList<ChartPoint> Points { get; set; } = [];
+    [Parameter] public IReadOnlyList<ChartPoint> Average { get; set; } = [];
+    [Parameter] public string Label { get; set; } = "Messverlauf";
+    [Parameter] public string Unit { get; set; } = "kg";
+    private decimal min, max;
+    private ChartPoint? selected;
+    protected override void OnParametersSet()
+    {
+        var values = Points.Concat(Average).Select(p => p.Value).ToList();
+        if (values.Count == 0) return;
+        var padding = Math.Max(1m, (values.Max() - values.Min()) * .15m);
+        min = values.Min() - padding; max = values.Max() + padding;
+        if (selected is not null && !Points.Contains(selected)) selected = null;
+    }
+    private decimal X(DateOnly date)
+    {
+        var first = Points.Min(p => p.Date).DayNumber; var last = Points.Max(p => p.Date).DayNumber;
+        return first == last ? 345m : 100m + (date.DayNumber - first) * 490m / (last - first);
+    }
+    private decimal Y(decimal value) => 210m - (value - min) * 180m / (max - min);
+    private static string F(decimal value) => value.ToString("0.##", CultureInfo.InvariantCulture);
+    private string Coordinates(IReadOnlyList<ChartPoint> points) => string.Join(' ', points.OrderBy(p => p.Date).Select(p => $"{F(X(p.Date))},{F(Y(p.Value))}"));
+    private void SelectKey(KeyboardEventArgs key, ChartPoint point) { if (key.Key is "Enter" or " ") selected = point; }
+}

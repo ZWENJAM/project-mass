@@ -1,0 +1,7 @@
+<nav class="segment-tabs" aria-label="Trainingsbereiche">
+    <NavLink href="training" Match="NavLinkMatch.All">Pläne</NavLink>
+    @if (SessionId.HasValue) { <NavLink href="@($"training/live/{SessionId}")">Live-Training</NavLink> }
+    <NavLink href="training/historie">Historie</NavLink>
+    <NavLink href="training/uebungen">Übungen</NavLink>
+</nav>
+@code { [Parameter] public Guid? SessionId { get; set; } }

@@ -1,0 +1,82 @@
+@page "/mehr/einstellungen"
+@page "/profil"
+@inject IProfileService Profiles
+<PageTitle>Profil und Ziele / PROJECT MASS</PageTitle>
+<div class="page-head"><div><h1>Profil und Ziele</h1><p>Berechne einen Vorschlag und passe ihn an deinen Alltag an.</p></div></div>
+<NutritionTabs />
+@if (error is not null) { <p class="notice" role="alert">@error</p> }
+@if (message is not null) { <p class="notice" role="status">@message</p> }
+@if (profile is not null)
+{
+    <EditForm Model="profile" OnSubmit="Save" FormName="profile">
+        <ValidationSummary />
+        <fieldset class="editor-fields" disabled="@busy">
+            <section class="protocol-section">
+                <h2>Über dich</h2><div class="form-grid">
+                    <label class="field">Name<input @bind="profile.Name" @bind:event="oninput" maxlength="80" /></label>
+                    <label class="field">Geschlecht<select @bind="profile.Gender">@foreach(var gender in Enum.GetValues<Gender>()){<option value="@gender">@NutritionLabels.Gender(gender)</option>}</select></label>
+                    <label class="field">Geburtsjahr<input type="number" @bind="profile.BirthYear" @bind:event="oninput" /></label>
+                    <label class="field">Größe (cm)<input type="number" step="0.1" @bind="profile.HeightCm" @bind:event="oninput" /></label>
+                    <label class="field">Aktuelles Gewicht (kg)<input type="number" step="0.1" @bind="profile.CurrentWeightKg" @bind:event="oninput" /></label>
+                    <label class="field">Trainingstage pro Woche<input type="number" min="0" max="7" @bind="profile.TrainingDaysPerWeek" @bind:event="oninput" /></label>
+                    <label class="field">Aktivitätslevel<select @bind="profile.ActivityLevel">@foreach(var level in Enum.GetValues<ActivityLevel>()){<option value="@level">@NutritionLabels.Activity(level)</option>}</select></label>
+                    <label class="field">Ziel<select @bind="profile.Goal">@foreach(var goal in Enum.GetValues<FitnessGoal>()){<option value="@goal">@NutritionLabels.Goal(goal)</option>}</select></label>
+                </div>
+                <p class="mini-label">Für die Berechnung gilt die neueste Gewichtsmessung, sonst dein aktuelles Gewicht oben. Das Alter wird aus dem Geburtsjahr angenähert.</p>
+                <button type="button" @onclick="Calculate">Ziele berechnen</button>
+                @if (proposal is not null) { <p class="notice">Grundumsatz: @proposal.Bmr.ToString("0.#") kcal / Erhaltungsbedarf: @proposal.MaintenanceKcal.ToString("0.#") kcal. Verwendetes Gewicht: @effectiveWeight?.ToString("0.#") kg.</p> }
+                @if (proposal?.HasInsufficientCalories == true) { <p class="notice" role="status">Für den Makrovorschlag reichen die Zielkalorien nicht aus. Kohlenhydrate wurden auf 0 g gesetzt. Bitte prüfe und passe die Ziele an.</p> }
+            </section>
+            <section class="protocol-section"><h2>Deine Tagesziele</h2><p class="muted">Alle Werte bleiben frei editierbar. 0 bedeutet: kein Ziel gesetzt.</p><div class="form-grid">
+                <label class="field">Kalorienziel (kcal)<input type="number" min="0" step="any" @bind="profile.TargetKcal" @bind:event="oninput" /></label>
+                <label class="field">Proteinziel (g)<input type="number" min="0" step="any" @bind="profile.TargetProteinGrams" @bind:event="oninput" /></label>
+                <label class="field">Kohlenhydratziel (g)<input type="number" min="0" step="any" @bind="profile.TargetCarbohydrateGrams" @bind:event="oninput" /></label>
+                <label class="field">Fettziel (g)<input type="number" min="0" step="any" @bind="profile.TargetFatGrams" @bind:event="oninput" /></label>
+                <label class="field">Wasserziel (ml)<input type="number" min="0" max="10000" step="250" @bind="profile.TargetWaterMl" @bind:event="oninput" /></label>
+            </div></section>
+            <section class="protocol-section"><h2>USDA FoodData Central (optional)</h2>
+                <label class="field">USDA API-Key<input type="password" autocomplete="off" @bind="profile.UsdaApiKey" @bind:event="oninput" /></label>
+                <p class="mini-label">Der Key wird nur lokal in diesem Browser gespeichert und bei einer USDA-Suche direkt an USDA gesendet. Ein leeres Feld deaktiviert USDA.</p>
+            </section>
+            <section class="protocol-section"><h2>Gewichtsschritte für die Progression</h2><div class="form-grid">
+                <label class="field">Oberkörper (+kg)<input type="number" min="0.01" max="100" step="any" @bind="profile.UpperBodyIncreaseKg" @bind:event="oninput" /></label>
+                <label class="field">Beine / Gesäß / Waden (+kg)<input type="number" min="0.01" max="100" step="any" @bind="profile.LowerBodyIncreaseKg" @bind:event="oninput" /></label>
+            </div><p class="mini-label">Vorschläge werden im Training erst nach einem Klick übernommen.</p></section>
+            <div class="form-actions"><button class="primary" type="submit">Profil und Ziele speichern</button></div>
+        </fieldset>
+    </EditForm>
+}
+@code {
+    private UserProfile? profile;
+    private NutritionTargets? proposal;
+    private decimal? effectiveWeight;
+    private string? error, message;
+    private bool busy;
+    protected override async Task OnInitializedAsync()
+    {
+        try { profile = await Profiles.GetAsync(); }
+        catch { error = "Das Profil konnte nicht geladen werden."; }
+    }
+    private async Task Calculate()
+    {
+        error = null; message = null;
+        try {
+            proposal = await Profiles.SuggestTargetsAsync(profile!);
+            effectiveWeight = await Profiles.GetEffectiveWeightAsync(profile!);
+            profile!.TargetKcal = proposal.Kcal; profile.TargetProteinGrams = proposal.ProteinGrams;
+            profile.TargetCarbohydrateGrams = proposal.CarbohydrateGrams; profile.TargetFatGrams = proposal.FatGrams;
+            message = "Vorschlag übernommen. Du kannst die Werte anpassen und anschließend speichern.";
+        }
+        catch (ArgumentException ex) { error = ex.Message; }
+        catch { error = "Der Vorschlag konnte nicht berechnet werden."; }
+    }
+    private async Task Save(EditContext context)
+    {
+        if (!context.Validate() || busy) return;
+        busy = true; error = null; message = null;
+        try { await Profiles.SaveAsync(profile!); message = "Profil und Ziele gespeichert."; }
+        catch (ArgumentException ex) { error = ex.Message; }
+        catch { error = "Speichern fehlgeschlagen. Bitte erneut versuchen."; }
+        finally { busy = false; }
+    }
+}

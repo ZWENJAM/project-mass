@@ -1,0 +1,55 @@
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+<section class="protocol-section barcode-scanner" aria-label="Barcode suchen">
+    <div class="section-head"><h2>Barcode</h2><button class="small" @onclick="Close">Schließen</button></div>
+    <video @ref="video" playsinline muted class="scanner-video"></video>
+    <p role="status" class="mini-label">@message</p>
+    <button disabled="@starting" @onclick="StartCamera">Kamera starten</button>
+    <label class="field">Barcode manuell eingeben<input inputmode="numeric" autocomplete="off" @bind="code" @bind:event="oninput" maxlength="14" placeholder="8–14 Ziffern" /></label>
+    <button class="primary" @onclick="Manual">Barcode suchen</button>
+</section>
+@code {
+    [Parameter] public EventCallback<string> OnBarcode { get; set; }
+    [Parameter] public EventCallback OnClose { get; set; }
+    private string code = "", message = "Barcode manuell eingeben oder Kamera starten.";
+    private readonly string scannerId = Guid.NewGuid().ToString();
+    private ElementReference video;
+    private IJSObjectReference? module;
+    private DotNetObjectReference<BarcodeScanner>? callback;
+    private bool starting, disposed;
+    private async Task StartCamera()
+    {
+        starting = true;
+        try {
+            module ??= await JS.InvokeAsync<IJSObjectReference>("import", "./js/foodSearch.js");
+            if (disposed) return;
+            callback ??= DotNetObjectReference.Create(this);
+            message = await module.InvokeAsync<string>("startScanner", video, callback, scannerId);
+        }
+        catch (JSException) { message = "Kamera nicht verfügbar. Bitte Barcode manuell eingeben."; }
+        finally { starting = false; }
+    }
+    private async Task Manual() => await Detected(code.Trim());
+    [JSInvokable] public async Task Detected(string barcode)
+    {
+        if (disposed) return;
+        if (!BarcodeValidator.IsValid(barcode)) { message = "Ungültiger Barcode: 8–14 Ziffern und gültige Prüfziffer erforderlich."; return; }
+        if (module is not null) await module.InvokeVoidAsync("stopScanner", scannerId);
+        await OnBarcode.InvokeAsync(barcode);
+    }
+    private async Task Close()
+    {
+        if (module is not null) await module.InvokeVoidAsync("stopScanner", scannerId);
+        await OnClose.InvokeAsync();
+    }
+    public async ValueTask DisposeAsync()
+    {
+        disposed = true;
+        if (module is not null)
+        {
+            try { await module.InvokeVoidAsync("stopScanner", scannerId); await module.DisposeAsync(); }
+            catch (JSDisconnectedException) { }
+        }
+        callback?.Dispose();
+    }
+}

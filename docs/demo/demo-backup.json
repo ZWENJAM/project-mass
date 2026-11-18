@@ -1,0 +1,4175 @@
+{
+  "format": "project-mass",
+  "version": 2,
+  "exportedAt": "2026-11-18T12:00:00Z",
+  "profile": {
+    "name": "Alex",
+    "activityLevel": 2,
+    "goal": 1,
+    "trainingDaysPerWeek": 4,
+    "targetKcal": 2450,
+    "targetProteinGrams": 145,
+    "targetCarbohydrateGrams": 288,
+    "targetFatGrams": 78,
+    "targetWaterMl": 2600,
+    "lastBackupAt": "2026-11-18T12:00:00Z"
+  },
+  "workoutSessions": [
+    {
+      "id": "90000000-0000-4000-8000-000000000039",
+      "workoutPlanId": "20000000-0000-0000-0000-000000000003",
+      "name": "Oberkörper B",
+      "date": "2026-10-29",
+      "isCompleted": true,
+      "startedAt": "2026-10-29T17:30:00Z",
+      "completedAt": "2026-10-29T18:25:00Z",
+      "exercises": [
+        {
+          "id": "90000000-0000-4000-8000-000000000013",
+          "exerciseId": "10000000-0000-0000-0000-000000000013",
+          "name": "Schrägbank-Brustpresse",
+          "minReps": 8,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000014",
+              "weightKg": 42.5,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000015",
+              "weightKg": 42.5,
+              "reps": 9,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000016",
+              "weightKg": 42.5,
+              "reps": 8,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000017",
+          "exerciseId": "10000000-0000-0000-0000-000000000014",
+          "name": "Rudern an der Maschine",
+          "minReps": 8,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000018",
+              "weightKg": 45,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000019",
+              "weightKg": 45,
+              "reps": 9,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000020",
+              "weightKg": 45,
+              "reps": 8,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000021",
+          "exerciseId": "10000000-0000-0000-0000-000000000015",
+          "name": "Schulterdrücken",
+          "minReps": 8,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000022",
+              "weightKg": 20,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000023",
+              "weightKg": 20,
+              "reps": 9,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000024",
+              "weightKg": 20,
+              "reps": 8,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000025",
+          "exerciseId": "10000000-0000-0000-0000-000000000016",
+          "name": "Kabel-Flys",
+          "minReps": 10,
+          "maxReps": 15,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000026",
+              "weightKg": 32.5,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000027",
+              "weightKg": 32.5,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000028",
+          "exerciseId": "10000000-0000-0000-0000-000000000017",
+          "name": "Latziehen (neutral)",
+          "minReps": 10,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000029",
+              "weightKg": 7.5,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000030",
+              "weightKg": 7.5,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000031",
+              "weightKg": 7.5,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000032",
+          "exerciseId": "10000000-0000-0000-0000-000000000018",
+          "name": "Bizepscurls",
+          "minReps": 10,
+          "maxReps": 15,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000033",
+              "weightKg": 17.5,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000034",
+              "weightKg": 17.5,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000035",
+              "weightKg": 17.5,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000036",
+          "exerciseId": "10000000-0000-0000-0000-000000000019",
+          "name": "Trizeps am Kabel",
+          "minReps": 10,
+          "maxReps": 15,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000037",
+              "weightKg": 25,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000038",
+              "weightKg": 25,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000071",
+      "workoutPlanId": "20000000-0000-0000-0000-000000000004",
+      "name": "Unterkörper B",
+      "date": "2026-10-31",
+      "isCompleted": true,
+      "startedAt": "2026-10-31T17:30:00Z",
+      "completedAt": "2026-10-31T18:25:00Z",
+      "exercises": [
+        {
+          "id": "90000000-0000-4000-8000-000000000051",
+          "exerciseId": "10000000-0000-0000-0000-000000000020",
+          "name": "Hackenschmidt-Kniebeuge / Beinpresse",
+          "minReps": 8,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000052",
+              "weightKg": 62.5,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000053",
+              "weightKg": 62.5,
+              "reps": 9,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000054",
+              "weightKg": 62.5,
+              "reps": 8,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000055",
+          "exerciseId": "10000000-0000-0000-0000-000000000010",
+          "name": "Beinbeuger",
+          "minReps": 10,
+          "maxReps": 15,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000056",
+              "weightKg": 65,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000057",
+              "weightKg": 65,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000058",
+              "weightKg": 65,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000059",
+          "exerciseId": "10000000-0000-0000-0000-000000000021",
+          "name": "Beinstrecker",
+          "minReps": 10,
+          "maxReps": 15,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000060",
+              "weightKg": 40,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000061",
+              "weightKg": 40,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000062",
+              "weightKg": 40,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000063",
+          "exerciseId": "10000000-0000-0000-0000-000000000011",
+          "name": "Wadenheben",
+          "minReps": 12,
+          "maxReps": 20,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000064",
+              "weightKg": 52.5,
+              "reps": 14,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000065",
+              "weightKg": 52.5,
+              "reps": 13,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000066",
+              "weightKg": 52.5,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000067",
+          "exerciseId": "10000000-0000-0000-0000-000000000022",
+          "name": "Bauchmaschine",
+          "minReps": 10,
+          "maxReps": 15,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000068",
+              "weightKg": 27.5,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000069",
+              "weightKg": 27.5,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000070",
+              "weightKg": 27.5,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000110",
+      "workoutPlanId": "20000000-0000-0000-0000-000000000001",
+      "name": "Oberkörper A",
+      "date": "2026-11-02",
+      "isCompleted": true,
+      "startedAt": "2026-11-02T17:30:00Z",
+      "completedAt": "2026-11-02T18:25:00Z",
+      "exercises": [
+        {
+          "id": "90000000-0000-4000-8000-000000000083",
+          "exerciseId": "10000000-0000-0000-0000-000000000001",
+          "name": "Brustpresse",
+          "minReps": 8,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000084",
+              "weightKg": 42.5,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000085",
+              "weightKg": 42.5,
+              "reps": 9,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000086",
+              "weightKg": 42.5,
+              "reps": 8,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000087",
+          "exerciseId": "10000000-0000-0000-0000-000000000002",
+          "name": "Latziehen",
+          "minReps": 8,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000088",
+              "weightKg": 45,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000089",
+              "weightKg": 45,
+              "reps": 9,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000090",
+              "weightKg": 45,
+              "reps": 8,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000091",
+          "exerciseId": "10000000-0000-0000-0000-000000000003",
+          "name": "Schrägbankdrücken (Kurzhantel)",
+          "minReps": 8,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000092",
+              "weightKg": 20,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000093",
+              "weightKg": 20,
+              "reps": 9,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000094",
+              "weightKg": 20,
+              "reps": 8,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000095",
+          "exerciseId": "10000000-0000-0000-0000-000000000004",
+          "name": "Rudern am Kabel",
+          "minReps": 10,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000096",
+              "weightKg": 32.5,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000097",
+              "weightKg": 32.5,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000098",
+              "weightKg": 32.5,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000099",
+          "exerciseId": "10000000-0000-0000-0000-000000000005",
+          "name": "Seitheben",
+          "minReps": 12,
+          "maxReps": 15,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000100",
+              "weightKg": 7.5,
+              "reps": 14,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000101",
+              "weightKg": 7.5,
+              "reps": 13,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000102",
+              "weightKg": 7.5,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000103",
+          "exerciseId": "10000000-0000-0000-0000-000000000006",
+          "name": "Trizepsdrücken",
+          "minReps": 10,
+          "maxReps": 15,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000104",
+              "weightKg": 17.5,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000105",
+              "weightKg": 17.5,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000106",
+          "exerciseId": "10000000-0000-0000-0000-000000000007",
+          "name": "Cable Crunches",
+          "minReps": 8,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000107",
+              "weightKg": 25,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000108",
+              "weightKg": 25,
+              "reps": 9,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000109",
+              "weightKg": 25,
+              "reps": 8,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000137",
+      "workoutPlanId": "20000000-0000-0000-0000-000000000002",
+      "name": "Unterkörper A",
+      "date": "2026-11-03",
+      "isCompleted": true,
+      "startedAt": "2026-11-03T17:30:00Z",
+      "completedAt": "2026-11-03T18:25:00Z",
+      "exercises": [
+        {
+          "id": "90000000-0000-4000-8000-000000000117",
+          "exerciseId": "10000000-0000-0000-0000-000000000008",
+          "name": "Beinpresse",
+          "minReps": 8,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000118",
+              "weightKg": 62.5,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000119",
+              "weightKg": 62.5,
+              "reps": 9,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000120",
+              "weightKg": 62.5,
+              "reps": 8,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000121",
+          "exerciseId": "10000000-0000-0000-0000-000000000009",
+          "name": "Rumänisches Kreuzheben",
+          "minReps": 8,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000122",
+              "weightKg": 45,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000123",
+              "weightKg": 45,
+              "reps": 9,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000124",
+              "weightKg": 45,
+              "reps": 8,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000125",
+          "exerciseId": "10000000-0000-0000-0000-000000000010",
+          "name": "Beinbeuger",
+          "minReps": 10,
+          "maxReps": 15,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000126",
+              "weightKg": 40,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000127",
+              "weightKg": 40,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000128",
+              "weightKg": 40,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000129",
+          "exerciseId": "10000000-0000-0000-0000-000000000011",
+          "name": "Wadenheben",
+          "minReps": 12,
+          "maxReps": 20,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000130",
+              "weightKg": 52.5,
+              "reps": 14,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000131",
+              "weightKg": 52.5,
+              "reps": 13,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000132",
+              "weightKg": 52.5,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000133",
+          "exerciseId": "10000000-0000-0000-0000-000000000012",
+          "name": "Reverse Crunches",
+          "minReps": 10,
+          "maxReps": 15,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000134",
+              "weightKg": 7.5,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000135",
+              "weightKg": 7.5,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000136",
+              "weightKg": 7.5,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000175",
+      "workoutPlanId": "20000000-0000-0000-0000-000000000003",
+      "name": "Oberkörper B",
+      "date": "2026-11-05",
+      "isCompleted": true,
+      "startedAt": "2026-11-05T17:30:00Z",
+      "completedAt": "2026-11-05T18:25:00Z",
+      "exercises": [
+        {
+          "id": "90000000-0000-4000-8000-000000000149",
+          "exerciseId": "10000000-0000-0000-0000-000000000013",
+          "name": "Schrägbank-Brustpresse",
+          "minReps": 8,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000150",
+              "weightKg": 45,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000151",
+              "weightKg": 45,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000152",
+              "weightKg": 45,
+              "reps": 9,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000153",
+          "exerciseId": "10000000-0000-0000-0000-000000000014",
+          "name": "Rudern an der Maschine",
+          "minReps": 8,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000154",
+              "weightKg": 46.25,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000155",
+              "weightKg": 46.25,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000156",
+              "weightKg": 46.25,
+              "reps": 9,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000157",
+          "exerciseId": "10000000-0000-0000-0000-000000000015",
+          "name": "Schulterdrücken",
+          "minReps": 8,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000158",
+              "weightKg": 21.25,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000159",
+              "weightKg": 21.25,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000160",
+              "weightKg": 21.25,
+              "reps": 9,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000161",
+          "exerciseId": "10000000-0000-0000-0000-000000000016",
+          "name": "Kabel-Flys",
+          "minReps": 10,
+          "maxReps": 15,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000162",
+              "weightKg": 33.75,
+              "reps": 13,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000163",
+              "weightKg": 33.75,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000164",
+          "exerciseId": "10000000-0000-0000-0000-000000000017",
+          "name": "Latziehen (neutral)",
+          "minReps": 10,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000165",
+              "weightKg": 8.75,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000166",
+              "weightKg": 8.75,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000167",
+              "weightKg": 8.75,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000168",
+          "exerciseId": "10000000-0000-0000-0000-000000000018",
+          "name": "Bizepscurls",
+          "minReps": 10,
+          "maxReps": 15,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000169",
+              "weightKg": 18.75,
+              "reps": 13,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000170",
+              "weightKg": 18.75,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000171",
+              "weightKg": 18.75,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000172",
+          "exerciseId": "10000000-0000-0000-0000-000000000019",
+          "name": "Trizeps am Kabel",
+          "minReps": 10,
+          "maxReps": 15,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000173",
+              "weightKg": 26.25,
+              "reps": 13,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000174",
+              "weightKg": 26.25,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000207",
+      "workoutPlanId": "20000000-0000-0000-0000-000000000004",
+      "name": "Unterkörper B",
+      "date": "2026-11-07",
+      "isCompleted": true,
+      "startedAt": "2026-11-07T17:30:00Z",
+      "completedAt": "2026-11-07T18:25:00Z",
+      "exercises": [
+        {
+          "id": "90000000-0000-4000-8000-000000000187",
+          "exerciseId": "10000000-0000-0000-0000-000000000020",
+          "name": "Hackenschmidt-Kniebeuge / Beinpresse",
+          "minReps": 8,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000188",
+              "weightKg": 65,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000189",
+              "weightKg": 65,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000190",
+              "weightKg": 65,
+              "reps": 9,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000191",
+          "exerciseId": "10000000-0000-0000-0000-000000000010",
+          "name": "Beinbeuger",
+          "minReps": 10,
+          "maxReps": 15,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000192",
+              "weightKg": 66.25,
+              "reps": 13,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000193",
+              "weightKg": 66.25,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000194",
+              "weightKg": 66.25,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000195",
+          "exerciseId": "10000000-0000-0000-0000-000000000021",
+          "name": "Beinstrecker",
+          "minReps": 10,
+          "maxReps": 15,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000196",
+              "weightKg": 41.25,
+              "reps": 13,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000197",
+              "weightKg": 41.25,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000198",
+              "weightKg": 41.25,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000199",
+          "exerciseId": "10000000-0000-0000-0000-000000000011",
+          "name": "Wadenheben",
+          "minReps": 12,
+          "maxReps": 20,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000200",
+              "weightKg": 53.75,
+              "reps": 15,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000201",
+              "weightKg": 53.75,
+              "reps": 14,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000202",
+              "weightKg": 53.75,
+              "reps": 13,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000203",
+          "exerciseId": "10000000-0000-0000-0000-000000000022",
+          "name": "Bauchmaschine",
+          "minReps": 10,
+          "maxReps": 15,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000204",
+              "weightKg": 28.75,
+              "reps": 13,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000205",
+              "weightKg": 28.75,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000206",
+              "weightKg": 28.75,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000246",
+      "workoutPlanId": "20000000-0000-0000-0000-000000000001",
+      "name": "Oberkörper A",
+      "date": "2026-11-09",
+      "isCompleted": true,
+      "startedAt": "2026-11-09T17:30:00Z",
+      "completedAt": "2026-11-09T18:25:00Z",
+      "exercises": [
+        {
+          "id": "90000000-0000-4000-8000-000000000219",
+          "exerciseId": "10000000-0000-0000-0000-000000000001",
+          "name": "Brustpresse",
+          "minReps": 8,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000220",
+              "weightKg": 45,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000221",
+              "weightKg": 45,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000222",
+              "weightKg": 45,
+              "reps": 9,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000223",
+          "exerciseId": "10000000-0000-0000-0000-000000000002",
+          "name": "Latziehen",
+          "minReps": 8,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000224",
+              "weightKg": 46.25,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000225",
+              "weightKg": 46.25,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000226",
+              "weightKg": 46.25,
+              "reps": 9,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000227",
+          "exerciseId": "10000000-0000-0000-0000-000000000003",
+          "name": "Schrägbankdrücken (Kurzhantel)",
+          "minReps": 8,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000228",
+              "weightKg": 21.25,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000229",
+              "weightKg": 21.25,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000230",
+              "weightKg": 21.25,
+              "reps": 9,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000231",
+          "exerciseId": "10000000-0000-0000-0000-000000000004",
+          "name": "Rudern am Kabel",
+          "minReps": 10,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000232",
+              "weightKg": 33.75,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000233",
+              "weightKg": 33.75,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000234",
+              "weightKg": 33.75,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000235",
+          "exerciseId": "10000000-0000-0000-0000-000000000005",
+          "name": "Seitheben",
+          "minReps": 12,
+          "maxReps": 15,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000236",
+              "weightKg": 8.75,
+              "reps": 15,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000237",
+              "weightKg": 8.75,
+              "reps": 14,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000238",
+              "weightKg": 8.75,
+              "reps": 13,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000239",
+          "exerciseId": "10000000-0000-0000-0000-000000000006",
+          "name": "Trizepsdrücken",
+          "minReps": 10,
+          "maxReps": 15,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000240",
+              "weightKg": 18.75,
+              "reps": 13,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000241",
+              "weightKg": 18.75,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000242",
+          "exerciseId": "10000000-0000-0000-0000-000000000007",
+          "name": "Cable Crunches",
+          "minReps": 8,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000243",
+              "weightKg": 26.25,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000244",
+              "weightKg": 26.25,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000245",
+              "weightKg": 26.25,
+              "reps": 9,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000272",
+      "workoutPlanId": "20000000-0000-0000-0000-000000000002",
+      "name": "Unterkörper A",
+      "date": "2026-11-10",
+      "isCompleted": true,
+      "startedAt": "2026-11-10T17:30:00Z",
+      "completedAt": "2026-11-10T18:25:00Z",
+      "exercises": [
+        {
+          "id": "90000000-0000-4000-8000-000000000252",
+          "exerciseId": "10000000-0000-0000-0000-000000000008",
+          "name": "Beinpresse",
+          "minReps": 8,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000253",
+              "weightKg": 65,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000254",
+              "weightKg": 65,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000255",
+              "weightKg": 65,
+              "reps": 9,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000256",
+          "exerciseId": "10000000-0000-0000-0000-000000000009",
+          "name": "Rumänisches Kreuzheben",
+          "minReps": 8,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000257",
+              "weightKg": 46.25,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000258",
+              "weightKg": 46.25,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000259",
+              "weightKg": 46.25,
+              "reps": 9,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000260",
+          "exerciseId": "10000000-0000-0000-0000-000000000010",
+          "name": "Beinbeuger",
+          "minReps": 10,
+          "maxReps": 15,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000261",
+              "weightKg": 41.25,
+              "reps": 13,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000262",
+              "weightKg": 41.25,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000263",
+              "weightKg": 41.25,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000264",
+          "exerciseId": "10000000-0000-0000-0000-000000000011",
+          "name": "Wadenheben",
+          "minReps": 12,
+          "maxReps": 20,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000265",
+              "weightKg": 53.75,
+              "reps": 15,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000266",
+              "weightKg": 53.75,
+              "reps": 14,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000267",
+              "weightKg": 53.75,
+              "reps": 13,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000268",
+          "exerciseId": "10000000-0000-0000-0000-000000000012",
+          "name": "Reverse Crunches",
+          "minReps": 10,
+          "maxReps": 15,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000269",
+              "weightKg": 8.75,
+              "reps": 13,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000270",
+              "weightKg": 8.75,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000271",
+              "weightKg": 8.75,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000310",
+      "workoutPlanId": "20000000-0000-0000-0000-000000000003",
+      "name": "Oberkörper B",
+      "date": "2026-11-12",
+      "isCompleted": true,
+      "startedAt": "2026-11-12T17:30:00Z",
+      "completedAt": "2026-11-12T18:25:00Z",
+      "exercises": [
+        {
+          "id": "90000000-0000-4000-8000-000000000284",
+          "exerciseId": "10000000-0000-0000-0000-000000000013",
+          "name": "Schrägbank-Brustpresse",
+          "minReps": 8,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000285",
+              "weightKg": 47.5,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000286",
+              "weightKg": 47.5,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000287",
+              "weightKg": 47.5,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000288",
+          "exerciseId": "10000000-0000-0000-0000-000000000014",
+          "name": "Rudern an der Maschine",
+          "minReps": 8,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000289",
+              "weightKg": 47.5,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000290",
+              "weightKg": 47.5,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000291",
+              "weightKg": 47.5,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000292",
+          "exerciseId": "10000000-0000-0000-0000-000000000015",
+          "name": "Schulterdrücken",
+          "minReps": 8,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000293",
+              "weightKg": 22.5,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000294",
+              "weightKg": 22.5,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000295",
+              "weightKg": 22.5,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000296",
+          "exerciseId": "10000000-0000-0000-0000-000000000016",
+          "name": "Kabel-Flys",
+          "minReps": 10,
+          "maxReps": 15,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000297",
+              "weightKg": 35,
+              "reps": 14,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000298",
+              "weightKg": 35,
+              "reps": 13,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000299",
+          "exerciseId": "10000000-0000-0000-0000-000000000017",
+          "name": "Latziehen (neutral)",
+          "minReps": 10,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000300",
+              "weightKg": 10,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000301",
+              "weightKg": 10,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000302",
+              "weightKg": 10,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000303",
+          "exerciseId": "10000000-0000-0000-0000-000000000018",
+          "name": "Bizepscurls",
+          "minReps": 10,
+          "maxReps": 15,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000304",
+              "weightKg": 20,
+              "reps": 14,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000305",
+              "weightKg": 20,
+              "reps": 13,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000306",
+              "weightKg": 20,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000307",
+          "exerciseId": "10000000-0000-0000-0000-000000000019",
+          "name": "Trizeps am Kabel",
+          "minReps": 10,
+          "maxReps": 15,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000308",
+              "weightKg": 27.5,
+              "reps": 14,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000309",
+              "weightKg": 27.5,
+              "reps": 13,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000342",
+      "workoutPlanId": "20000000-0000-0000-0000-000000000004",
+      "name": "Unterkörper B",
+      "date": "2026-11-14",
+      "isCompleted": true,
+      "startedAt": "2026-11-14T17:30:00Z",
+      "completedAt": "2026-11-14T18:25:00Z",
+      "exercises": [
+        {
+          "id": "90000000-0000-4000-8000-000000000322",
+          "exerciseId": "10000000-0000-0000-0000-000000000020",
+          "name": "Hackenschmidt-Kniebeuge / Beinpresse",
+          "minReps": 8,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000323",
+              "weightKg": 67.5,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000324",
+              "weightKg": 67.5,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000325",
+              "weightKg": 67.5,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000326",
+          "exerciseId": "10000000-0000-0000-0000-000000000010",
+          "name": "Beinbeuger",
+          "minReps": 10,
+          "maxReps": 15,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000327",
+              "weightKg": 67.5,
+              "reps": 14,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000328",
+              "weightKg": 67.5,
+              "reps": 13,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000329",
+              "weightKg": 67.5,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000330",
+          "exerciseId": "10000000-0000-0000-0000-000000000021",
+          "name": "Beinstrecker",
+          "minReps": 10,
+          "maxReps": 15,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000331",
+              "weightKg": 42.5,
+              "reps": 14,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000332",
+              "weightKg": 42.5,
+              "reps": 13,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000333",
+              "weightKg": 42.5,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000334",
+          "exerciseId": "10000000-0000-0000-0000-000000000011",
+          "name": "Wadenheben",
+          "minReps": 12,
+          "maxReps": 20,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000335",
+              "weightKg": 55,
+              "reps": 16,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000336",
+              "weightKg": 55,
+              "reps": 15,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000337",
+              "weightKg": 55,
+              "reps": 14,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000338",
+          "exerciseId": "10000000-0000-0000-0000-000000000022",
+          "name": "Bauchmaschine",
+          "minReps": 10,
+          "maxReps": 15,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000339",
+              "weightKg": 30,
+              "reps": 14,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000340",
+              "weightKg": 30,
+              "reps": 13,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000341",
+              "weightKg": 30,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000381",
+      "workoutPlanId": "20000000-0000-0000-0000-000000000001",
+      "name": "Oberkörper A",
+      "date": "2026-11-16",
+      "isCompleted": true,
+      "startedAt": "2026-11-16T17:30:00Z",
+      "completedAt": "2026-11-16T18:25:00Z",
+      "exercises": [
+        {
+          "id": "90000000-0000-4000-8000-000000000354",
+          "exerciseId": "10000000-0000-0000-0000-000000000001",
+          "name": "Brustpresse",
+          "minReps": 8,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000355",
+              "weightKg": 47.5,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000356",
+              "weightKg": 47.5,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000357",
+              "weightKg": 47.5,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000358",
+          "exerciseId": "10000000-0000-0000-0000-000000000002",
+          "name": "Latziehen",
+          "minReps": 8,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000359",
+              "weightKg": 47.5,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000360",
+              "weightKg": 47.5,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000361",
+              "weightKg": 47.5,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000362",
+          "exerciseId": "10000000-0000-0000-0000-000000000003",
+          "name": "Schrägbankdrücken (Kurzhantel)",
+          "minReps": 8,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000363",
+              "weightKg": 22.5,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000364",
+              "weightKg": 22.5,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000365",
+              "weightKg": 22.5,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000366",
+          "exerciseId": "10000000-0000-0000-0000-000000000004",
+          "name": "Rudern am Kabel",
+          "minReps": 10,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000367",
+              "weightKg": 35,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000368",
+              "weightKg": 35,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000369",
+              "weightKg": 35,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000370",
+          "exerciseId": "10000000-0000-0000-0000-000000000005",
+          "name": "Seitheben",
+          "minReps": 12,
+          "maxReps": 15,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000371",
+              "weightKg": 10,
+              "reps": 15,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000372",
+              "weightKg": 10,
+              "reps": 15,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000373",
+              "weightKg": 10,
+              "reps": 14,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000374",
+          "exerciseId": "10000000-0000-0000-0000-000000000006",
+          "name": "Trizepsdrücken",
+          "minReps": 10,
+          "maxReps": 15,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000375",
+              "weightKg": 20,
+              "reps": 14,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000376",
+              "weightKg": 20,
+              "reps": 13,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000377",
+          "exerciseId": "10000000-0000-0000-0000-000000000007",
+          "name": "Cable Crunches",
+          "minReps": 8,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000378",
+              "weightKg": 27.5,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000379",
+              "weightKg": 27.5,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000380",
+              "weightKg": 27.5,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000408",
+      "workoutPlanId": "20000000-0000-0000-0000-000000000002",
+      "name": "Unterkörper A",
+      "date": "2026-11-17",
+      "isCompleted": true,
+      "startedAt": "2026-11-17T17:30:00Z",
+      "completedAt": "2026-11-17T18:25:00Z",
+      "exercises": [
+        {
+          "id": "90000000-0000-4000-8000-000000000388",
+          "exerciseId": "10000000-0000-0000-0000-000000000008",
+          "name": "Beinpresse",
+          "minReps": 8,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000389",
+              "weightKg": 67.5,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000390",
+              "weightKg": 67.5,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000391",
+              "weightKg": 67.5,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000392",
+          "exerciseId": "10000000-0000-0000-0000-000000000009",
+          "name": "Rumänisches Kreuzheben",
+          "minReps": 8,
+          "maxReps": 12,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000393",
+              "weightKg": 47.5,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000394",
+              "weightKg": 47.5,
+              "reps": 11,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000395",
+              "weightKg": 47.5,
+              "reps": 10,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000396",
+          "exerciseId": "10000000-0000-0000-0000-000000000010",
+          "name": "Beinbeuger",
+          "minReps": 10,
+          "maxReps": 15,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000397",
+              "weightKg": 42.5,
+              "reps": 14,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000398",
+              "weightKg": 42.5,
+              "reps": 13,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000399",
+              "weightKg": 42.5,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000400",
+          "exerciseId": "10000000-0000-0000-0000-000000000011",
+          "name": "Wadenheben",
+          "minReps": 12,
+          "maxReps": 20,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000401",
+              "weightKg": 55,
+              "reps": 16,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000402",
+              "weightKg": 55,
+              "reps": 15,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000403",
+              "weightKg": 55,
+              "reps": 14,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        },
+        {
+          "id": "90000000-0000-4000-8000-000000000404",
+          "exerciseId": "10000000-0000-0000-0000-000000000012",
+          "name": "Reverse Crunches",
+          "minReps": 10,
+          "maxReps": 15,
+          "restSeconds": 120,
+          "sets": [
+            {
+              "id": "90000000-0000-4000-8000-000000000405",
+              "weightKg": 10,
+              "reps": 14,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000406",
+              "weightKg": 10,
+              "reps": 13,
+              "isCompleted": true,
+              "type": 0
+            },
+            {
+              "id": "90000000-0000-4000-8000-000000000407",
+              "weightKg": 10,
+              "reps": 12,
+              "isCompleted": true,
+              "type": 0
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "bodyMeasurements": [
+    {
+      "id": "90000000-0000-4000-8000-000000000040",
+      "date": "2026-10-29",
+      "weightKg": 72.85,
+      "waistCm": 78,
+      "chestCm": 94.2
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000072",
+      "date": "2026-10-31",
+      "weightKg": 72.76,
+      "waistCm": 78,
+      "chestCm": 94.3
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000111",
+      "date": "2026-11-02",
+      "weightKg": 73.12,
+      "waistCm": 78.1,
+      "chestCm": 94.3
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000143",
+      "date": "2026-11-04",
+      "weightKg": 73.03,
+      "waistCm": 78.1,
+      "chestCm": 94.4
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000181",
+      "date": "2026-11-06",
+      "weightKg": 73.29,
+      "waistCm": 78.1,
+      "chestCm": 94.5
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000213",
+      "date": "2026-11-08",
+      "weightKg": 73.4,
+      "waistCm": 78.2,
+      "chestCm": 94.5
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000273",
+      "date": "2026-11-10",
+      "weightKg": 73.31,
+      "waistCm": 78.2,
+      "chestCm": 94.6
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000311",
+      "date": "2026-11-12",
+      "weightKg": 73.67,
+      "waistCm": 78.2,
+      "chestCm": 94.7
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000343",
+      "date": "2026-11-14",
+      "weightKg": 73.58,
+      "waistCm": 78.2,
+      "chestCm": 94.7
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000382",
+      "date": "2026-11-16",
+      "weightKg": 73.84,
+      "waistCm": 78.3,
+      "chestCm": 94.8
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000414",
+      "date": "2026-11-18",
+      "weightKg": 73.95,
+      "waistCm": 78.3,
+      "chestCm": 94.9
+    }
+  ],
+  "foodItems": [
+    {
+      "id": "90000000-0000-4000-8000-000000000001",
+      "name": "Hafer-Joghurt mit Beeren",
+      "category": 1,
+      "nutrientsPer100G": {
+        "kcal": 146,
+        "proteinGrams": 8.2,
+        "carbohydrateGrams": 20.2,
+        "fatGrams": 3.7
+      }
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000002",
+      "name": "Quinoa-Linsen-Bowl",
+      "category": 11,
+      "nutrientsPer100G": {
+        "kcal": 165,
+        "proteinGrams": 10,
+        "carbohydrateGrams": 18,
+        "fatGrams": 5
+      }
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000003",
+      "name": "Ofengemüse mit Tofu",
+      "category": 11,
+      "nutrientsPer100G": {
+        "kcal": 134,
+        "proteinGrams": 9.2,
+        "carbohydrateGrams": 11.6,
+        "fatGrams": 5.6
+      }
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000004",
+      "name": "Apfel und Mandeln",
+      "category": 11,
+      "nutrientsPer100G": {
+        "kcal": 131,
+        "proteinGrams": 3.2,
+        "carbohydrateGrams": 16,
+        "fatGrams": 6.1
+      }
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000005",
+      "name": "Apfel-Porridge",
+      "category": 5,
+      "nutrientsPer100G": {
+        "kcal": 158,
+        "proteinGrams": 7.5,
+        "carbohydrateGrams": 23,
+        "fatGrams": 3.7
+      }
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000006",
+      "name": "Reis mit Gemüse und Hähnchen",
+      "category": 11,
+      "nutrientsPer100G": {
+        "kcal": 160,
+        "proteinGrams": 12.1,
+        "carbohydrateGrams": 18.4,
+        "fatGrams": 4.2
+      }
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000007",
+      "name": "Kartoffeln mit Kräuterquark",
+      "category": 11,
+      "nutrientsPer100G": {
+        "kcal": 128,
+        "proteinGrams": 7.5,
+        "carbohydrateGrams": 16,
+        "fatGrams": 3.5
+      }
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000008",
+      "name": "Skyr mit Heidelbeeren",
+      "category": 1,
+      "nutrientsPer100G": {
+        "kcal": 76,
+        "proteinGrams": 9.9,
+        "carbohydrateGrams": 7.5,
+        "fatGrams": 0.7
+      }
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000009",
+      "name": "Quark mit Banane und Hafer",
+      "category": 1,
+      "nutrientsPer100G": {
+        "kcal": 151,
+        "proteinGrams": 10.1,
+        "carbohydrateGrams": 20.1,
+        "fatGrams": 3.1
+      }
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000010",
+      "name": "Nudeln mit Linsenragout",
+      "category": 11,
+      "nutrientsPer100G": {
+        "kcal": 174,
+        "proteinGrams": 9.5,
+        "carbohydrateGrams": 22,
+        "fatGrams": 5.2
+      }
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000011",
+      "name": "Omelett mit Vollkornbrot",
+      "category": 11,
+      "nutrientsPer100G": {
+        "kcal": 166,
+        "proteinGrams": 10.8,
+        "carbohydrateGrams": 12.5,
+        "fatGrams": 7.1
+      }
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000012",
+      "name": "Hummus mit Rohkost",
+      "category": 11,
+      "nutrientsPer100G": {
+        "kcal": 98,
+        "proteinGrams": 4.2,
+        "carbohydrateGrams": 9.5,
+        "fatGrams": 4.7
+      }
+    }
+  ],
+  "foodLogEntries": [
+    {
+      "id": "90000000-0000-4000-8000-000000000041",
+      "date": "2026-10-29",
+      "meal": 0,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000005",
+        "name": "Apfel-Porridge",
+        "category": 5,
+        "nutrientsPer100G": {
+          "kcal": 158,
+          "proteinGrams": 7.5,
+          "carbohydrateGrams": 23,
+          "fatGrams": 3.7
+        }
+      },
+      "amountGrams": 360,
+      "loggedAt": "2026-10-29T07:10:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000042",
+      "date": "2026-10-29",
+      "meal": 1,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000006",
+        "name": "Reis mit Gemüse und Hähnchen",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 160,
+          "proteinGrams": 12.1,
+          "carbohydrateGrams": 18.4,
+          "fatGrams": 4.2
+        }
+      },
+      "amountGrams": 455,
+      "loggedAt": "2026-10-29T11:40:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000043",
+      "date": "2026-10-29",
+      "meal": 2,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000007",
+        "name": "Kartoffeln mit Kräuterquark",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 128,
+          "proteinGrams": 7.5,
+          "carbohydrateGrams": 16,
+          "fatGrams": 3.5
+        }
+      },
+      "amountGrams": 460,
+      "loggedAt": "2026-10-29T18:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000044",
+      "date": "2026-10-29",
+      "meal": 3,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000008",
+        "name": "Skyr mit Heidelbeeren",
+        "category": 1,
+        "nutrientsPer100G": {
+          "kcal": 76,
+          "proteinGrams": 9.9,
+          "carbohydrateGrams": 7.5,
+          "fatGrams": 0.7
+        }
+      },
+      "amountGrams": 270,
+      "loggedAt": "2026-10-29T14:30:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000046",
+      "date": "2026-10-30",
+      "meal": 0,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000009",
+        "name": "Quark mit Banane und Hafer",
+        "category": 1,
+        "nutrientsPer100G": {
+          "kcal": 151,
+          "proteinGrams": 10.1,
+          "carbohydrateGrams": 20.1,
+          "fatGrams": 3.1
+        }
+      },
+      "amountGrams": 375,
+      "loggedAt": "2026-10-30T07:10:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000047",
+      "date": "2026-10-30",
+      "meal": 1,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000010",
+        "name": "Nudeln mit Linsenragout",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 174,
+          "proteinGrams": 9.5,
+          "carbohydrateGrams": 22,
+          "fatGrams": 5.2
+        }
+      },
+      "amountGrams": 470,
+      "loggedAt": "2026-10-30T11:40:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000048",
+      "date": "2026-10-30",
+      "meal": 2,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000011",
+        "name": "Omelett mit Vollkornbrot",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 166,
+          "proteinGrams": 10.8,
+          "carbohydrateGrams": 12.5,
+          "fatGrams": 7.1
+        }
+      },
+      "amountGrams": 475,
+      "loggedAt": "2026-10-30T18:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000049",
+      "date": "2026-10-30",
+      "meal": 3,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000012",
+        "name": "Hummus mit Rohkost",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 98,
+          "proteinGrams": 4.2,
+          "carbohydrateGrams": 9.5,
+          "fatGrams": 4.7
+        }
+      },
+      "amountGrams": 225,
+      "loggedAt": "2026-10-30T14:30:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000073",
+      "date": "2026-10-31",
+      "meal": 0,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000001",
+        "name": "Hafer-Joghurt mit Beeren",
+        "category": 1,
+        "nutrientsPer100G": {
+          "kcal": 146,
+          "proteinGrams": 8.2,
+          "carbohydrateGrams": 20.2,
+          "fatGrams": 3.7
+        }
+      },
+      "amountGrams": 390,
+      "loggedAt": "2026-10-31T07:10:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000074",
+      "date": "2026-10-31",
+      "meal": 1,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000002",
+        "name": "Quinoa-Linsen-Bowl",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 165,
+          "proteinGrams": 10,
+          "carbohydrateGrams": 18,
+          "fatGrams": 5
+        }
+      },
+      "amountGrams": 485,
+      "loggedAt": "2026-10-31T11:40:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000075",
+      "date": "2026-10-31",
+      "meal": 2,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000003",
+        "name": "Ofengemüse mit Tofu",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 134,
+          "proteinGrams": 9.2,
+          "carbohydrateGrams": 11.6,
+          "fatGrams": 5.6
+        }
+      },
+      "amountGrams": 430,
+      "loggedAt": "2026-10-31T18:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000076",
+      "date": "2026-10-31",
+      "meal": 3,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000004",
+        "name": "Apfel und Mandeln",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 131,
+          "proteinGrams": 3.2,
+          "carbohydrateGrams": 16,
+          "fatGrams": 6.1
+        }
+      },
+      "amountGrams": 240,
+      "loggedAt": "2026-10-31T14:30:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000078",
+      "date": "2026-11-01",
+      "meal": 0,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000005",
+        "name": "Apfel-Porridge",
+        "category": 5,
+        "nutrientsPer100G": {
+          "kcal": 158,
+          "proteinGrams": 7.5,
+          "carbohydrateGrams": 23,
+          "fatGrams": 3.7
+        }
+      },
+      "amountGrams": 405,
+      "loggedAt": "2026-11-01T07:10:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000079",
+      "date": "2026-11-01",
+      "meal": 1,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000006",
+        "name": "Reis mit Gemüse und Hähnchen",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 160,
+          "proteinGrams": 12.1,
+          "carbohydrateGrams": 18.4,
+          "fatGrams": 4.2
+        }
+      },
+      "amountGrams": 440,
+      "loggedAt": "2026-11-01T11:40:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000080",
+      "date": "2026-11-01",
+      "meal": 2,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000007",
+        "name": "Kartoffeln mit Kräuterquark",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 128,
+          "proteinGrams": 7.5,
+          "carbohydrateGrams": 16,
+          "fatGrams": 3.5
+        }
+      },
+      "amountGrams": 445,
+      "loggedAt": "2026-11-01T18:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000081",
+      "date": "2026-11-01",
+      "meal": 3,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000008",
+        "name": "Skyr mit Heidelbeeren",
+        "category": 1,
+        "nutrientsPer100G": {
+          "kcal": 76,
+          "proteinGrams": 9.9,
+          "carbohydrateGrams": 7.5,
+          "fatGrams": 0.7
+        }
+      },
+      "amountGrams": 255,
+      "loggedAt": "2026-11-01T14:30:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000112",
+      "date": "2026-11-02",
+      "meal": 0,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000009",
+        "name": "Quark mit Banane und Hafer",
+        "category": 1,
+        "nutrientsPer100G": {
+          "kcal": 151,
+          "proteinGrams": 10.1,
+          "carbohydrateGrams": 20.1,
+          "fatGrams": 3.1
+        }
+      },
+      "amountGrams": 360,
+      "loggedAt": "2026-11-02T07:10:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000113",
+      "date": "2026-11-02",
+      "meal": 1,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000010",
+        "name": "Nudeln mit Linsenragout",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 174,
+          "proteinGrams": 9.5,
+          "carbohydrateGrams": 22,
+          "fatGrams": 5.2
+        }
+      },
+      "amountGrams": 455,
+      "loggedAt": "2026-11-02T11:40:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000114",
+      "date": "2026-11-02",
+      "meal": 2,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000011",
+        "name": "Omelett mit Vollkornbrot",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 166,
+          "proteinGrams": 10.8,
+          "carbohydrateGrams": 12.5,
+          "fatGrams": 7.1
+        }
+      },
+      "amountGrams": 460,
+      "loggedAt": "2026-11-02T18:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000115",
+      "date": "2026-11-02",
+      "meal": 3,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000012",
+        "name": "Hummus mit Rohkost",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 98,
+          "proteinGrams": 4.2,
+          "carbohydrateGrams": 9.5,
+          "fatGrams": 4.7
+        }
+      },
+      "amountGrams": 270,
+      "loggedAt": "2026-11-02T14:30:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000138",
+      "date": "2026-11-03",
+      "meal": 0,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000001",
+        "name": "Hafer-Joghurt mit Beeren",
+        "category": 1,
+        "nutrientsPer100G": {
+          "kcal": 146,
+          "proteinGrams": 8.2,
+          "carbohydrateGrams": 20.2,
+          "fatGrams": 3.7
+        }
+      },
+      "amountGrams": 375,
+      "loggedAt": "2026-11-03T07:10:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000139",
+      "date": "2026-11-03",
+      "meal": 1,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000002",
+        "name": "Quinoa-Linsen-Bowl",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 165,
+          "proteinGrams": 10,
+          "carbohydrateGrams": 18,
+          "fatGrams": 5
+        }
+      },
+      "amountGrams": 470,
+      "loggedAt": "2026-11-03T11:40:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000140",
+      "date": "2026-11-03",
+      "meal": 2,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000003",
+        "name": "Ofengemüse mit Tofu",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 134,
+          "proteinGrams": 9.2,
+          "carbohydrateGrams": 11.6,
+          "fatGrams": 5.6
+        }
+      },
+      "amountGrams": 475,
+      "loggedAt": "2026-11-03T18:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000141",
+      "date": "2026-11-03",
+      "meal": 3,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000004",
+        "name": "Apfel und Mandeln",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 131,
+          "proteinGrams": 3.2,
+          "carbohydrateGrams": 16,
+          "fatGrams": 6.1
+        }
+      },
+      "amountGrams": 225,
+      "loggedAt": "2026-11-03T14:30:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000144",
+      "date": "2026-11-04",
+      "meal": 0,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000005",
+        "name": "Apfel-Porridge",
+        "category": 5,
+        "nutrientsPer100G": {
+          "kcal": 158,
+          "proteinGrams": 7.5,
+          "carbohydrateGrams": 23,
+          "fatGrams": 3.7
+        }
+      },
+      "amountGrams": 390,
+      "loggedAt": "2026-11-04T07:10:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000145",
+      "date": "2026-11-04",
+      "meal": 1,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000006",
+        "name": "Reis mit Gemüse und Hähnchen",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 160,
+          "proteinGrams": 12.1,
+          "carbohydrateGrams": 18.4,
+          "fatGrams": 4.2
+        }
+      },
+      "amountGrams": 485,
+      "loggedAt": "2026-11-04T11:40:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000146",
+      "date": "2026-11-04",
+      "meal": 2,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000007",
+        "name": "Kartoffeln mit Kräuterquark",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 128,
+          "proteinGrams": 7.5,
+          "carbohydrateGrams": 16,
+          "fatGrams": 3.5
+        }
+      },
+      "amountGrams": 430,
+      "loggedAt": "2026-11-04T18:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000147",
+      "date": "2026-11-04",
+      "meal": 3,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000008",
+        "name": "Skyr mit Heidelbeeren",
+        "category": 1,
+        "nutrientsPer100G": {
+          "kcal": 76,
+          "proteinGrams": 9.9,
+          "carbohydrateGrams": 7.5,
+          "fatGrams": 0.7
+        }
+      },
+      "amountGrams": 240,
+      "loggedAt": "2026-11-04T14:30:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000176",
+      "date": "2026-11-05",
+      "meal": 0,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000009",
+        "name": "Quark mit Banane und Hafer",
+        "category": 1,
+        "nutrientsPer100G": {
+          "kcal": 151,
+          "proteinGrams": 10.1,
+          "carbohydrateGrams": 20.1,
+          "fatGrams": 3.1
+        }
+      },
+      "amountGrams": 405,
+      "loggedAt": "2026-11-05T07:10:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000177",
+      "date": "2026-11-05",
+      "meal": 1,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000010",
+        "name": "Nudeln mit Linsenragout",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 174,
+          "proteinGrams": 9.5,
+          "carbohydrateGrams": 22,
+          "fatGrams": 5.2
+        }
+      },
+      "amountGrams": 440,
+      "loggedAt": "2026-11-05T11:40:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000178",
+      "date": "2026-11-05",
+      "meal": 2,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000011",
+        "name": "Omelett mit Vollkornbrot",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 166,
+          "proteinGrams": 10.8,
+          "carbohydrateGrams": 12.5,
+          "fatGrams": 7.1
+        }
+      },
+      "amountGrams": 445,
+      "loggedAt": "2026-11-05T18:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000179",
+      "date": "2026-11-05",
+      "meal": 3,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000012",
+        "name": "Hummus mit Rohkost",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 98,
+          "proteinGrams": 4.2,
+          "carbohydrateGrams": 9.5,
+          "fatGrams": 4.7
+        }
+      },
+      "amountGrams": 255,
+      "loggedAt": "2026-11-05T14:30:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000182",
+      "date": "2026-11-06",
+      "meal": 0,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000001",
+        "name": "Hafer-Joghurt mit Beeren",
+        "category": 1,
+        "nutrientsPer100G": {
+          "kcal": 146,
+          "proteinGrams": 8.2,
+          "carbohydrateGrams": 20.2,
+          "fatGrams": 3.7
+        }
+      },
+      "amountGrams": 360,
+      "loggedAt": "2026-11-06T07:10:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000183",
+      "date": "2026-11-06",
+      "meal": 1,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000002",
+        "name": "Quinoa-Linsen-Bowl",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 165,
+          "proteinGrams": 10,
+          "carbohydrateGrams": 18,
+          "fatGrams": 5
+        }
+      },
+      "amountGrams": 455,
+      "loggedAt": "2026-11-06T11:40:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000184",
+      "date": "2026-11-06",
+      "meal": 2,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000003",
+        "name": "Ofengemüse mit Tofu",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 134,
+          "proteinGrams": 9.2,
+          "carbohydrateGrams": 11.6,
+          "fatGrams": 5.6
+        }
+      },
+      "amountGrams": 460,
+      "loggedAt": "2026-11-06T18:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000185",
+      "date": "2026-11-06",
+      "meal": 3,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000004",
+        "name": "Apfel und Mandeln",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 131,
+          "proteinGrams": 3.2,
+          "carbohydrateGrams": 16,
+          "fatGrams": 6.1
+        }
+      },
+      "amountGrams": 270,
+      "loggedAt": "2026-11-06T14:30:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000208",
+      "date": "2026-11-07",
+      "meal": 0,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000005",
+        "name": "Apfel-Porridge",
+        "category": 5,
+        "nutrientsPer100G": {
+          "kcal": 158,
+          "proteinGrams": 7.5,
+          "carbohydrateGrams": 23,
+          "fatGrams": 3.7
+        }
+      },
+      "amountGrams": 375,
+      "loggedAt": "2026-11-07T07:10:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000209",
+      "date": "2026-11-07",
+      "meal": 1,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000006",
+        "name": "Reis mit Gemüse und Hähnchen",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 160,
+          "proteinGrams": 12.1,
+          "carbohydrateGrams": 18.4,
+          "fatGrams": 4.2
+        }
+      },
+      "amountGrams": 470,
+      "loggedAt": "2026-11-07T11:40:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000210",
+      "date": "2026-11-07",
+      "meal": 2,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000007",
+        "name": "Kartoffeln mit Kräuterquark",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 128,
+          "proteinGrams": 7.5,
+          "carbohydrateGrams": 16,
+          "fatGrams": 3.5
+        }
+      },
+      "amountGrams": 475,
+      "loggedAt": "2026-11-07T18:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000211",
+      "date": "2026-11-07",
+      "meal": 3,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000008",
+        "name": "Skyr mit Heidelbeeren",
+        "category": 1,
+        "nutrientsPer100G": {
+          "kcal": 76,
+          "proteinGrams": 9.9,
+          "carbohydrateGrams": 7.5,
+          "fatGrams": 0.7
+        }
+      },
+      "amountGrams": 225,
+      "loggedAt": "2026-11-07T14:30:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000214",
+      "date": "2026-11-08",
+      "meal": 0,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000009",
+        "name": "Quark mit Banane und Hafer",
+        "category": 1,
+        "nutrientsPer100G": {
+          "kcal": 151,
+          "proteinGrams": 10.1,
+          "carbohydrateGrams": 20.1,
+          "fatGrams": 3.1
+        }
+      },
+      "amountGrams": 390,
+      "loggedAt": "2026-11-08T07:10:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000215",
+      "date": "2026-11-08",
+      "meal": 1,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000010",
+        "name": "Nudeln mit Linsenragout",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 174,
+          "proteinGrams": 9.5,
+          "carbohydrateGrams": 22,
+          "fatGrams": 5.2
+        }
+      },
+      "amountGrams": 485,
+      "loggedAt": "2026-11-08T11:40:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000216",
+      "date": "2026-11-08",
+      "meal": 2,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000011",
+        "name": "Omelett mit Vollkornbrot",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 166,
+          "proteinGrams": 10.8,
+          "carbohydrateGrams": 12.5,
+          "fatGrams": 7.1
+        }
+      },
+      "amountGrams": 430,
+      "loggedAt": "2026-11-08T18:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000217",
+      "date": "2026-11-08",
+      "meal": 3,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000012",
+        "name": "Hummus mit Rohkost",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 98,
+          "proteinGrams": 4.2,
+          "carbohydrateGrams": 9.5,
+          "fatGrams": 4.7
+        }
+      },
+      "amountGrams": 240,
+      "loggedAt": "2026-11-08T14:30:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000247",
+      "date": "2026-11-09",
+      "meal": 0,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000001",
+        "name": "Hafer-Joghurt mit Beeren",
+        "category": 1,
+        "nutrientsPer100G": {
+          "kcal": 146,
+          "proteinGrams": 8.2,
+          "carbohydrateGrams": 20.2,
+          "fatGrams": 3.7
+        }
+      },
+      "amountGrams": 405,
+      "loggedAt": "2026-11-09T07:10:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000248",
+      "date": "2026-11-09",
+      "meal": 1,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000002",
+        "name": "Quinoa-Linsen-Bowl",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 165,
+          "proteinGrams": 10,
+          "carbohydrateGrams": 18,
+          "fatGrams": 5
+        }
+      },
+      "amountGrams": 440,
+      "loggedAt": "2026-11-09T11:40:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000249",
+      "date": "2026-11-09",
+      "meal": 2,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000003",
+        "name": "Ofengemüse mit Tofu",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 134,
+          "proteinGrams": 9.2,
+          "carbohydrateGrams": 11.6,
+          "fatGrams": 5.6
+        }
+      },
+      "amountGrams": 445,
+      "loggedAt": "2026-11-09T18:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000250",
+      "date": "2026-11-09",
+      "meal": 3,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000004",
+        "name": "Apfel und Mandeln",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 131,
+          "proteinGrams": 3.2,
+          "carbohydrateGrams": 16,
+          "fatGrams": 6.1
+        }
+      },
+      "amountGrams": 255,
+      "loggedAt": "2026-11-09T14:30:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000274",
+      "date": "2026-11-10",
+      "meal": 0,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000005",
+        "name": "Apfel-Porridge",
+        "category": 5,
+        "nutrientsPer100G": {
+          "kcal": 158,
+          "proteinGrams": 7.5,
+          "carbohydrateGrams": 23,
+          "fatGrams": 3.7
+        }
+      },
+      "amountGrams": 360,
+      "loggedAt": "2026-11-10T07:10:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000275",
+      "date": "2026-11-10",
+      "meal": 1,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000006",
+        "name": "Reis mit Gemüse und Hähnchen",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 160,
+          "proteinGrams": 12.1,
+          "carbohydrateGrams": 18.4,
+          "fatGrams": 4.2
+        }
+      },
+      "amountGrams": 455,
+      "loggedAt": "2026-11-10T11:40:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000276",
+      "date": "2026-11-10",
+      "meal": 2,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000007",
+        "name": "Kartoffeln mit Kräuterquark",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 128,
+          "proteinGrams": 7.5,
+          "carbohydrateGrams": 16,
+          "fatGrams": 3.5
+        }
+      },
+      "amountGrams": 460,
+      "loggedAt": "2026-11-10T18:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000277",
+      "date": "2026-11-10",
+      "meal": 3,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000008",
+        "name": "Skyr mit Heidelbeeren",
+        "category": 1,
+        "nutrientsPer100G": {
+          "kcal": 76,
+          "proteinGrams": 9.9,
+          "carbohydrateGrams": 7.5,
+          "fatGrams": 0.7
+        }
+      },
+      "amountGrams": 270,
+      "loggedAt": "2026-11-10T14:30:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000279",
+      "date": "2026-11-11",
+      "meal": 0,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000009",
+        "name": "Quark mit Banane und Hafer",
+        "category": 1,
+        "nutrientsPer100G": {
+          "kcal": 151,
+          "proteinGrams": 10.1,
+          "carbohydrateGrams": 20.1,
+          "fatGrams": 3.1
+        }
+      },
+      "amountGrams": 375,
+      "loggedAt": "2026-11-11T07:10:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000280",
+      "date": "2026-11-11",
+      "meal": 1,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000010",
+        "name": "Nudeln mit Linsenragout",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 174,
+          "proteinGrams": 9.5,
+          "carbohydrateGrams": 22,
+          "fatGrams": 5.2
+        }
+      },
+      "amountGrams": 470,
+      "loggedAt": "2026-11-11T11:40:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000281",
+      "date": "2026-11-11",
+      "meal": 2,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000011",
+        "name": "Omelett mit Vollkornbrot",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 166,
+          "proteinGrams": 10.8,
+          "carbohydrateGrams": 12.5,
+          "fatGrams": 7.1
+        }
+      },
+      "amountGrams": 475,
+      "loggedAt": "2026-11-11T18:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000282",
+      "date": "2026-11-11",
+      "meal": 3,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000012",
+        "name": "Hummus mit Rohkost",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 98,
+          "proteinGrams": 4.2,
+          "carbohydrateGrams": 9.5,
+          "fatGrams": 4.7
+        }
+      },
+      "amountGrams": 225,
+      "loggedAt": "2026-11-11T14:30:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000312",
+      "date": "2026-11-12",
+      "meal": 0,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000001",
+        "name": "Hafer-Joghurt mit Beeren",
+        "category": 1,
+        "nutrientsPer100G": {
+          "kcal": 146,
+          "proteinGrams": 8.2,
+          "carbohydrateGrams": 20.2,
+          "fatGrams": 3.7
+        }
+      },
+      "amountGrams": 390,
+      "loggedAt": "2026-11-12T07:10:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000313",
+      "date": "2026-11-12",
+      "meal": 1,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000002",
+        "name": "Quinoa-Linsen-Bowl",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 165,
+          "proteinGrams": 10,
+          "carbohydrateGrams": 18,
+          "fatGrams": 5
+        }
+      },
+      "amountGrams": 485,
+      "loggedAt": "2026-11-12T11:40:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000314",
+      "date": "2026-11-12",
+      "meal": 2,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000003",
+        "name": "Ofengemüse mit Tofu",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 134,
+          "proteinGrams": 9.2,
+          "carbohydrateGrams": 11.6,
+          "fatGrams": 5.6
+        }
+      },
+      "amountGrams": 430,
+      "loggedAt": "2026-11-12T18:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000315",
+      "date": "2026-11-12",
+      "meal": 3,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000004",
+        "name": "Apfel und Mandeln",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 131,
+          "proteinGrams": 3.2,
+          "carbohydrateGrams": 16,
+          "fatGrams": 6.1
+        }
+      },
+      "amountGrams": 240,
+      "loggedAt": "2026-11-12T14:30:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000317",
+      "date": "2026-11-13",
+      "meal": 0,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000005",
+        "name": "Apfel-Porridge",
+        "category": 5,
+        "nutrientsPer100G": {
+          "kcal": 158,
+          "proteinGrams": 7.5,
+          "carbohydrateGrams": 23,
+          "fatGrams": 3.7
+        }
+      },
+      "amountGrams": 405,
+      "loggedAt": "2026-11-13T07:10:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000318",
+      "date": "2026-11-13",
+      "meal": 1,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000006",
+        "name": "Reis mit Gemüse und Hähnchen",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 160,
+          "proteinGrams": 12.1,
+          "carbohydrateGrams": 18.4,
+          "fatGrams": 4.2
+        }
+      },
+      "amountGrams": 440,
+      "loggedAt": "2026-11-13T11:40:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000319",
+      "date": "2026-11-13",
+      "meal": 2,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000007",
+        "name": "Kartoffeln mit Kräuterquark",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 128,
+          "proteinGrams": 7.5,
+          "carbohydrateGrams": 16,
+          "fatGrams": 3.5
+        }
+      },
+      "amountGrams": 445,
+      "loggedAt": "2026-11-13T18:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000320",
+      "date": "2026-11-13",
+      "meal": 3,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000008",
+        "name": "Skyr mit Heidelbeeren",
+        "category": 1,
+        "nutrientsPer100G": {
+          "kcal": 76,
+          "proteinGrams": 9.9,
+          "carbohydrateGrams": 7.5,
+          "fatGrams": 0.7
+        }
+      },
+      "amountGrams": 255,
+      "loggedAt": "2026-11-13T14:30:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000344",
+      "date": "2026-11-14",
+      "meal": 0,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000009",
+        "name": "Quark mit Banane und Hafer",
+        "category": 1,
+        "nutrientsPer100G": {
+          "kcal": 151,
+          "proteinGrams": 10.1,
+          "carbohydrateGrams": 20.1,
+          "fatGrams": 3.1
+        }
+      },
+      "amountGrams": 360,
+      "loggedAt": "2026-11-14T07:10:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000345",
+      "date": "2026-11-14",
+      "meal": 1,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000010",
+        "name": "Nudeln mit Linsenragout",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 174,
+          "proteinGrams": 9.5,
+          "carbohydrateGrams": 22,
+          "fatGrams": 5.2
+        }
+      },
+      "amountGrams": 455,
+      "loggedAt": "2026-11-14T11:40:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000346",
+      "date": "2026-11-14",
+      "meal": 2,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000011",
+        "name": "Omelett mit Vollkornbrot",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 166,
+          "proteinGrams": 10.8,
+          "carbohydrateGrams": 12.5,
+          "fatGrams": 7.1
+        }
+      },
+      "amountGrams": 460,
+      "loggedAt": "2026-11-14T18:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000347",
+      "date": "2026-11-14",
+      "meal": 3,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000012",
+        "name": "Hummus mit Rohkost",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 98,
+          "proteinGrams": 4.2,
+          "carbohydrateGrams": 9.5,
+          "fatGrams": 4.7
+        }
+      },
+      "amountGrams": 270,
+      "loggedAt": "2026-11-14T14:30:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000349",
+      "date": "2026-11-15",
+      "meal": 0,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000001",
+        "name": "Hafer-Joghurt mit Beeren",
+        "category": 1,
+        "nutrientsPer100G": {
+          "kcal": 146,
+          "proteinGrams": 8.2,
+          "carbohydrateGrams": 20.2,
+          "fatGrams": 3.7
+        }
+      },
+      "amountGrams": 375,
+      "loggedAt": "2026-11-15T07:10:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000350",
+      "date": "2026-11-15",
+      "meal": 1,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000002",
+        "name": "Quinoa-Linsen-Bowl",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 165,
+          "proteinGrams": 10,
+          "carbohydrateGrams": 18,
+          "fatGrams": 5
+        }
+      },
+      "amountGrams": 470,
+      "loggedAt": "2026-11-15T11:40:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000351",
+      "date": "2026-11-15",
+      "meal": 2,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000003",
+        "name": "Ofengemüse mit Tofu",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 134,
+          "proteinGrams": 9.2,
+          "carbohydrateGrams": 11.6,
+          "fatGrams": 5.6
+        }
+      },
+      "amountGrams": 475,
+      "loggedAt": "2026-11-15T18:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000352",
+      "date": "2026-11-15",
+      "meal": 3,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000004",
+        "name": "Apfel und Mandeln",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 131,
+          "proteinGrams": 3.2,
+          "carbohydrateGrams": 16,
+          "fatGrams": 6.1
+        }
+      },
+      "amountGrams": 225,
+      "loggedAt": "2026-11-15T14:30:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000383",
+      "date": "2026-11-16",
+      "meal": 0,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000005",
+        "name": "Apfel-Porridge",
+        "category": 5,
+        "nutrientsPer100G": {
+          "kcal": 158,
+          "proteinGrams": 7.5,
+          "carbohydrateGrams": 23,
+          "fatGrams": 3.7
+        }
+      },
+      "amountGrams": 390,
+      "loggedAt": "2026-11-16T07:10:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000384",
+      "date": "2026-11-16",
+      "meal": 1,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000006",
+        "name": "Reis mit Gemüse und Hähnchen",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 160,
+          "proteinGrams": 12.1,
+          "carbohydrateGrams": 18.4,
+          "fatGrams": 4.2
+        }
+      },
+      "amountGrams": 485,
+      "loggedAt": "2026-11-16T11:40:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000385",
+      "date": "2026-11-16",
+      "meal": 2,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000007",
+        "name": "Kartoffeln mit Kräuterquark",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 128,
+          "proteinGrams": 7.5,
+          "carbohydrateGrams": 16,
+          "fatGrams": 3.5
+        }
+      },
+      "amountGrams": 430,
+      "loggedAt": "2026-11-16T18:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000386",
+      "date": "2026-11-16",
+      "meal": 3,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000008",
+        "name": "Skyr mit Heidelbeeren",
+        "category": 1,
+        "nutrientsPer100G": {
+          "kcal": 76,
+          "proteinGrams": 9.9,
+          "carbohydrateGrams": 7.5,
+          "fatGrams": 0.7
+        }
+      },
+      "amountGrams": 240,
+      "loggedAt": "2026-11-16T14:30:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000409",
+      "date": "2026-11-17",
+      "meal": 0,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000009",
+        "name": "Quark mit Banane und Hafer",
+        "category": 1,
+        "nutrientsPer100G": {
+          "kcal": 151,
+          "proteinGrams": 10.1,
+          "carbohydrateGrams": 20.1,
+          "fatGrams": 3.1
+        }
+      },
+      "amountGrams": 405,
+      "loggedAt": "2026-11-17T07:10:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000410",
+      "date": "2026-11-17",
+      "meal": 1,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000010",
+        "name": "Nudeln mit Linsenragout",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 174,
+          "proteinGrams": 9.5,
+          "carbohydrateGrams": 22,
+          "fatGrams": 5.2
+        }
+      },
+      "amountGrams": 440,
+      "loggedAt": "2026-11-17T11:40:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000411",
+      "date": "2026-11-17",
+      "meal": 2,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000011",
+        "name": "Omelett mit Vollkornbrot",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 166,
+          "proteinGrams": 10.8,
+          "carbohydrateGrams": 12.5,
+          "fatGrams": 7.1
+        }
+      },
+      "amountGrams": 445,
+      "loggedAt": "2026-11-17T18:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000412",
+      "date": "2026-11-17",
+      "meal": 3,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000012",
+        "name": "Hummus mit Rohkost",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 98,
+          "proteinGrams": 4.2,
+          "carbohydrateGrams": 9.5,
+          "fatGrams": 4.7
+        }
+      },
+      "amountGrams": 255,
+      "loggedAt": "2026-11-17T14:30:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000415",
+      "date": "2026-11-18",
+      "meal": 0,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000001",
+        "name": "Hafer-Joghurt mit Beeren",
+        "category": 1,
+        "nutrientsPer100G": {
+          "kcal": 146,
+          "proteinGrams": 8.2,
+          "carbohydrateGrams": 20.2,
+          "fatGrams": 3.7
+        }
+      },
+      "amountGrams": 360,
+      "loggedAt": "2026-11-18T07:10:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000416",
+      "date": "2026-11-18",
+      "meal": 1,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000002",
+        "name": "Quinoa-Linsen-Bowl",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 165,
+          "proteinGrams": 10,
+          "carbohydrateGrams": 18,
+          "fatGrams": 5
+        }
+      },
+      "amountGrams": 455,
+      "loggedAt": "2026-11-18T11:40:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000417",
+      "date": "2026-11-18",
+      "meal": 2,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000003",
+        "name": "Ofengemüse mit Tofu",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 134,
+          "proteinGrams": 9.2,
+          "carbohydrateGrams": 11.6,
+          "fatGrams": 5.6
+        }
+      },
+      "amountGrams": 460,
+      "loggedAt": "2026-11-18T18:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000418",
+      "date": "2026-11-18",
+      "meal": 3,
+      "foodSnapshot": {
+        "id": "90000000-0000-4000-8000-000000000004",
+        "name": "Apfel und Mandeln",
+        "category": 11,
+        "nutrientsPer100G": {
+          "kcal": 131,
+          "proteinGrams": 3.2,
+          "carbohydrateGrams": 16,
+          "fatGrams": 6.1
+        }
+      },
+      "amountGrams": 270,
+      "loggedAt": "2026-11-18T14:30:00Z"
+    }
+  ],
+  "waterLogs": [
+    {
+      "id": "90000000-0000-4000-8000-000000000045",
+      "date": "2026-10-29",
+      "amountMl": 1850,
+      "loggedAt": "2026-10-29T14:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000050",
+      "date": "2026-10-30",
+      "amountMl": 1950,
+      "loggedAt": "2026-10-30T14:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000077",
+      "date": "2026-10-31",
+      "amountMl": 2050,
+      "loggedAt": "2026-10-31T14:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000082",
+      "date": "2026-11-01",
+      "amountMl": 2150,
+      "loggedAt": "2026-11-01T14:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000116",
+      "date": "2026-11-02",
+      "amountMl": 2250,
+      "loggedAt": "2026-11-02T14:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000142",
+      "date": "2026-11-03",
+      "amountMl": 1850,
+      "loggedAt": "2026-11-03T14:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000148",
+      "date": "2026-11-04",
+      "amountMl": 1950,
+      "loggedAt": "2026-11-04T14:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000180",
+      "date": "2026-11-05",
+      "amountMl": 2050,
+      "loggedAt": "2026-11-05T14:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000186",
+      "date": "2026-11-06",
+      "amountMl": 2150,
+      "loggedAt": "2026-11-06T14:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000212",
+      "date": "2026-11-07",
+      "amountMl": 2250,
+      "loggedAt": "2026-11-07T14:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000218",
+      "date": "2026-11-08",
+      "amountMl": 1850,
+      "loggedAt": "2026-11-08T14:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000251",
+      "date": "2026-11-09",
+      "amountMl": 1950,
+      "loggedAt": "2026-11-09T14:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000278",
+      "date": "2026-11-10",
+      "amountMl": 2050,
+      "loggedAt": "2026-11-10T14:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000283",
+      "date": "2026-11-11",
+      "amountMl": 2150,
+      "loggedAt": "2026-11-11T14:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000316",
+      "date": "2026-11-12",
+      "amountMl": 2250,
+      "loggedAt": "2026-11-12T14:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000321",
+      "date": "2026-11-13",
+      "amountMl": 1850,
+      "loggedAt": "2026-11-13T14:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000348",
+      "date": "2026-11-14",
+      "amountMl": 1950,
+      "loggedAt": "2026-11-14T14:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000353",
+      "date": "2026-11-15",
+      "amountMl": 2050,
+      "loggedAt": "2026-11-15T14:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000387",
+      "date": "2026-11-16",
+      "amountMl": 2150,
+      "loggedAt": "2026-11-16T14:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000413",
+      "date": "2026-11-17",
+      "amountMl": 2250,
+      "loggedAt": "2026-11-17T14:00:00Z"
+    },
+    {
+      "id": "90000000-0000-4000-8000-000000000419",
+      "date": "2026-11-18",
+      "amountMl": 1850,
+      "loggedAt": "2026-11-18T14:00:00Z"
+    }
+  ]
+}
