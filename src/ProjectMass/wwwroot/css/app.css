@@ -540,7 +540,7 @@ html:has(.focus-mode) .notice[role=status]{background:#1C3326;color:#9BE7B8}
 
 /* Import: zwei Vorlagen zur Wahl */
 .import-choice{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:4px 0 10px}
-.import-option{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;padding:14px 16px;border-radius:14px;white-space:normal;height:auto;min-height:0;line-height:1.35}
-.import-option strong{font-size:16px}
-.import-option span{font-size:13px;font-weight:400;color:var(--muted, inherit);opacity:.85}
-.import-option:first-child{border-color:var(--accent, currentColor)}
+button.import-option{display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:4px;text-align:left;padding:14px 16px;border-radius:14px;white-space:normal;height:auto;min-height:0;line-height:1.35;border:1.5px solid transparent;background:var(--surface-2)}
+button.import-option strong{font-size:16px}
+button.import-option span{font-size:13px;font-weight:400;color:var(--muted, inherit);opacity:.85}
+button.import-option:first-child{border-color:var(--accent, currentColor)}
