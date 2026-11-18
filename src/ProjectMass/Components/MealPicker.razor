@@ -1,0 +1,14 @@
+@* Meal selection as four large chips instead of a dropdown: one tap, always visible. *@
+<fieldset class="meal-picker">
+    <legend>Mahlzeit</legend>
+    <div class="meal-chips">
+        @foreach (var meal in Enum.GetValues<MealType>())
+        {
+            <button type="button" class="chip @(Value == meal ? "active" : "")" aria-pressed="@(Value == meal)" @onclick="() => ValueChanged.InvokeAsync(meal)">@NutritionLabels.Meal(meal)</button>
+        }
+    </div>
+</fieldset>
+@code {
+    [Parameter] public MealType Value { get; set; }
+    [Parameter] public EventCallback<MealType> ValueChanged { get; set; }
+}
