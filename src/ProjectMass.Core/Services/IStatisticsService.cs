@@ -12,6 +12,7 @@ public interface IStatisticsService
     List<FrequencyDay> GetFrequency(IEnumerable<WorkoutSession> sessions, DateOnly today);
     List<ChartPoint> MovingAverage(IEnumerable<ChartPoint> points);
     int GetStreak(IEnumerable<WorkoutSession> sessions, int weeklyTarget, DateOnly today);
+    int GetWeeklyTarget(UserProfile profile, IEnumerable<WorkoutPlan> plans);
     ProgressionSuggestion? GetProgression(Guid exerciseId, IEnumerable<WorkoutSession> history, IEnumerable<Exercise> exercises, UserProfile profile);
     void ApplyProgression(SessionExercise exercise, ProgressionSuggestion suggestion);
     WorkoutPlan? GetNextPlan(IEnumerable<WorkoutPlan> plans, IEnumerable<WorkoutSession> sessions, DateOnly today);

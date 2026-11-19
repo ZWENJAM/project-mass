@@ -1,9 +1,9 @@
 @inherits LayoutComponentBase
 @inject TrainingDataInitializer TrainingData
-@inject NutritionDataInitializer NutritionData
 @inject NasSyncCoordinator NasSync
 @inject NavigationManager Navigation
 @inject IServiceProvider Services
+@inject ProjectMassOptions Platform
 @implements IDisposable
 
 <a class="skip-link" href="#main-content" @onclick="FocusMain" @onclick:preventDefault>Zum Inhalt springen</a>
@@ -34,7 +34,7 @@
         }
         else { <p role="status">PROJECT MASS wird vorbereitet …</p> }
     </main>
-    <footer>PROJECT MASS <span>Version @AppInfo.Version</span></footer>
+    <footer>PROJECT MASS <span>Version @Platform.DisplayVersion</span></footer>
 </div>
 <nav class="mobile-nav" aria-label="Mobile Hauptnavigation"><NavMenu /></nav>
 @if (nativeBackups?.RecoveryPreview is { } recovery)
@@ -76,11 +76,15 @@
         {
             if (nativeBackups is not null) await nativeBackups.InitializeAsync(work => InvokeAsync(work));
             await TrainingData.InitializeAsync();
-            await NutritionData.InitializeAsync();
             ready = true;
             if (nativeBackups?.RecoveryPreview is null) _ = NasSync.StartAsync();
         }
-        catch (Exception) { error = "Bitte prüfe, ob der lokale Browserspeicher verfügbar ist und die App vollständig geladen wurde."; }
+        catch (Exception)
+        {
+            error = Platform.Native
+                ? "Bitte prüfe, ob der App-Speicher verfügbar ist und die App vollständig geladen wurde."
+                : "Bitte prüfe, ob der lokale Browserspeicher verfügbar ist und die App vollständig geladen wurde.";
+        }
     }
     private async Task RestoreNativeBackup()
     {

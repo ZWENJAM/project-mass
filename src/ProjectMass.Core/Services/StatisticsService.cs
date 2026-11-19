@@ -93,10 +93,24 @@ public sealed class StatisticsService : IStatisticsService
     }
     public WorkoutPlan? GetNextPlan(IEnumerable<WorkoutPlan> plans, IEnumerable<WorkoutSession> sessions, DateOnly today)
     {
-        var history = sessions.Where(s => s.IsCompleted && s.Date <= today).ToList(); var start = WeekStart(today);
-        return plans.Select((p, index) => new { Plan = p, Index = index, Last = history.Where(s => s.WorkoutPlanId == p.Id).OrderByDescending(s => s.Date).ThenByDescending(s => s.CompletedAt ?? s.StartedAt).FirstOrDefault() })
-            .OrderBy(p => p.Last?.Date >= start ? 1 : 0).ThenBy(p => p.Last?.Date).ThenBy(p => p.Last is null ? (DateTimeOffset?)null : p.Last.CompletedAt ?? p.Last.StartedAt).ThenBy(p => p.Index).Select(p => p.Plan).FirstOrDefault();
+        var start = WeekStart(today);
+        var lastByPlan = sessions.Where(s => s.IsCompleted && s.Date <= today && s.WorkoutPlanId.HasValue)
+            .OrderByDescending(s => s.Date).ThenByDescending(s => s.CompletedAt ?? s.StartedAt)
+            .DistinctBy(s => s.WorkoutPlanId).ToDictionary(s => s.WorkoutPlanId!.Value);
+        var entries = plans.Select(plan => (Plan: plan, Last: lastByPlan.GetValueOrDefault(plan.Id))).ToList();
+        var scheduled = entries.Where(p => p.Plan.Day.HasValue && (p.Last is null || p.Last.Date < start))
+            .OrderBy(p => ((int)p.Plan.Day!.Value - (int)today.DayOfWeek + 7) % 7)
+            .Select(p => p.Plan).FirstOrDefault();
+        if (scheduled is not null) return scheduled;
+
+        var flexible = entries.Where(p => !p.Plan.Day.HasValue).ToList();
+        return (flexible.Count > 0 ? flexible : entries)
+            .OrderBy(p => p.Last?.Date >= start).ThenBy(p => p.Last?.Date)
+            .ThenBy(p => p.Last?.CompletedAt ?? p.Last?.StartedAt).Select(p => p.Plan).FirstOrDefault();
     }
+
+    public int GetWeeklyTarget(UserProfile profile, IEnumerable<WorkoutPlan> plans) =>
+        profile.TrainingDaysPerWeek > 0 ? profile.TrainingDaysPerWeek : plans.Count(plan => plan.Day.HasValue);
     public WeeklyReport GetWeeklyReport(DateOnly week, IEnumerable<FoodLogEntry> logs, IEnumerable<BodyMeasurement> measurements, IEnumerable<WorkoutSession> sessions)
     {
         var start = WeekStart(week); var end = start.AddDays(7); var previous = start.AddDays(-7);

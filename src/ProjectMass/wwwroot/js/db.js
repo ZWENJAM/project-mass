@@ -57,6 +57,31 @@ function deleteEntry(store, id) { return execute(store, 'readwrite', objectStore
 export { deleteEntry as delete };
 export function clear(store) { return execute(store, 'readwrite', objectStore => objectStore.clear()); }
 
+export async function isEmpty(names) {
+    const db = await openDatabase();
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction(names, 'readonly');
+        const counts = names.map(name => tx.objectStore(name).count());
+        tx.oncomplete = () => resolve(counts.every(request => request.result === 0));
+        tx.onabort = () => reject(tx.error ?? new Error('Datenstand konnte nicht geprüft werden.'));
+    });
+}
+
+export async function seedIfEmpty(names, seeds) {
+    const db = await openDatabase();
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction(names, 'readwrite');
+        const counts = names.map(name => tx.objectStore(name).count());
+        counts.at(-1).onsuccess = () => {
+            if (counts.some(request => request.result !== 0)) return;
+            for (const [name, items] of Object.entries(seeds))
+                for (const item of items) tx.objectStore(name).add(item);
+        };
+        tx.oncomplete = () => resolve();
+        tx.onabort = () => reject(tx.error ?? new Error('Startdaten konnten nicht angelegt werden.'));
+    });
+}
+
 export async function changeTracked(store, operation, item, id, at) {
     const db = await openDatabase();
     return new Promise((resolve, reject) => {

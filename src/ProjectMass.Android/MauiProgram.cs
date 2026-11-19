@@ -16,11 +16,12 @@ public static class MauiProgram
         builder.Services.AddSingleton<BackupFiles>();
         builder.Services.AddSingleton<IWebDavTransport, NativeWebDavTransport>();
         builder.Services.AddSingleton<IPlatformFiles, AndroidPlatformFiles>();
+        builder.Services.AddSingleton<IRestNotifications, AndroidRestNotifications>();
         builder.Services.AddScoped<INativeBackups, AndroidBackups>();
         builder.Services.AddProjectMassCore(_ => new HttpClient(new PackagedSeedHandler())
         {
             BaseAddress = new Uri("https://project-mass.local/")
-        }, new ProjectMassOptions(Native: true));
+        }, new ProjectMassOptions(Native: true, DisplayVersion: Microsoft.Maui.ApplicationModel.AppInfo.Current.VersionString));
 
         builder.ConfigureLifecycleEvents(events => events.AddAndroid(android =>
             android.OnPause(_ => backupLifecycle?.Pause())));

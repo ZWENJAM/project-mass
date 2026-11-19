@@ -1,7 +1,10 @@
 @using System.Globalization
 @if (Points.Count == 0)
 {
-    <p class="empty">Noch keine Messung. Gewicht eintragen.</p>
+    <p class="empty">
+        Noch keine Messung.
+        @if (WeightEntryUrl is not null) { <a class="section-link" href="@WeightEntryUrl">Gewicht eintragen</a> }
+    </p>
 }
 else
 {
@@ -43,6 +46,7 @@ else
     [Parameter] public IReadOnlyList<ChartPoint> Average { get; set; } = [];
     [Parameter] public string Label { get; set; } = "Messverlauf";
     [Parameter] public string Unit { get; set; } = "kg";
+    [Parameter] public string? WeightEntryUrl { get; set; }
     private decimal min, max;
     private ChartPoint? selected;
     protected override void OnParametersSet()

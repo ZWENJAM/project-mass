@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace ProjectMass.Services;
 
-public sealed record ProjectMassOptions(bool Native = false);
+public sealed record ProjectMassOptions(bool Native = false, string DisplayVersion = AppInfo.Version);
 
 public static class ProjectMassRegistration
 {
@@ -31,8 +31,6 @@ public static class ProjectMassRegistration
         services.AddScoped<IProfileService, ProfileService>();
         services.AddScoped<IFoodService, FoodService>();
         services.AddScoped<INutritionService, NutritionService>();
-        services.AddScoped(sp => new NutritionDataInitializer(
-            sp.GetRequiredService<HttpClient>(), sp.GetRequiredService<IndexedDbStorageService>()));
         // Keyed DI supplies a separately named browser HttpClient for each provider.
         services.AddKeyedScoped<HttpClient>(OpenFoodFactsProvider.ClientName, (_, _) => new HttpClient
         {

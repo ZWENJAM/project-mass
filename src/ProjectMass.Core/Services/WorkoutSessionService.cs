@@ -39,10 +39,13 @@ public sealed class WorkoutSessionService(IStorageService storage, IWorkoutPlanS
             for (var i = 0; i < planned.Sets; i++)
             {
                 var previous = last?.Sets.ElementAtOrDefault(i);
+                var hasPreviousValues = previous is { IsCompleted: true, Reps: > 0 };
                 exercise.Sets.Add(new SetEntry
                 {
-                    WeightKg = previous?.WeightKg ?? 0, Reps = previous?.Reps ?? 0,
-                    Type = previous?.Type ?? SetType.Working
+                    WeightKg = hasPreviousValues ? previous!.WeightKg : 0,
+                    Reps = hasPreviousValues ? previous!.Reps : planned.MinReps,
+                    Type = previous?.Type ?? SetType.Working,
+                    PrefilledFromHistory = hasPreviousValues
                     // RPE and completion describe this workout and are deliberately reset.
                 });
             }
@@ -66,6 +69,11 @@ public sealed class WorkoutSessionService(IStorageService storage, IWorkoutPlanS
         if (CountSets(session).Completed == 0) throw new ArgumentException("Bitte mindestens einen absolvierten Satz abhaken.");
         // Do not mutate the live draft unless the database commit succeeds.
         var completed = System.Text.Json.JsonSerializer.Deserialize<WorkoutSession>(System.Text.Json.JsonSerializer.Serialize(session))!;
+        foreach (var exercise in completed.Exercises)
+        {
+            exercise.Sets.RemoveAll(set => !set.IsCompleted && set.WeightKg == 0 && set.Reps == 0);
+            foreach (var set in exercise.Sets) set.PrefilledFromHistory = false;
+        }
         completed.IsCompleted = true;
         completed.CompletedAt = clock.GetUtcNow();
         completed.RestEndsAt = null;
@@ -74,6 +82,7 @@ public sealed class WorkoutSessionService(IStorageService storage, IWorkoutPlanS
         session.IsCompleted = true;
         session.CompletedAt = completed.CompletedAt;
         session.RestEndsAt = null;
+        session.Exercises = completed.Exercises;
         session.NewPersonalRecords = completed.NewPersonalRecords;
     }
 
@@ -86,9 +95,28 @@ public sealed class WorkoutSessionService(IStorageService storage, IWorkoutPlanS
         var wasCompleted = set.IsCompleted;
         var previousEnd = session.RestEndsAt;
         set.IsCompleted = !wasCompleted;
-        if (set.IsCompleted) session.RestEndsAt = clock.GetUtcNow().AddSeconds(exercise.RestSeconds);
+        var next = set.IsCompleted
+            ? exercise.Sets.Skip(exercise.Sets.IndexOf(set) + 1).FirstOrDefault(s => !s.IsCompleted)
+            : null;
+        var previousValues = next is null ? default : (next.WeightKg, next.Reps, next.PrefilledFromHistory);
+        if (set.IsCompleted)
+        {
+            session.RestEndsAt = clock.GetUtcNow().AddSeconds(exercise.RestSeconds);
+            if (next is not null)
+            {
+                next.WeightKg = set.WeightKg;
+                next.Reps = set.Reps;
+                next.PrefilledFromHistory = false;
+            }
+        }
         try { await SaveDraftAsync(session); }
-        catch { set.IsCompleted = wasCompleted; session.RestEndsAt = previousEnd; throw; }
+        catch
+        {
+            set.IsCompleted = wasCompleted;
+            session.RestEndsAt = previousEnd;
+            if (next is not null) (next.WeightKg, next.Reps, next.PrefilledFromHistory) = previousValues;
+            throw;
+        }
     }
 
     public void AddSet(SessionExercise exercise)

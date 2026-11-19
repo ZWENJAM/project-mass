@@ -47,6 +47,44 @@ public class BackupServiceTests
     }
 
     [Fact]
+    public async Task ExistingV2BackupWithoutPrefillFieldPreservesHistoricalSets()
+    {
+        const string existingV2 = """
+        {
+          "format": "project-mass",
+          "version": 2,
+          "exportedAt": "2026-11-01T12:00:00Z",
+          "workoutSessions": [{
+            "id": "a2000000-0000-0000-0000-000000000001",
+            "name": "Altes Training",
+            "date": "2026-11-01",
+            "startedAt": "2026-11-01T11:00:00Z",
+            "completedAt": "2026-11-01T12:00:00Z",
+            "isCompleted": true,
+            "exercises": [{
+              "id": "a2000000-0000-0000-0000-000000000002",
+              "exerciseId": "a2000000-0000-0000-0000-000000000003",
+              "name": "Brustpresse",
+              "sets": [
+                { "id": "a2000000-0000-0000-0000-000000000004", "weightKg": 60, "reps": 10, "type": 0, "isCompleted": true },
+                { "id": "a2000000-0000-0000-0000-000000000005", "weightKg": 0, "reps": 0, "type": 0, "isCompleted": false }
+              ]
+            }]
+          }]
+        }
+        """;
+
+        Assert.Equal(1, Backups.Preview(existingV2).Sessions);
+        await Backups.ImportJsonAsync(existingV2);
+        var history = await new WorkoutSessionService(storage, new WorkoutPlanService(storage), new FixedClock()).GetHistoryAsync();
+        var sets = Assert.Single(Assert.Single(history).Exercises).Sets;
+        Assert.Equal([(60m, 10, true), (0m, 0, false)], sets.Select(set => (set.WeightKg, set.Reps, set.IsCompleted)));
+        Assert.All(sets, set => Assert.False(set.PrefilledFromHistory));
+        Assert.Equal(600m, new StatisticsService().GetWeeklyReport(new(2026, 11, 1), [], [], history).TotalVolumeKg);
+        Assert.DoesNotContain("prefilledFromHistory", await Backups.ExportJsonAsync());
+    }
+
+    [Fact]
     public async Task FailedImportRestoresPreviousData()
     {
         await storage.PutAsync(StorageStores.Notes, new Note { Text = "Original" });

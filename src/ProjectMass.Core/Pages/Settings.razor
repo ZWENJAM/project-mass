@@ -1,6 +1,7 @@
 @page "/mehr/einstellungen"
 @page "/profil"
 @inject IProfileService Profiles
+@inject ProjectMassOptions Platform
 <PageTitle>Profil und Ziele / PROJECT MASS</PageTitle>
 <div class="page-head"><div><h1>Profil und Ziele</h1><p>Berechne einen Vorschlag und passe ihn an deinen Alltag an.</p></div></div>
 <NutritionTabs />
@@ -36,7 +37,7 @@
             </div></section>
             <section class="protocol-section"><h2>USDA FoodData Central (optional)</h2>
                 <label class="field">USDA API-Key<input type="password" autocomplete="off" @bind="profile.UsdaApiKey" @bind:event="oninput" /></label>
-                <p class="mini-label">Der Key wird nur lokal in diesem Browser gespeichert und bei einer USDA-Suche direkt an USDA gesendet. Ein leeres Feld deaktiviert USDA.</p>
+                <p class="mini-label">Der Key wird lokal @(Platform.Native ? "im App-Speicher" : "in diesem Browser") gespeichert und bei einer USDA-Suche direkt an USDA gesendet. Ein leeres Feld deaktiviert USDA.</p>
             </section>
             <section class="protocol-section"><h2>Gewichtsschritte für die Progression</h2><div class="form-grid">
                 <label class="field">Oberkörper (+kg)<input type="number" min="0.01" max="100" step="any" @bind="profile.UpperBodyIncreaseKg" @bind:event="oninput" /></label>

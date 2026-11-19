@@ -1,7 +1,8 @@
 @page "/ernaehrung/lebensmittel"
 @inject IFoodService Foods
+<div class="page-content narrow">
 <PageTitle>Meine Lebensmittel / PROJECT MASS</PageTitle>
-<div class="page-head"><div><h1>Meine Lebensmittel</h1><p>Deine Produkte, Portionen und Favoriten.</p></div><a class="button-link primary" href="ernaehrung/lebensmittel/neu">+ Lebensmittel</a></div>
+<div class="page-head nutrition-page-head"><h1>Lebensmittel</h1><a class="button-link primary" href="ernaehrung/lebensmittel/neu">+ Lebensmittel</a></div>
 <NutritionTabs />
 @if (error is not null) { <p class="notice" role="alert">@error</p> }
 <div class="form-grid">
@@ -18,6 +19,7 @@
     }
     @if (foods.Count == 0) { <p class="empty">Keine Lebensmittel in dieser Ansicht.</p> }
 </section>
+</div>
 @if (deleting is not null) { <ConfirmationDialog Title="Lebensmittel löschen?" Message="@($"„{deleting.Name}“ wird aus deinem Katalog entfernt. Gespeicherte Mahlzeiten bleiben erhalten.")" OnCancel="() => deleting = null" OnConfirm="Delete" /> }
 @code {
     private List<FoodItem> foods = [];

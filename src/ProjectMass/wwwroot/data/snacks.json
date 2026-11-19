@@ -35,15 +35,15 @@
         "id":  "40000000-0000-0000-0000-000000000003",
         "name":  "Whey-Shake (30 g, Wasser)",
         "source":  0,
-        "note":  "Grobe Startwerte aus der alten App. Nur kcal und Protein sind bekannt; übrige Nährwerte bitte ergänzen.",
+        "note":  "Eine Portion enthält 30 g Whey-Pulver und 250 ml Wasser (insgesamt ca. 280 g). Die Werte pro 100 g beziehen sich auf den zubereiteten Shake.",
         "nutrientsPer100G":  {
-                                 "kcal":  400,
-                                 "proteinGrams":  76.666666666666666666666666667
+                                 "kcal":  42.857142857142857142857142857,
+                                 "proteinGrams":  8.214285714285714285714285714
                              },
         "portionSizes":  [
                              {
                                  "name":  "1 Portion",
-                                 "grams":  30
+                                 "grams":  280
                              }
                          ]
     },

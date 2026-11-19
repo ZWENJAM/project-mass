@@ -19,6 +19,12 @@
         <section class="protocol-section backup-reminder"><div><h2>Backup fällig</h2><p class="mini-label">@reminder</p></div><a class="button-link primary" href="mehr/daten">Jetzt sichern</a></section>
     }
     <div class="has-dock">
+    @if (profile.TargetKcal <= 0)
+    {
+        <a class="protocol-section section-link goal-setup" href="mehr/einstellungen">
+            <h2>Ziele in 1 Minute einrichten</h2><p class="muted">Berechne dein Kalorien- und Makroziel.</p>
+        </a>
+    }
     <div class="nutrition-ledger dashboard-nutrition today-card">
         @if (profile.TargetKcal > 0)
         {
@@ -27,7 +33,7 @@
         }
         else
         {
-            <div class="today-top"><div><p class="mini-label">Heute gegessen</p><p class="today-left">@day.Total.Kcal.ToString("N0", German) <span>kcal</span></p></div><a class="section-link" href="mehr/einstellungen">Ziel festlegen</a></div>
+            <div class="today-top"><div><p class="mini-label">Heute gegessen</p><p class="today-left">@day.Total.Kcal.ToString("N0", German) <span>kcal</span></p></div></div>
         }
         <div class="macro-row">
         <NutrientProgress Label="Protein" Kind="protein" Actual="day.Total.ProteinGrams" Target="profile.TargetProteinGrams" />
@@ -44,16 +50,17 @@
         else {<a class="button-link primary" href="training/plaene/neu">Plan anlegen</a>}
     </section>
     <section class="protocol-section"><div class="section-head"><h2>Trainingswoche</h2><span class="mini-label">@Statistics.WeekStart(today).ToString("dd.MM.") – @Statistics.WeekStart(today).AddDays(6).ToString("dd.MM.yyyy")</span></div>
-        <dl class="data-ledger"><div><dt>Abgeschlossene Trainings</dt><dd>@report.Trainings @if(profile.TrainingDaysPerWeek > 0){<span class="mini-label">/ Ziel @profile.TrainingDaysPerWeek</span>}</dd></div><div><dt>Streak</dt><dd>@streak <span class="mini-label">Wochen</span></dd></div></dl>
-        <p class="mini-label">@(profile.TrainingDaysPerWeek > 0 ? "Die laufende Woche zählt nach Erreichen des Wochenziels." : "Trainingstage in den Einstellungen festlegen.")</p>
+        <dl class="data-ledger"><div><dt>Abgeschlossene Trainings</dt><dd>@report.Trainings @if(weeklyTarget > 0){<span class="mini-label">/ Ziel @weeklyTarget</span>}</dd></div><div><dt>Streak</dt><dd>@streak <span class="mini-label">@(streak == 1 ? "Woche" : "Wochen")</span></dd></div></dl>
+        <p class="mini-label">@(weeklyTarget > 0 ? "Die laufende Woche zählt nach Erreichen des Wochenziels." : "Trainingstage in den Einstellungen festlegen.")</p>
         <FrequencyCalendar Days="Statistics.GetFrequency(history, today)" Today="today" />
     </section>
     <section class="protocol-section"><div class="section-head"><h2>Gewichtsverlauf</h2><a class="section-link" href="fortschritt">Messungen öffnen</a></div>
         <dl class="data-ledger"><div><dt>Ø diese Woche</dt><dd>@StatisticsLabels.Value(report.AverageWeight, "kg")</dd></div><div><dt>Ø Vorwoche</dt><dd>@StatisticsLabels.Value(report.PreviousAverageWeight, "kg")</dd></div><div><dt>Veränderung</dt><dd>@StatisticsLabels.Value(report.WeightChange, "kg")</dd></div></dl>
-        <LineChart Points="weights" Average="Statistics.MovingAverage(weights)" Label="Gewichtsverlauf" />
+        @if (weights.Count == 0) { <p class="empty">Noch kein Gewichtsverlauf. <a class="section-link" href="fortschritt?messung=neu">Gewicht eintragen</a>.</p> }
+        else { <LineChart Points="weights" Average="Statistics.MovingAverage(weights)" Label="Gewichtsverlauf" /> }
     </section>
     <section class="protocol-section"><div class="section-head"><h2>Letzte Rekorde</h2><a class="section-link" href="fortschritt">Alle Rekorde</a></div>
-        @if(records.Count == 0){<p class="empty">Noch keine Rekorde. Ein Training abschließen.</p>}
+        @if(records.Count == 0){<p class="empty">Noch keine Rekorde. <a class="section-link" href="training">Ein Training abschließen</a>.</p>}
         else {<div class="table-wrap"><table class="records-table"><thead><tr><th>Übung</th><th>Rekord</th><th>Wert</th><th>Datum</th></tr></thead><tbody>@foreach(var record in records){<tr><td>@record.ExerciseName</td><td>@StatisticsLabels.Record(record.Kind)</td><td class="number">@record.Value.ToString("0.##") @StatisticsLabels.Unit(record.Kind)</td><td>@record.Date.ToString("dd.MM.yyyy")</td></tr>}</tbody></table></div>}
     </section>
     </div>
@@ -79,19 +86,21 @@
     private WeeklyReport report = new(default, 0, null, null, null, null, null, 0, 0);
     private DateOnly today = DateOnly.FromDateTime(DateTime.Today);
     private bool ready, busy;
-    private int streak;
+    private int streak, weeklyTarget;
     private string? error;
     protected override async Task OnInitializedAsync()
     {
         NasSync.Changed += SyncChanged;
         try {
             profile = await Profiles.GetAsync(); history = await Sessions.GetHistoryAsync(); draft = await Sessions.GetDraftAsync();
-            next = Statistics.GetNextPlan(await Plans.GetAllAsync(), history, today);
+            var plans = await Plans.GetAllAsync();
+            next = Statistics.GetNextPlan(plans, history, today);
+            weeklyTarget = Statistics.GetWeeklyTarget(profile, plans);
             var measurements = await Measurements.GetAllAsync();
             weights = measurements.Where(m => m.WeightKg.HasValue).OrderBy(m => m.Date).Select(m => new ChartPoint(m.Date, m.WeightKg!.Value)).ToList();
             day = await Nutrition.GetDayAsync(today);
             report = Statistics.GetWeeklyReport(today, await Storage.GetAllAsync<FoodLogEntry>(StorageStores.FoodLogEntries), measurements, history);
-            streak = Statistics.GetStreak(history, profile.TrainingDaysPerWeek, today);
+            streak = Statistics.GetStreak(history, weeklyTarget, today);
             records = Statistics.GetPersonalRecords(history).Take(6).ToList(); ready = true;
         }
         catch { error = "Die Übersicht konnte nicht geladen werden. Bitte erneut öffnen."; }

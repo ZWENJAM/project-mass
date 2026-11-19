@@ -1,6 +1,11 @@
-<nav class="segment-tabs" aria-label="Ernährungsbereiche">
+@inject NavigationManager Navigation
+<nav class="segment-tabs nutrition-tabs" aria-label="Ernährungsbereiche">
     <NavLink href="ernaehrung" Match="NavLinkMatch.All">Tageslog</NavLink>
-    <NavLink href="ernaehrung/lebensmittel">Meine Lebensmittel</NavLink>
+    <NavLink href="ernaehrung/lebensmittel">Lebensmittel</NavLink>
     <NavLink href="ernaehrung/rezepte">Rezepte</NavLink>
-    <NavLink href="mehr/einstellungen">Profil und Ziele</NavLink>
+    <NavLink href="@GoalsUrl">Ziele</NavLink>
 </nav>
+@code {
+    private string GoalsUrl => Navigation.ToBaseRelativePath(Navigation.Uri).Split('?', '#')[0] == "profil"
+        ? "profil" : "mehr/einstellungen";
+}
