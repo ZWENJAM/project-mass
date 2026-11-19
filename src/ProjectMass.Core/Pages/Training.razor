@@ -18,27 +18,22 @@ else
     <div class="section-list">
         @foreach (var plan in plans)
         {
-            <section class="protocol-section" @key="plan.Id">
-                <span class="badge">@TrainingLabels.Day(plan.Day)</span><h2 class="section-name">@plan.Name</h2>
-                <p class="muted">@plan.Note.Replace(" · ", ", ")</p><p class="mini-label">@plan.Exercises.Count Übungen</p>
+            <section class="protocol-section plan-card" @key="plan.Id">
+                <div class="section-head"><h2>@plan.Name</h2><span class="badge">@TrainingLabels.Day(plan.Day)</span></div>
+                <p class="mini-label">@plan.Exercises.Count Übungen</p>
+                @if (!string.IsNullOrWhiteSpace(plan.Note)) { <p class="muted plan-note">@plan.Note.Replace(" · ", ", ")</p> }
                 <div class="training-actions">
                     <button class="primary" disabled="@busy" @onclick="() => Start(plan.Id)">@(draft is null ? "Training starten" : "Training fortsetzen")</button>
                     <a class="section-link" href="@($"training/plaene/{plan.Id}")">Bearbeiten</a>
-                    <button class="small danger" disabled="@busy" @onclick="() => deletePlan = plan">Löschen</button>
                 </div>
             </section>
         }
     </div>
 }
-@if (deletePlan is not null)
-{
-    <ConfirmationDialog Title="Trainingsplan löschen?" Message="@($"„{deletePlan.Name}“ wird entfernt. Bereits gespeicherte Trainings bleiben erhalten.")" OnCancel="() => deletePlan = null" OnConfirm="Delete" />
-}
 
 @code {
     private List<WorkoutPlan>? plans;
     private WorkoutSession? draft;
-    private WorkoutPlan? deletePlan;
     private string? error;
     private bool busy;
     protected override async Task OnInitializedAsync()
@@ -53,10 +48,5 @@ else
         try { var session = await Sessions.StartAsync(id); Navigation.NavigateTo($"training/live/{session.Id}"); }
         catch (Exception) { error = "Das Training konnte nicht gestartet werden. Bitte erneut versuchen."; }
         finally { busy = false; }
-    }
-    private async Task Delete()
-    {
-        try { await Plans.DeleteAsync(deletePlan!.Id); deletePlan = null; plans = await Plans.GetAllAsync(); }
-        catch (Exception) { error = "Der Plan konnte nicht gelöscht werden."; deletePlan = null; }
     }
 }

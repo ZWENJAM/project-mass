@@ -15,6 +15,7 @@ public class TrainingDataTests
         var exercises = await new ExerciseService(storage).GetAllAsync();
         var plans = await new WorkoutPlanService(storage).GetAllAsync();
         Assert.Equal(60, exercises.Count);
+        Assert.Equal(6, (await storage.GetAllAsync<FoodItem>(StorageStores.FoodItems)).Count);
         Assert.Equal(60, exercises.Select(e => e.Id).Distinct().Count());
         Assert.All(exercises, e => { Assert.NotEmpty(e.MuscleGroups); Assert.NotEmpty(e.Equipment); });
         Assert.All(exercises, e =>
@@ -42,7 +43,7 @@ public class TrainingDataTests
     }
 
     [Fact]
-    public async Task VersionOneMigrationFillsOnlyMissingGuideFieldsOnSeedIds()
+    public async Task StartupDoesNotMigrateVersionOneExerciseOrSeedMissingStores()
     {
         var storage = new InMemoryStorageService();
         using var http = new HttpClient(new SeedFilesHandler()) { BaseAddress = new Uri("http://localhost/") };
@@ -74,18 +75,30 @@ public class TrainingDataTests
         Assert.Equal(original.Steps, updated.Steps);
         Assert.Equal(original.ImagePath, updated.ImagePath);
         Assert.Equal(original.VideoUrl, updated.VideoUrl);
-        Assert.NotEmpty(updated.Tips);
-        Assert.NotEmpty(updated.Mistakes);
-        Assert.EndsWith($"{original.Id}-1.jpg", updated.ImagePath2);
+        Assert.Empty(updated.Tips);
+        Assert.Empty(updated.Mistakes);
+        Assert.Null(updated.ImagePath2);
         Assert.Empty((await storage.GetAsync<Exercise>(StorageStores.Exercises, custom.Id))!.Tips);
-        Assert.Equal(2, (await storage.GetAsync<TrainingDataInitializer.SeedMarker>(StorageStores.AppMetadata, markerId))!.Version);
+        Assert.Equal(1, (await storage.GetAsync<TrainingDataInitializer.SeedMarker>(StorageStores.AppMetadata, markerId))!.Version);
         Assert.Empty(await storage.GetAllAsync<WorkoutPlan>(StorageStores.WorkoutPlans));
+        Assert.Empty(await storage.GetAllAsync<FoodItem>(StorageStores.FoodItems));
         Assert.Equal(2, (await storage.GetAllAsync<Exercise>(StorageStores.Exercises)).Count);
+    }
 
-        updated.Tips.Clear();
-        await storage.PutAsync(StorageStores.Exercises, updated);
+    [Fact]
+    public async Task UserDataWithoutSeedMarkersPreventsAllStartupWrites()
+    {
+        var storage = new InMemoryStorageService();
+        var note = new Note { Text = "Vorhandene Daten ohne Seed-Marker" };
+        await storage.PutAsync(StorageStores.Notes, note);
+        storage.FailWrites = true;
+        using var http = new HttpClient(new SeedFilesHandler()); // No base address: seed files must not be requested.
         await new TrainingDataInitializer(http, storage).InitializeAsync();
-        Assert.Empty((await storage.GetAsync<Exercise>(StorageStores.Exercises, original.Id))!.Tips);
+        Assert.Equal(note.Text, (await storage.GetAsync<Note>(StorageStores.Notes, note.Id))!.Text);
+        Assert.Empty(await storage.GetAllAsync<Exercise>(StorageStores.Exercises));
+        Assert.Empty(await storage.GetAllAsync<WorkoutPlan>(StorageStores.WorkoutPlans));
+        Assert.Empty(await storage.GetAllAsync<FoodItem>(StorageStores.FoodItems));
+        Assert.Empty(await storage.GetAllAsync<object>(StorageStores.AppMetadata));
     }
 
     [Fact]

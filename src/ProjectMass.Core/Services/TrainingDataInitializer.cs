@@ -7,8 +7,18 @@ public sealed class TrainingDataInitializer(HttpClient http, IStorageService sto
 {
     private readonly SemaphoreSlim gate = new(1, 1);
     private bool initialized;
-    private static readonly Guid MarkerId = Guid.Parse("00000000-0000-0000-0000-000000000001");
-    private const int CurrentVersion = 2;
+    private static readonly SeedMarker[] Markers =
+    [
+        new() { Id = Guid.Parse("00000000-0000-0000-0000-000000000001"), Version = 2 },
+        new() { Id = Guid.Parse("00000000-0000-0000-0000-000000000002") }
+    ];
+    private static readonly string[] PersistentStores =
+    [
+        StorageStores.UserProfiles, StorageStores.Exercises, StorageStores.WorkoutPlans,
+        StorageStores.WorkoutSessions, StorageStores.FoodItems, StorageStores.FoodLogEntries,
+        StorageStores.Recipes, StorageStores.BodyMeasurements, StorageStores.WaterLogs,
+        StorageStores.Notes, StorageStores.AppMetadata, StorageStores.SyncMetadata, StorageStores.SearchCache
+    ];
 
     public async Task InitializeAsync()
     {
@@ -16,31 +26,45 @@ public sealed class TrainingDataInitializer(HttpClient http, IStorageService sto
         try
         {
             if (initialized) return;
-            var marker = await storage.GetAsync<SeedMarker>(StorageStores.AppMetadata, MarkerId);
-            if (marker is null || marker.Version < CurrentVersion)
+            if (storage is IndexedDbStorageService indexed)
             {
-                var exercises = await http.GetFromJsonAsync<List<Exercise>>("data/exercises.json") ?? throw new InvalidOperationException("Übungsdaten fehlen.");
-                foreach (var seed in exercises)
+                if (await indexed.IsEmptyAsync(PersistentStores))
                 {
-                    var existing = await storage.GetAsync<Exercise>(StorageStores.Exercises, seed.Id);
-                    if (existing is null && marker is null)
-                        await storage.PutAsync(StorageStores.Exercises, seed);
-                    else if (existing is not null && ExerciseGuidance.FillMissing(existing, seed))
-                        await storage.PutAsync(StorageStores.Exercises, existing);
+                    var seeds = await LoadSeedsAsync();
+                    await indexed.SeedIfEmptyAsync(PersistentStores, seeds);
                 }
-                if (marker is null)
-                {
-                    var plans = await http.GetFromJsonAsync<List<WorkoutPlan>>("data/workout-plans.json") ?? throw new InvalidOperationException("Startpläne fehlen.");
-                    foreach (var plan in plans)
-                        if (await storage.GetAsync<WorkoutPlan>(StorageStores.WorkoutPlans, plan.Id) is null)
-                            await storage.PutAsync(StorageStores.WorkoutPlans, plan);
-                }
-                await storage.PutAsync(StorageStores.AppMetadata, new SeedMarker { Id = MarkerId, Version = CurrentVersion });
+            }
+            else if (await IsEmptyAsync())
+            {
+                var seeds = await LoadSeedsAsync();
+                if (await IsEmptyAsync())
+                    foreach (var (store, items) in seeds)
+                        foreach (var item in items)
+                            await storage.PutAsync(store, item);
             }
             initialized = true;
         }
         finally { gate.Release(); }
     }
+
+    private async Task<bool> IsEmptyAsync()
+    {
+        foreach (var store in PersistentStores)
+            if ((await storage.GetAllAsync<object>(store)).Count > 0) return false;
+        return true;
+    }
+
+    private async Task<Dictionary<string, IEnumerable<object>>> LoadSeedsAsync() => new()
+    {
+        [StorageStores.Exercises] = await ReadAsync<Exercise>("exercises.json"),
+        [StorageStores.WorkoutPlans] = await ReadAsync<WorkoutPlan>("workout-plans.json"),
+        [StorageStores.FoodItems] = await ReadAsync<FoodItem>("snacks.json"),
+        [StorageStores.AppMetadata] = Markers
+    };
+
+    private async Task<List<T>> ReadAsync<T>(string file) =>
+        await http.GetFromJsonAsync<List<T>>("data/" + file)
+        ?? throw new InvalidOperationException($"Startdaten fehlen: {file}");
 
     public sealed class SeedMarker
     {

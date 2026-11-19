@@ -11,7 +11,7 @@ public class NutritionSeedTests
     {
         var storage = new InMemoryStorageService();
         using var http = new HttpClient(new SeedHandler()) { BaseAddress = new Uri("http://localhost/") };
-        await new NutritionDataInitializer(http, storage).InitializeAsync();
+        await new TrainingDataInitializer(http, storage).InitializeAsync();
         var foods = await storage.GetAllAsync<FoodItem>(StorageStores.FoodItems);
         Assert.Equal(6, foods.Count);
         var expected = new[] { (150m, 20m), (200m, 27m), (120m, 23m), (200m, 25m), (400m, 35m), (125m, 30m) };
@@ -26,10 +26,12 @@ public class NutritionSeedTests
             Assert.NotEmpty(ordered[i].Note);
         }
         Assert.Contains("200 g angenommen", ordered[4].Note);
+        Assert.Equal(280, Assert.Single(ordered[2].PortionSizes).Grams);
+        Assert.InRange(ordered[2].NutrientsPer100G.Kcal, 42.85m, 42.86m);
         await storage.DeleteAsync(StorageStores.FoodItems, ordered[0].Id);
         ordered[1].Name = "Eigene Anpassung";
         await storage.PutAsync(StorageStores.FoodItems, ordered[1]);
-        await new NutritionDataInitializer(http, storage).InitializeAsync();
+        await new TrainingDataInitializer(http, storage).InitializeAsync();
         Assert.Equal(5, (await storage.GetAllAsync<FoodItem>(StorageStores.FoodItems)).Count);
         Assert.Equal("Eigene Anpassung", (await storage.GetAsync<FoodItem>(StorageStores.FoodItems, ordered[1].Id))!.Name);
     }
@@ -49,7 +51,8 @@ public class NutritionSeedTests
     {
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) => new(HttpStatusCode.OK)
         {
-            Content = new ByteArrayContent(await File.ReadAllBytesAsync(Path.Combine(AppContext.BaseDirectory, "data", "snacks.json"), cancellationToken))
+            Content = new ByteArrayContent(await File.ReadAllBytesAsync(Path.Combine(AppContext.BaseDirectory, "data",
+                Path.GetFileName(request.RequestUri!.AbsolutePath)), cancellationToken))
         };
     }
 }

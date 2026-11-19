@@ -73,6 +73,14 @@ label.field input,label.field select,label.field textarea{margin-top:6px;color:v
 .checkbox-field{display:flex;align-items:center;min-height:44px;color:var(--ink)}
 .form-actions,.training-actions,.entry-buttons{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .form-actions{justify-content:flex-end;margin:20px 0}
+.plan-editor{padding-bottom:80px}
+.plan-editor .plan-editor-actions{position:fixed;left:calc(var(--sidebar) + 40px);right:40px;bottom:0;z-index:55;margin:0;padding:10px 14px max(10px,env(safe-area-inset-bottom));background:var(--surface);border:1px solid var(--line);border-radius:16px 16px 0 0}
+.exercise-picker summary{cursor:pointer;font-size:18px;font-weight:650}
+.exercise-picker[open] summary{margin-bottom:12px}
+.protocol-section.plan-card{padding:14px 16px}
+.plan-card h2{font-size:20px}
+.plan-card .plan-note{margin:4px 0 8px}
+.plan-card .training-actions{margin-top:8px}
 .training-actions{margin-top:14px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
 .skip-link{position:fixed;left:12px;top:-80px;padding:12px 16px;border-radius:12px;background:var(--surface);z-index:200}
@@ -130,6 +138,9 @@ footer{display:none}
 .segment-tabs a,.tabs button{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:8px 16px;border-radius:999px;background:transparent;color:var(--muted);font-size:14px;font-weight:600;white-space:nowrap;text-decoration:none}
 .segment-tabs a:hover,.tabs button:hover{background:transparent;color:var(--ink)}
 .segment-tabs a.active,.tabs [role=tab][aria-selected=true],.tabs button.active{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgb(16 24 40 / .08)}
+.nutrition-tabs a{padding-inline:12px}
+.page-head.nutrition-page-head{align-items:center;flex-wrap:nowrap}
+.nutrition-page-head .button-link{flex-shrink:0}
 
 /* 4. Komponenten ------------------------------------------------------------ */
 .entry{display:block;padding:12px 0;min-width:0;border-bottom:1px solid var(--line)}
@@ -317,7 +328,9 @@ td.number{font-weight:600}
 .steppers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0 0}
 .stepper{background:var(--bg);border-radius:20px;padding:14px 10px 10px;text-align:center}
 .stepper .stepper-label{margin:0;font-size:14px;color:var(--muted)}
-.stepper .stepper-value{display:block;margin:2px 0 10px;font-size:48px;line-height:1.05;font-weight:750;letter-spacing:-1px;font-variant-numeric:tabular-nums}
+.stepper .stepper-value{display:block;width:100%;margin:2px 0 10px;padding:4px 0;font-size:44px;line-height:1.12;font-weight:750;letter-spacing:-1px;font-variant-numeric:tabular-nums;text-align:center;background:var(--surface);border:1px solid transparent;appearance:textfield}
+.stepper .stepper-value:focus{border-color:var(--accent)}
+.stepper-value::-webkit-inner-spin-button,.stepper-value::-webkit-outer-spin-button{appearance:none;margin:0}
 .stepper .stepper-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .stepper button{min-height:52px;border-radius:14px;background:var(--surface);font-size:24px;font-weight:600}
 .focus-hint{margin:12px 0 0;text-align:center;font-size:14px;color:var(--muted)}
@@ -367,6 +380,8 @@ td.number{font-weight:600}
 .today-top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
 .today-top .mini-label{margin:0}
 .today-left{margin:2px 0 0;font-size:44px;line-height:1.05;font-weight:750;letter-spacing:-1.2px;font-variant-numeric:tabular-nums}
+.goal-setup.protocol-section{display:block;border-radius:var(--radius-card);padding:16px 20px;text-align:left;background:var(--accent-soft)}
+.goal-setup p{margin:4px 0 0}
 .today-left span{font-size:17px;font-weight:500;letter-spacing:0;color:var(--muted)}
 .today-progress{height:10px;border-radius:5px;margin-top:14px}
 .today-progress.over span{background:var(--danger)}
@@ -435,6 +450,9 @@ html:has(.focus-mode) .notice[role=status]{background:#1C3326;color:#9BE7B8}
   .mobile-nav svg{width:24px;height:24px}
   .page-head{align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:16px}
   .page-head .desktop-action{display:none}
+  .nutrition-tabs a{padding-inline:10px}
+  .nutrition-page-head .button-link{padding-inline:12px}
+  .plan-editor .plan-editor-actions{left:0;right:0;bottom:calc(var(--nav-height) + env(safe-area-inset-bottom));padding:8px 16px}
   .protocol-section,.nutrition-ledger,.focus-card{padding:18px;border-radius:18px}
   .form-grid{grid-template-columns:1fr;gap:0}.plan-values{gap:0 12px}
   .quick-entry-form .form-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 12px}
@@ -457,7 +475,7 @@ html:has(.focus-mode) .notice[role=status]{background:#1C3326;color:#9BE7B8}
   .progression-notice{flex-wrap:wrap}
   .set-column{width:36px}.reps-column{width:60px}.rpe-column{width:52px}.check-column{width:96px}
   .set-table input{font-size:17px;padding:6px 2px}
-  .stepper .stepper-value{font-size:44px}
+  .stepper .stepper-value{font-size:clamp(24px,10vw,40px)}
   .dock{position:fixed;left:16px;right:16px;bottom:calc(var(--nav-height) + 12px + env(safe-area-inset-bottom));display:flex;gap:10px;z-index:55}
   .dock .button-link{flex:1;min-height:56px;font-size:17px;background:var(--ink);color:var(--surface);box-shadow:0 10px 24px rgb(16 24 40 / .18)}
   .has-dock{padding-bottom:76px}

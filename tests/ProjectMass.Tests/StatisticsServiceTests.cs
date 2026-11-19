@@ -153,6 +153,41 @@ public class StatisticsServiceTests
     }
 
     [Fact]
+    public void NextPlanPrefersTodayThenUpcomingUntrainedPlanThenFlexibleRotation()
+    {
+        var today = Monday.AddDays(2);
+        var flexible = new WorkoutPlan();
+        var past = new WorkoutPlan { Day = DayOfWeek.Monday };
+        var current = new WorkoutPlan { Day = DayOfWeek.Wednesday };
+        var upcoming = new WorkoutPlan { Day = DayOfWeek.Friday };
+        WorkoutPlan[] plans = [flexible, past, upcoming, current];
+        var history = new List<WorkoutSession> { Session(Monday.AddDays(-2), plan: current.Id) };
+        var draft = Session(today, plan: current.Id);
+        draft.IsCompleted = false;
+        history.Add(draft);
+        Assert.Same(current, statistics.GetNextPlan(plans, history, today));
+        history.Add(Session(today, plan: current.Id));
+        Assert.Same(upcoming, statistics.GetNextPlan(plans, history, today));
+        history.Add(Session(Monday, plan: upcoming.Id));
+        Assert.Same(past, statistics.GetNextPlan(plans, history, today));
+        history.Add(Session(Monday, plan: past.Id));
+        Assert.Same(flexible, statistics.GetNextPlan(plans, history, today));
+        Assert.Same(upcoming, statistics.GetNextPlan([current, upcoming], history, today));
+    }
+
+    [Fact]
+    public void WeeklyTargetFallsBackToScheduledPlanCountWithoutEditingProfile()
+    {
+        WorkoutPlan[] plans = [new() { Day = DayOfWeek.Monday }, new(), new() { Day = DayOfWeek.Monday }];
+        var profile = new UserProfile { TrainingDaysPerWeek = 0 };
+        Assert.Equal(2, statistics.GetWeeklyTarget(profile, plans));
+        Assert.Equal(0, profile.TrainingDaysPerWeek);
+        Assert.Equal(0, statistics.GetWeeklyTarget(profile, [new()]));
+        profile.TrainingDaysPerWeek = 4;
+        Assert.Equal(4, statistics.GetWeeklyTarget(profile, plans));
+    }
+
+    [Fact]
     public void WeeklyReportAveragesOnlyLoggedDaysAndComparesWeekWeightsWithoutDuplicatingVolume()
     {
         FoodLogEntry Log(DateOnly date, decimal grams) => new() { Date = date, AmountGrams = grams, FoodSnapshot = new() { NutrientsPer100G = new() { Kcal = 100, ProteinGrams = 10 } } };

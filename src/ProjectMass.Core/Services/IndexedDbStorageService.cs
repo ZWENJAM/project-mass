@@ -34,6 +34,12 @@ public sealed class IndexedDbStorageService(IJSRuntime jsRuntime) : IStorageServ
     internal async Task MarkSyncBackupAsync(Guid id, DateTimeOffset at) =>
         await (await module.Value).InvokeVoidAsync("markSyncBackup", id, at);
 
+    internal async Task<bool> IsEmptyAsync(string[] stores) =>
+        await (await module.Value).InvokeAsync<bool>("isEmpty", (object)stores);
+
+    internal async Task SeedIfEmptyAsync(string[] stores, Dictionary<string, IEnumerable<object>> seeds) =>
+        await (await module.Value).InvokeVoidAsync("seedIfEmpty", stores, seeds);
+
     public async ValueTask DisposeAsync()
     {
         if (module.IsValueCreated)

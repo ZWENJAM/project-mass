@@ -9,7 +9,7 @@
             {
                 <button disabled="@(busy || IsBusy)" @onclick="() => Confirm(OnAlternate)">@AlternateLabel</button>
             }
-            <button class="@(AlternateLabel is null ? "danger" : "primary")" disabled="@(busy || IsBusy)" @onclick="() => Confirm(OnConfirm)">@ConfirmLabel</button>
+            <button class="@(AlternateLabel is null && ConfirmDanger ? "danger" : "primary")" disabled="@(busy || IsBusy)" @onclick="() => Confirm(OnConfirm)">@ConfirmLabel</button>
         </div>
     </section>
 </div>
@@ -18,6 +18,7 @@
     [Parameter] public string Title { get; set; } = "Eintrag löschen?";
     [Parameter] public string Message { get; set; } = "Dieser Eintrag wird dauerhaft gelöscht.";
     [Parameter] public string ConfirmLabel { get; set; } = "Löschen";
+    [Parameter] public bool ConfirmDanger { get; set; } = true;
     [Parameter] public EventCallback OnConfirm { get; set; }
     [Parameter] public EventCallback OnCancel { get; set; }
     [Parameter] public string? AlternateLabel { get; set; }

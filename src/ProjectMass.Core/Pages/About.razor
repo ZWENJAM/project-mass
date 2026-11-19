@@ -1,8 +1,9 @@
 @page "/mehr/ueber"
+@inject ProjectMassOptions Platform
 
 <PageTitle>Über und Datenschutz / PROJECT MASS</PageTitle>
 <div class="page-content narrow">
-    <div class="page-head"><div><h1>Über und Datenschutz</h1><p>PROJECT MASS · Version @AppInfo.Version</p></div></div>
+    <div class="page-head"><div><h1>Über und Datenschutz</h1><p>PROJECT MASS · Version @Platform.DisplayVersion</p></div></div>
     <section class="protocol-section">
         <h2>Lizenz</h2>
         <p>PROJECT MASS steht unter der GNU General Public License Version 3 (GPL-3.0).</p>
@@ -10,8 +11,8 @@
     </section>
     <section class="protocol-section">
         <h2>Datenschutz</h2>
-        <p>Profil, Trainings, Ernährung und Einstellungen liegen in IndexedDB in diesem Browser. Die App hat kein Benutzerkonto. Wenn du den NAS-Sync einrichtest, gleicht sie deine Daten direkt mit deinem eigenen NAS ab. NAS-Zugangsdaten und der USDA-Key werden dabei nicht übertragen.</p>
-        <p>Bei der Online-Lebensmittelsuche sendet dein Browser den Suchbegriff oder Barcode an Open Food Facts und lädt dort Produktbilder. Die optionale USDA-Suche sendet deinen Suchbegriff und deinen eigenen API-Key an USDA. Der Key wird lokal im Profil und in vollständigen Backups gespeichert.</p>
+        <p>Profil, Trainings, Ernährung und Einstellungen liegen @(Platform.Native ? "im App-Speicher" : "in IndexedDB in diesem Browser"). Die App hat kein Benutzerkonto. Wenn du den NAS-Sync einrichtest, gleicht sie deine Daten direkt mit deinem eigenen NAS ab. NAS-Zugangsdaten und der USDA-Key werden dabei nicht übertragen.</p>
+        <p>Bei der Online-Lebensmittelsuche sendet @(Platform.Native ? "die App" : "dein Browser") den Suchbegriff oder Barcode an Open Food Facts und lädt dort Produktbilder. Die optionale USDA-Suche sendet deinen Suchbegriff und deinen eigenen API-Key an USDA. Der Key wird lokal im Profil und in vollständigen Backups gespeichert.</p>
         <p>Videolinks öffnen YouTube oder den von dir hinterlegten Anbieter. Wenn du einen KI-Prompt kopierst, entscheidest du selbst, an welchen Dienst du ihn weitergibst. Beim Aufruf über GitHub Pages protokolliert GitHub IP-Adressen zu Sicherheitszwecken.</p>
         <p>Bewahre deine Backup-Dateien privat auf und lade regelmäßig eine aktuelle Kopie herunter.</p>
         <a class="section-link" href="mehr/daten">Daten und Backup öffnen</a>

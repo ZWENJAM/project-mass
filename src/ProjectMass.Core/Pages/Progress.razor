@@ -1,6 +1,7 @@
 @page "/fortschritt"
 @inject IMeasurementService Measurements
 @inject IWorkoutSessionService Sessions
+@inject IWorkoutPlanService Plans
 @inject IExerciseService Exercises
 @inject IProfileService Profiles
 @inject IStorageService Storage
@@ -22,25 +23,33 @@
     </EditForm>
 }
 <section class="protocol-section"><h2>Messverlauf</h2><label class="field">Messwert<select @bind="metric"><option value="weight">Gewicht</option><option value="waist">Bauch</option><option value="chest">Brust</option><option value="arm">Oberarm</option><option value="fat">KFA</option></select></label>
-    <LineChart Points="Points" Average="@(metric == "weight" ? Statistics.MovingAverage(Points) : [])" Label="Körperverlauf" Unit="@(metric == "weight" ? "kg" : metric == "fat" ? "%" : "cm")" />
+    <LineChart Points="Points" Average="@(metric == "weight" ? Statistics.MovingAverage(Points) : [])" Label="Körperverlauf"
+        Unit="@(metric == "weight" ? "kg" : metric == "fat" ? "%" : "cm")" WeightEntryUrl="@(metric == "weight" ? "fortschritt?messung=neu" : null)" />
 </section>
 <div class="section-title"><h2>Alle Messungen</h2></div>
 <section class="protocol-section table-wrap">
-    @if (measurements.Count == 0) { <p class="empty">Noch keine Messung. Gewicht eintragen.</p> }
+    @if (measurements.Count == 0) { <p class="empty">Noch keine Messungen gespeichert.</p> }
     else { <table><thead><tr><th>Datum</th><th>Gewicht kg</th><th>Bauch cm</th><th>Brust cm</th><th>Oberarm cm</th><th>KFA %</th><th>Aktion</th></tr></thead><tbody>
         @foreach(var m in measurements){<tr><td>@m.Date.ToString("dd.MM.yyyy")</td><td>@StatisticsLabels.Value(m.WeightKg)</td><td>@StatisticsLabels.Value(m.WaistCm)</td><td>@StatisticsLabels.Value(m.ChestCm)</td><td>@StatisticsLabels.Value(m.UpperArmCm)</td><td>@StatisticsLabels.Value(m.BodyFatPercent)</td><td><button class="small" @onclick="() => Edit(m)">Bearbeiten</button> <button class="small danger" @onclick="() => deleting = m">Löschen</button></td></tr>}
     </tbody></table> }
 </section>
 <div class="section-title"><h2>Trainingsfrequenz</h2></div>
-<section class="protocol-section"><FrequencyCalendar Days="Statistics.GetFrequency(history, today)" Today="today" /><p class="mini-label">Streak: @Statistics.GetStreak(history, profile.TrainingDaysPerWeek, today) Wochen / Wochenziel: @profile.TrainingDaysPerWeek Trainings. Die laufende Woche zählt erst beim Erreichen des Ziels.</p></section>
+<section class="protocol-section">
+    <FrequencyCalendar Days="Statistics.GetFrequency(history, today)" Today="today" />
+    @if (weeklyTarget > 0)
+    {
+        <p class="mini-label">Streak: @streak @(streak == 1 ? "Woche" : "Wochen") / Wochenziel: @weeklyTarget @(weeklyTarget == 1 ? "Training" : "Trainings"). Die laufende Woche zählt erst beim Erreichen des Ziels.</p>
+    }
+    else { <p class="mini-label">Trainingstage in den Einstellungen festlegen.</p> }
+</section>
 <div class="section-title"><h2>Wochenbericht</h2></div>
 <div class="date-navigation"><button aria-label="Vorherige Woche" @onclick="() => ChangeWeek(-7)"><AppIcon Name="previous" /></button><label>Woche auswählen<input type="date" @bind="week" @bind:after="UpdateWeek" /></label><button aria-label="Nächste Woche" @onclick="() => ChangeWeek(7)"><AppIcon Name="next" /></button></div>
 @if (report is not null)
 {
-    <p class="mini-label">@report.WeekStart.ToString("dd.MM.yyyy") – @report.WeekStart.AddDays(6).ToString("dd.MM.yyyy") / @report.LoggedDays Tage mit Ernährungseinträgen</p>
+    <p class="mini-label">@report.WeekStart.ToString("dd.MM.yyyy") – @report.WeekStart.AddDays(6).ToString("dd.MM.yyyy") / @report.LoggedDays @(report.LoggedDays == 1 ? "Tag" : "Tage") mit Ernährungseinträgen</p>
     <div class="summary-ledger">
-        <section class="protocol-section stat"><span class="label">Ø Kalorien</span><h2>@StatisticsLabels.Value(report.AverageKcal, "kcal")</h2><p class="mini-label">Ziel @profile.TargetKcal.ToString("0.#") kcal / Tag</p></section>
-        <section class="protocol-section stat"><span class="label">Ø Protein</span><h2>@StatisticsLabels.Value(report.AverageProtein, "g")</h2><p class="mini-label">Ziel @profile.TargetProteinGrams.ToString("0.#") g / Tag</p></section>
+        <section class="protocol-section stat"><span class="label">Ø Kalorien</span><h2>@StatisticsLabels.Value(report.AverageKcal, "kcal")</h2>@if (profile.TargetKcal > 0) { <p class="mini-label">Ziel @profile.TargetKcal.ToString("0.#") kcal / Tag</p> }</section>
+        <section class="protocol-section stat"><span class="label">Ø Protein</span><h2>@StatisticsLabels.Value(report.AverageProtein, "g")</h2>@if (profile.TargetProteinGrams > 0) { <p class="mini-label">Ziel @profile.TargetProteinGrams.ToString("0.#") g / Tag</p> }</section>
         <section class="protocol-section stat"><span class="label">Gewichtstrend</span><h2>@StatisticsLabels.Value(report.WeightChange, "kg")</h2><p class="mini-label">Ø @StatisticsLabels.Value(report.AverageWeight, "kg") vs. Vorwoche @StatisticsLabels.Value(report.PreviousAverageWeight, "kg")</p></section>
         <section class="protocol-section stat"><span class="label">Training</span><h2>@report.Trainings Einheiten</h2><p class="mini-label">@report.TotalVolumeKg.ToString("0.#") kg Gesamtvolumen</p></section>
     </div>
@@ -51,13 +60,14 @@
 }
 <div class="section-title"><h2>Persönliche Rekorde</h2></div>
 <section class="protocol-section">
-    @if(records.Count == 0){<p class="empty">Noch keine Rekorde. Ein Training abschließen.</p>}
+    @if(records.Count == 0){<p class="empty">Noch keine Rekorde. <a class="section-link" href="training">Ein Training abschließen</a>.</p>}
     @foreach(var group in records.GroupBy(r => r.ExerciseId)){
         <article class="entry"><h3>@group.First().ExerciseName</h3>@foreach(var record in group){<p class="mini-label">@StatisticsLabels.Record(record.Kind): <strong>@record.Value.ToString("0.##") @StatisticsLabels.Unit(record.Kind)</strong> / @record.Date.ToString("dd.MM.yyyy")</p>}</article>
     }
 </section>
 @if (deleting is not null) { <ConfirmationDialog Title="Messung löschen?" Message="@($"Die Messung vom {deleting.Date:dd.MM.yyyy} wird entfernt.")" OnCancel="() => deleting = null" OnConfirm="Delete" /> }
 @code {
+    [SupplyParameterFromQuery(Name = "messung")] public string? MeasurementAction { get; set; }
     private List<BodyMeasurement> measurements = [];
     private List<WorkoutSession> history = [];
     private List<Exercise> catalog = [];
@@ -71,12 +81,19 @@
     private string metric = "weight";
     private string? error;
     private bool busy;
+    private int weeklyTarget, streak;
     private List<ChartPoint> Points => measurements.Select(m => new { m.Date, Value = metric switch { "waist" => m.WaistCm, "chest" => m.ChestCm, "arm" => m.UpperArmCm, "fat" => m.BodyFatPercent, _ => m.WeightKg } }).Where(m => m.Value.HasValue).OrderBy(m => m.Date).Select(m => new ChartPoint(m.Date, m.Value!.Value)).ToList();
     protected override async Task OnInitializedAsync() { week = Statistics.WeekStart(today); await Load(); }
+    protected override void OnParametersSet()
+    {
+        if (MeasurementAction == "neu" && editing is null) NewMeasurement();
+    }
     private async Task Load()
     {
         try {
             measurements = await Measurements.GetAllAsync(); history = await Sessions.GetHistoryAsync(); catalog = await Exercises.GetAllAsync(); profile = await Profiles.GetAsync();
+            weeklyTarget = Statistics.GetWeeklyTarget(profile, await Plans.GetAllAsync());
+            streak = Statistics.GetStreak(history, weeklyTarget, today);
             logs = await Storage.GetAllAsync<FoodLogEntry>(StorageStores.FoodLogEntries);
             records = Statistics.GetPersonalRecords(history); UpdateWeek();
         }

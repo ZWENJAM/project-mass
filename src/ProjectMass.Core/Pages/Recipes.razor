@@ -2,7 +2,7 @@
 @inject IRecipeService RecipeService
 <div class="page-content narrow">
 <PageTitle>Rezepte / PROJECT MASS</PageTitle>
-<div class="page-head"><div><h1>Rezepte</h1><p>Aus deinen Lebensmitteln zusammengestellt. Jedes Rezept kannst du wie ein Lebensmittel eintragen, portionsweise.</p></div><a class="button-link primary" href="ernaehrung/rezepte/neu">+ Rezept</a></div>
+<div class="page-head nutrition-page-head"><h1>Rezepte</h1><a class="button-link primary" href="ernaehrung/rezepte/neu">+ Rezept</a></div>
 <NutritionTabs />
 @if (error is not null) { <p class="notice" role="alert">@error</p> }
 <section class="protocol-section">

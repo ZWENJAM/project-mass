@@ -10,7 +10,7 @@
 @if (error is not null) { <p class="notice" role="alert">@error</p> }
 @if (plan is not null)
 {
-    <EditForm Model="plan" OnSubmit="Save" FormName="workout-plan">
+    <EditForm Model="plan" OnSubmit="Save" FormName="workout-plan" class="plan-editor">
         <ValidationSummary />
         <fieldset disabled="@busy" class="editor-fields">
             <section class="protocol-section">
@@ -43,8 +43,8 @@
                 </section>
             }
             @if (plan.Exercises.Count == 0) { <p class="notice">Füge mindestens eine Übung aus der Datenbank hinzu.</p> }
-            <section class="protocol-section">
-                <h2>Übung hinzufügen</h2>
+            <details class="protocol-section exercise-picker" @key="Id">
+                <summary>Übung hinzufügen</summary>
                 <div class="form-grid">
                     <label class="field">Suche<input type="search" @bind="query" @bind:event="oninput" @bind:after="Search" placeholder="Übungsname" /></label>
                     <label class="field">Muskelgruppe<select @bind="muscle" @bind:after="Search"><option value="">Alle Muskelgruppen</option>@foreach (var group in Enum.GetValues<MuscleGroup>()) { <option value="@group">@group</option> }</select></label>
@@ -53,23 +53,33 @@
                     @foreach (var exercise in results)
                     {
                         <div class="entry row exercise-result" @key="exercise.Id">
-                            <div><h3>@exercise.Name</h3><small>@string.Join(" / ", exercise.MuscleGroups) / @exercise.Equipment / @(exercise.Type == ExerciseType.Cardio ? "Cardio" : "Kraft")</small></div>
+                            <div><h3>@exercise.Name</h3><small>@ExerciseMeta(exercise)</small></div>
                             <div class="entry-buttons">
                                 <button type="button" class="small icon-button" aria-label="@($"Ausführung: {exercise.Name}")" @onclick="() => guide = exercise"><AppIcon Name="info" /></button>
+                                @if (plan.Exercises.Any(item => item.ExerciseId == exercise.Id)) { <span class="badge">im Plan</span> }
                                 <button type="button" class="small" aria-label="@($"{exercise.Name} hinzufügen")" @onclick="() => Add(exercise)">+ Hinzufügen</button>
                             </div>
                         </div>
                     }
                     @if (results.Count == 0) { <p class="empty">Keine passenden Übungen gefunden.</p> }
                 </div>
-            </section>
-            <div class="form-actions"><a class="section-link" href="training">Abbrechen</a><button type="submit" class="primary">Plan speichern</button></div>
+            </details>
+            @if (Id.HasValue)
+            {
+                <button type="button" class="danger" @onclick="() => confirmDelete = true">Plan löschen</button>
+            }
+            <div class="form-actions plan-editor-actions"><a class="section-link" href="training">Abbrechen</a><button type="submit" class="primary">Plan speichern</button></div>
         </fieldset>
     </EditForm>
 }
 @if (guide is not null)
 {
     <ExerciseGuide Exercise="guide" OnClose="() => guide = null" OnSaved="GuideSaved" />
+}
+@if (confirmDelete && plan is not null)
+{
+    <ConfirmationDialog Title="Trainingsplan löschen?" Message="@($"„{plan.Name}“ wird entfernt. Bereits gespeicherte Trainings bleiben erhalten.")"
+        ConfirmLabel="Löschen" IsBusy="busy" Error="@error" OnCancel="() => confirmDelete = false" OnConfirm="Delete" />
 }
 
 @code {
@@ -81,11 +91,13 @@
     private string query = "";
     private MuscleGroup? muscle;
     private string? error;
-    private bool busy;
+    private bool busy, confirmDelete;
 
     protected override async Task OnParametersSetAsync()
     {
         guide = null;
+        confirmDelete = false;
+        error = null;
         try
         {
             catalog = await Exercises.GetAllAsync();
@@ -105,6 +117,10 @@
         await Search();
     }
     private void Add(Exercise exercise) => plan!.Exercises.Add(new PlannedExercise { ExerciseId = exercise.Id });
+    private static string ExerciseMeta(Exercise exercise) =>
+        string.Join(" / ", exercise.MuscleGroups.Select(group => group.ToString())
+            .Append(exercise.Equipment).Append(exercise.Type == ExerciseType.Cardio ? "Cardio" : "")
+            .Where(value => !string.IsNullOrWhiteSpace(value)).Distinct(StringComparer.OrdinalIgnoreCase));
     private async Task Save(EditContext context)
     {
         if (!context.Validate() || busy) return;
@@ -112,6 +128,15 @@
         try { await Plans.SaveAsync(plan!); Navigation.NavigateTo("training"); }
         catch (ArgumentException ex) { error = ex.Message; }
         catch (Exception) { error = "Speichern fehlgeschlagen. Deine Änderungen sind noch hier. Bitte erneut versuchen."; }
+        finally { busy = false; }
+    }
+    private async Task Delete()
+    {
+        if (busy || !Id.HasValue) return;
+        busy = true;
+        error = null;
+        try { await Plans.DeleteAsync(Id.Value); Navigation.NavigateTo("training"); }
+        catch (Exception) { error = "Der Plan konnte nicht gelöscht werden."; }
         finally { busy = false; }
     }
 }

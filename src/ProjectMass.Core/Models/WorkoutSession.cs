@@ -37,4 +37,6 @@ public sealed class SetEntry
     public decimal? Rpe { get; set; }
     public bool IsCompleted { get; set; }
     public SetType Type { get; set; } = SetType.Working;
+    [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]
+    public bool PrefilledFromHistory { get; set; }
 }

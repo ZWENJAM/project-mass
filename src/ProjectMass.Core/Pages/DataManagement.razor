@@ -4,9 +4,10 @@
 @inject IServiceProvider Services
 @inject NavigationManager Navigation
 @inject TimeProvider Clock
+@inject ProjectMassOptions Platform
 <div class="page-content narrow">
 <PageTitle>Daten und Backup / PROJECT MASS</PageTitle>
-<div class="page-head"><div><h1>Daten und Backup</h1><p>Dein lokaler Stand liegt in diesem Browser. Sichere ihn als Datei oder gleiche ihn mit deinem NAS ab.</p></div></div>
+<div class="page-head"><div><h1>Daten und Backup</h1><p>Dein lokaler Stand liegt @(Platform.Native ? "im App-Speicher" : "in diesem Browser"). Sichere ihn als Datei oder gleiche ihn mit deinem NAS ab.</p></div></div>
 @if (error is not null) { <p class="notice" role="alert">@error</p> }
 @if (message is not null) { <p class="notice" role="status">@message</p> }
 

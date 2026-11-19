@@ -48,12 +48,36 @@ public class WorkoutSessionServiceTests
         Assert.Equal(12, current.Sets[0].Reps);
         Assert.Equal(SetType.WarmUp, current.Sets[0].Type);
         Assert.Equal(60, current.Sets[1].WeightKg);
+        Assert.True(current.Sets[0].PrefilledFromHistory);
+        Assert.True(current.Sets[1].PrefilledFromHistory);
         Assert.Equal(0, current.Sets[2].WeightKg);
+        Assert.Equal(plan.Exercises[0].MinReps, current.Sets[2].Reps);
+        Assert.False(current.Sets[2].PrefilledFromHistory);
         Assert.All(current.Sets, s => { Assert.False(s.IsCompleted); Assert.Null(s.Rpe); });
         Assert.NotEqual(latest.Exercises[0].Sets[0].Id, current.Sets[0].Id);
         current.Sets[0].WeightKg = 1;
         var unchanged = await Service.GetAsync(latest.Id);
         Assert.Equal(45, unchanged!.Exercises[0].Sets[0].WeightKg);
+    }
+
+    [Fact]
+    public async Task FirstWorkoutUsesMinimumRepsAndCopiesCompletedValuesToNextOpenSet()
+    {
+        var (plan, _) = await SeedPlan();
+        var draft = await Service.StartAsync(plan.Id);
+        var exercise = Assert.Single(draft.Exercises);
+        Assert.All(exercise.Sets, set =>
+        {
+            Assert.Equal((0m, plan.Exercises[0].MinReps), (set.WeightKg, set.Reps));
+            Assert.False(set.PrefilledFromHistory);
+        });
+        exercise.Sets[0].WeightKg = 42.75m;
+        exercise.Sets[0].Reps = 11;
+        exercise.Sets[1].PrefilledFromHistory = true;
+        await Service.ToggleSetAsync(draft, exercise, exercise.Sets[0]);
+        var sets = (await Service.GetDraftAsync())!.Exercises.Single().Sets;
+        Assert.Equal((42.75m, 11, false), (sets[1].WeightKg, sets[1].Reps, sets[1].PrefilledFromHistory));
+        Assert.Equal(plan.Exercises[0].MinReps, sets[2].Reps);
     }
 
     [Fact]
@@ -133,12 +157,16 @@ public class WorkoutSessionServiceTests
         await Assert.ThrowsAsync<ArgumentException>(() => Service.CompleteAsync(draft));
         var e = draft.Exercises[0]; e.Sets[0].Reps = 8;
         await Service.ToggleSetAsync(draft, e, e.Sets[0]);
+        e.Sets[2].Reps = 0;
+        var emptyId = e.Sets[2].Id;
         await Service.CompleteAsync(draft);
         Assert.True(draft.IsCompleted);
         Assert.Null(draft.RestEndsAt);
         Assert.Null(await Service.GetDraftAsync());
         var complete = Assert.Single(await Service.GetHistoryAsync());
         Assert.Equal(clock.GetUtcNow(), complete.CompletedAt);
+        Assert.Equal(2, complete.Exercises.Single().Sets.Count);
+        Assert.DoesNotContain(complete.Exercises.Single().Sets, set => set.Id == emptyId);
         await Service.DeleteAsync(complete.Id);
         Assert.Empty(await Service.GetHistoryAsync());
     }
@@ -148,10 +176,13 @@ public class WorkoutSessionServiceTests
     {
         var (plan, _) = await SeedPlan();
         var draft = await Service.StartAsync(plan.Id);
-        var e = draft.Exercises[0]; var set = e.Sets[0]; set.Reps = 8;
+        var e = draft.Exercises[0]; var set = e.Sets[0]; set.Reps = 11;
+        set.WeightKg = 22;
+        e.Sets[1].PrefilledFromHistory = true;
         storage.FailWrites = true;
         await Assert.ThrowsAsync<InvalidOperationException>(() => Service.ToggleSetAsync(draft, e, set));
         Assert.False(set.IsCompleted); Assert.Null(draft.RestEndsAt);
+        Assert.Equal((0m, 8, true), (e.Sets[1].WeightKg, e.Sets[1].Reps, e.Sets[1].PrefilledFromHistory));
         storage.FailWrites = false;
         await Service.ToggleSetAsync(draft, e, set);
         storage.FailWrites = true;

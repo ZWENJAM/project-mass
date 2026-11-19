@@ -4,7 +4,7 @@
 @inject NavigationManager Navigation
 <div class="page-content narrow">
 <PageTitle>Ernährung / PROJECT MASS</PageTitle>
-<div class="page-head"><div><h1>Ernährung</h1></div><a class="button-link primary" href="@($"ernaehrung/eintrag?datum={date:yyyy-MM-dd}")">+ Eintrag</a></div>
+<div class="page-head nutrition-page-head"><h1>Ernährung</h1><a class="button-link primary" href="@($"ernaehrung/eintrag?datum={date:yyyy-MM-dd}")">+ Eintrag</a></div>
 <NutritionTabs />
 <div class="day-navigation"><button aria-label="Vorheriger Tag" @onclick="() => ChangeDay(-1)"><AppIcon Name="previous" /></button><DatePickerButton Value="date" ValueChanged="PickDate" /><button aria-label="Nächster Tag" @onclick="() => ChangeDay(1)"><AppIcon Name="next" /></button>@if(date != DateOnly.FromDateTime(DateTime.Today)){<button @onclick="Today">Heute</button>}</div>
 @if (error is not null) { <p class="notice" role="alert">@error</p> }
@@ -31,6 +31,10 @@
             </form>
         </section>
     }
+    @if (profile.TargetKcal <= 0)
+    {
+        <p class="notice">Noch kein Kalorienziel. <a class="section-link" href="mehr/einstellungen">Ziele einrichten</a>.</p>
+    }
     <div class="nutrition-ledger">
         <NutrientProgress Label="Kalorien" Unit="kcal" Actual="day.Total.Kcal" Target="profile.TargetKcal" />
         <div class="macro-row">
@@ -44,7 +48,10 @@
     {
         <section class="protocol-section">
             <div class="section-head"><h2>@NutritionLabels.Meal(summary.Meal)</h2><a class="section-link" href="@($"ernaehrung/eintrag?datum={date:yyyy-MM-dd}&mahlzeit={(int)summary.Meal}")">+ Eintrag</a></div>
-            <p class="mini-label">@summary.Total.Kcal.ToString("0.#") kcal / @summary.Total.ProteinGrams.ToString("0.#") g Protein / @summary.Total.CarbohydrateGrams.ToString("0.#") g KH / @summary.Total.FatGrams.ToString("0.#") g Fett</p>
+            @if (summary.Entries.Count > 0)
+            {
+                <p class="mini-label">@summary.Total.Kcal.ToString("0.#") kcal / @summary.Total.ProteinGrams.ToString("0.#") g Protein / @summary.Total.CarbohydrateGrams.ToString("0.#") g KH / @summary.Total.FatGrams.ToString("0.#") g Fett</p>
+            }
             @foreach (var entry in summary.Entries)
             {
                 <div class="entry row wrap" @key="entry.Id"><div class="food-row"><FoodThumb Food="entry.FoodSnapshot" /><div class="food-text"><h3>@entry.FoodSnapshot.Name</h3>
@@ -53,7 +60,10 @@
                 </div></div><div class="entry-buttons"><a class="section-link" href="@($"ernaehrung/eintrag/{entry.Id}")">Bearbeiten</a><button class="small danger" @onclick="() => deleting = entry">Löschen</button></div></div>
             }
             @if (summary.Entries.Count == 0) { <p class="empty">Noch kein Eintrag für diese Mahlzeit.</p> }
-            <button class="small" disabled="@busy" @onclick="() => copying = summary.Meal">Mahlzeit vom Vortag kopieren</button>
+            @if (previousMeals.Contains(summary.Meal))
+            {
+                <button class="small" disabled="@busy" @onclick="() => copying = summary.Meal">Mahlzeit vom Vortag kopieren</button>
+            }
         </section>
     }
 }
@@ -64,6 +74,7 @@
     [SupplyParameterFromQuery(Name = "datum")] public string? Datum { get; set; }
     private DateOnly date = DateOnly.FromDateTime(DateTime.Today);
     private NutritionDay? day;
+    private HashSet<MealType> previousMeals = [];
     private UserProfile? profile;
     private FoodLogEntry? deleting;
     private MealType? copying;
@@ -80,8 +91,19 @@
     }
     private async Task Load()
     {
-        try { day = await NutritionService.GetDayAsync(date); profile = await Profiles.GetAsync(); }
-        catch { error = "Ernährungsdaten konnten nicht geladen werden."; }
+        var selected = date;
+        if (day?.Date != selected) day = null;
+        try
+        {
+            var current = await NutritionService.GetDayAsync(selected);
+            var previous = selected > DateOnly.MinValue ? await NutritionService.GetDayAsync(selected.AddDays(-1)) : null;
+            var currentProfile = await Profiles.GetAsync();
+            if (selected != date) return;
+            day = current;
+            profile = currentProfile;
+            previousMeals = previous?.Meals.Where(m => m.Entries.Count > 0).Select(m => m.Meal).ToHashSet() ?? [];
+        }
+        catch { if (selected == date) error = "Ernährungsdaten konnten nicht geladen werden."; }
     }
     private async Task SaveQuick()
     {
@@ -98,7 +120,7 @@
         catch (Exception) { quickError = "Der Eintrag konnte nicht gespeichert werden. Versuch es erneut."; }
         finally { busy = false; }
     }
-    private void NavigateDate() { error = null; message = null; Navigation.NavigateTo($"ernaehrung?datum={date:yyyy-MM-dd}"); }
+    private void NavigateDate() { error = null; message = null; copying = null; Navigation.NavigateTo($"ernaehrung?datum={date:yyyy-MM-dd}"); }
     private void PickDate(DateOnly selected) { date = selected; NavigateDate(); }
     private void ChangeDay(int direction) { date = date.AddDays(direction); NavigateDate(); }
     private void Today() { date = DateOnly.FromDateTime(DateTime.Today); NavigateDate(); }
